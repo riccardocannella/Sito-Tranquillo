@@ -1,0 +1,30 @@
+{
+  "name": "sito-tranquillo-git",
+  "description": "Un sito così tranquillo che le mamme lo adorano",
+  "main": "server.js",
+  "authors": [
+    "co-authored by Riccardo Cannella",
+    "Corrado Petrelli and Andrea Salvatori"
+  ],
+  "license": "GPL-3.0",
+  "keywords": [
+    "tranquillo",
+    "quiet",
+    "estrattore",
+    "frutta"
+  ],
+  "homepage": "https://github.com/riccardocannella/Sito-Tranquillo-Git",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.5",
+    "angular-route": "^1.6.5",
+    "bootstrap": "^3.3.7"
+  }
+}
