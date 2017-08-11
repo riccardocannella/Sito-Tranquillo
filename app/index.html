@@ -1,12 +1,20 @@
-<html>
+<html ng-app="sitotranquillo">
 
 <head>
     <title>Sito Tranquillo</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="app.module.js"></script>
+    <script src="app.config.js"></script>
+    <script src="moduli/pagine/frontend/home/home.module.js"></script>
+    <script src="moduli/pagine/frontend/home/home.component.js"></script>
 </head>
 
 <body>
     <h1>Hello World!</h1>
+    <div ng-view></div>
 </body>
 
 </html>

@@ -7,7 +7,7 @@ var app = express();
 app.use(bodyParser.json());
 
 // istruisco il server su quale cartella usare come radice
-var wwwRoot = __dirname + '/app';
+var wwwRoot = __dirname + '/app/';
 app.use(express.static(wwwRoot));
 
 var server = app.listen(process.env.PORT || 8080, function() {
