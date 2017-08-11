@@ -1,10 +1,16 @@
-var http = require('http');
+var express = require('express');
+var mongodb = require('mongodb');
+var ObjectID = mongodb.ObjectID;
+var bodyParser = require('body-parser');
 
-var server = http.createServer(function(req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World');
-})
+var app = express();
+app.use(bodyParser.json());
 
-server.listen(8080, '127.0.0.1');
+// istruisco il server su quale cartella usare come radice
+var wwwRoot = __dirname + '/app';
+app.use(express.static(wwwRoot));
 
-console.log('Server in ascolto all\'indirizzo http://127.0.0.1:8080/');
+var server = app.listen(process.env.PORT || 8080, function() {
+    var port = server.address().port;
+    console.log('Server in ascolto sulla porta', port);
+});
