@@ -10,6 +10,9 @@ config(['$locationProvider', '$routeProvider',
         when('/', {
             template: '<home></home>'
         }).
+        when('/:id', {
+            template: '<dettaglio></dettaglio>'
+        }).
         otherwise('/');
     }
 ]);
