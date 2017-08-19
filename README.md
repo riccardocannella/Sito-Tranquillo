@@ -13,12 +13,12 @@ che si occuperà di installare tutte le dipendenze dell'applicazione e di esegui
 * Scaricare heroku-cli
 * Creare un account su mlab.com
 * Clonare questo repo in una cartella locale
-* Spostarsi nella cartella locale del progetto in una finestra console
 ### Fase mLab
 * Creare un db su mLab, anche di quelli gratuiti
 * Creare username e password per accedere al db
 * Modificare il campo ```urlRemoto``` in ```config/db.js``` con quello di mLab
 ###  Fase Heroku
+* Spostarsi nella cartella locale del progetto in una finestra console
 * Eseguire ```heroku login```
 * Eseguire ```heroku create```
 * Eseguire ```git push heroku master```
