@@ -19,7 +19,7 @@ app.use(express.static(wwwRoot));
 var db;
 // Se nell'ambiente c'è un URI specifico per mongo uso quello,
 // altrimenti quello preso dal js in config
-var MONGODB_URI = process.env.MONGODB_URI || dbUrl.url;
+var MONGODB_URI = process.env.MONGODB_URI || dbUrl.urlRemoto;
 
 
 mongoose.Promise = global.Promise;
