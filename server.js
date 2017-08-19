@@ -22,7 +22,7 @@ var db;
 var MONGODB_URI = process.env.MONGODB_URI || dbUrl.urlRemoto;
 
 
-mongoose.Promise = global.Promise;
+//mongoose.Promise = Promise;
 
 // Mi connetto al DB prima di iniziare a far girare l'app
 mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) {
