@@ -3,7 +3,7 @@ angular.module('sitotranquillo').
 config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
         // imposto il carattere che mi farà capire che sono in una route
-        $locationProvider.hashPrefix('!');
+        //$locationProvider.hashPrefix('!');
 
         // aggiungo le route
         $routeProvider.
@@ -14,5 +14,8 @@ config(['$locationProvider', '$routeProvider',
             template: '<dettaglio></dettaglio>'
         }).
         otherwise('/');
+
+        // tolgo l'hashbang
+        $locationProvider.html5Mode(true);
     }
 ]);
