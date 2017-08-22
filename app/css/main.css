@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+/*import Reset */
+    @import url(reset.css);
+/*IMPORT W3C.css*/
+    @import url(w3c.css);
+/*IMPORT ICONE di font-awesome*/
+    @import url(font/font-awesome/css/font-awesome.css);
+
+header ul{
+    display: inline;
+}
+
+/* Header */
+
+    header {
+        clear: both;
+    /*padding: 6em 0 4em 0;*/
+    }
+
+    header * div {
+        padding: 0.01em 16px;
+        color: #14A1EB!important;
+        background-color: #F7F7F7!important
+    }
+
+    header.loghi {
+        display: block
+    }
+        @media only screen and (min-width: 978px) {
+                #logo1 { 
+                    display: block;
+                    max-width: 100%;
+                    margin: 8px auto 20px auto;
+                    height: auto;
+                    }
+                #logo2 { 
+                    display: none
+                    }
+                }
+                
+        @media only screen and (min-width: 480px) and (max-width: 977px) {
+                #logo1 {
+                    display: block;
+                    max-width: 90%;
+                    margin: 8px auto 20px auto;
+                    height: auto;
+                    }
+                #logo2 {
+                    display: none
+                    }
+                }
+                
+        @media only screen and (max-width: 479px) { 
+                #logo1 {
+                    display: none
+                    }
+                #logo2 {
+                    display: block;
+                    max-width: 60%;
+                    min-width: 40%;
+                    margin: auto auto 20px auto;
+                    height: auto
+                    }
+                }
+/* NAV */
+    
+    
+/* Footer */
+    #footer {
+    text-align: center;
+    padding: 4em 0 4em 0;
+    }
+
+        #footer:before {
+        content: '';
+        border-top: solid 1px rgba(255, 255, 255, 0.25);
+        width: 10em;
+        display: block;
+        margin: 0 auto 3em auto;
+    }
+
+        @media screen and (max-width: 1280px) {
+
+            #footer {
+                padding: 2em 0 2em 0;
+        }
+
+    }

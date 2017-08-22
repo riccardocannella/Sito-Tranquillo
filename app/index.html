@@ -1,69 +1,102 @@
 <!DOCTYPE html>
 <html lang="it">
 
-<head>
-    <title>Sito tranquillo - Approvato dalle mamme!</title>
-    <meta charset="UTF-8">
-    <meta name="author" content="co-authored by Riccardo Cannella, Corrado Petrelli,Andrea Salvatori">
-    <meta name="generator" content="Visual Studio Core">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Mobile device -->
-    <meta name="description" content="E-commerse per la vendita di estrattori di cui ti puoi fidare!!">
-    <meta HTTP-EQUIV="keywords" content="sito site tranquillo quiet negozio shop vendita sale estrattori accessori cucina">
-    <meta name="robots" content="index,follow">
-
-    <link rel="icon" href="icons/sito-tranq-favicon.png" type="image/x-icon">
-    <link rel="icon" type="image/png" href="icons/sito-tranq-favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="icons/sito-tranq-favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="icons/sito-tranq-favicon.png" sizes="192x192">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/w3c.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="app/css/font/font-awesome/css/font-awesome.css">
-</head>
+<!-- Head -->
+    <head>
+        <title>Sito tranquillo - Approvato dalle mamme!</title>
+        <meta charset="UTF-8">
+        <meta name="author" content="co-authored by Riccardo Cannella, Corrado Petrelli, Andrea Salvatori">
+        <meta name="generator" content="Visual Studio Core">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Mobile device -->
+        <meta name="description" content="E-commerse per la vendita di estrattori di cui ti puoi fidare!!">
+        <meta HTTP-EQUIV="keywords" content="sito site tranquillo quiet negozio shop vendita sale estrattori accessori cucina">
+        <meta name="robots" content="index,follow">
+        <link rel="icon" href="icons/sito-tranq-favicon.png" type="image/x-icon">
+        <link rel="icon" type="image/png" href="icons/sito-tranq-favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="icons/sito-tranq-favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="icons/sito-tranq-favicon.png" sizes="192x192">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/main.css">
+    
+    </head>
 
 <body>
-    <header>
-        <figure>
-            <img src="images/sito-tranq.png"></img>
-        </figure>
+<!-- Header -->
+    <header id="header">
 
-        <nav>
-            <section>
-                <ul>
-                    <li>
-                        <a href="#">Home</a>
-                    </li>
-                    <li>
-                        <a href="#">Chi siamo</a>
-                    </li>
-                    <li>
-                        <a href="#">Contattaci</a>
+            <div class="container">
+                    <div class="row prodotti-chimici">
+                      <div class="col-xs-10 col-sm-7 col-md-7 col-lg-7 text-left" style="padding-left: 0;">
+                          <div class="btn-toolbar customer-menu">
+                    <div class="btn-group">
+                      <a  href="https://www.labotech2000.it/shopping_cart.php?tssid=nvb6r8b0n10952q8j9r0eni6r6" id="cart_contents" class="btn btn-default"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm">Carrello</span></a>
+                    </div>
+                          <div>
+                      <a  href="https://www.labotech2000.it/login.php?tssid=nvb6r8b0n10952q8j9r0eni6r6" id="button-599c66d53f8f7812940751" class="btn btn-primary"><i class="fa fa-sign-in"></i> Login</a>    </div>
+                  </div>
+                  
+                      </div>
+                      <div class="hidden-xs col-sm-3 col-md-3 col-lg-3 text-right text-left-xs">
+                        <a href="tel:00390290394213" class="btn btn-default" title="Tel: (+39) 02 903 942 13">
+                          <i class="fa fa-phone"> </i> <span class="hidden-xs">Tel: (+39) 02 903 942 13</span>
+                        </a>
+                      </div>
+                      <div class="col-xs-2 col-sm-2  col-md-2 col-lg-2 text-right text-left-xs">
+                        <a href="contact_us.php?tssid=nvb6r8b0n10952q8j9r0eni6r6" class="btn btn-danger">
+                          <i class="fa fa-envelope"> </i> <span class="hidden-xs hidden-sm">Scrivici una e-Mail</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+        <section class="loghi">
+            <picture><img id="logo1" src="images/sito-tranq.png"></img></picture>
+            <picture><img id="logo2" src="icons/sito-tranq-favicon.png"></img></picture>
+        </<section>
+    </header>  
+    
+<!-- Navigation and login-->
+    <nav>
+        <ul>
+            <li>
+                <a href="">Home</a>
+            </li>
+            <li>
+                <a href="/noi">Chi siamo</a>
+            </li>
+            <li>
+                        <a href="/contattaci">Contattaci</a>
                     </li>
                 </ul>
-            </section>
-        </nav>
+            </nav>
+            <div>
+                <div>
+                    <p>LogIn/LogOn
+                </div>
+            </div>
+        
+        
         <menu>
-            <ul>
-                <li>
-                    <a href="#">catalogo</a>
-                </li>
-            </ul>
-        </menu>
-
-    </header>
-
-    <section>
-
-
-    </section>
-
-
-
-
-
-
-    <footer>
+                <ul>
+                    <li>
+                        <a href="#">catalogo</a>
+                    </li>
+                </ul>
+            </menu>
+            <div>
+                <input placeholder="RICERCA">
+            </div>
+        </section>
+   
+<!-- Main -->
+    <hr>
+    <div>
+        <h1>QUI CI VA IL BODY DINAMICO</h1>
+    </div>
+    <hr>
+<!-- Footer -->
+    <footer id="footer">
         <section>
             <div class="w3-container w3-blue">
                     <div>
