@@ -17,16 +17,30 @@ header ul{
         clear: both;
     /*padding: 6em 0 4em 0;*/
     }
-
-    header * div {
+    
+    /* Contenitore up dove ci sono i contatti e la parte login carello */
+    .container_up {
         padding: 0.01em 16px;
-        color: #14A1EB!important;
-        background-color: #F7F7F7!important
-    }
-
-    header.loghi {
-        display: block
-    }
+        margin: 10px auto 6px auto;
+        padding-left: 15px;
+        padding-right: 15px;
+        }
+        @media (min-width: 768px) {
+            .container_up {
+        width: 750px;
+        }
+        }
+        @media (min-width: 997px) {
+            .container_up {
+            width: 950px;
+        }
+        }
+        @media (min-width: 1200px) {
+            .container_up {
+            width: 1170px;
+            }
+        }
+    
         @media only screen and (min-width: 978px) {
                 #logo1 { 
                     display: block;
@@ -86,4 +100,24 @@ header ul{
                 padding: 2em 0 2em 0;
         }
 
+    }
+
+/* Login - Logon */
+    .autenticazione{
+        padding: 15px 0 20px 0;
+    }    
+
+    .login{
+        display: inline-block;
+        margin: 20px 30px 10px 30px;
+    }
+
+    .centraggio-pagina{
+        max-width: 1650px;
+        margin: auto;
+    }
+
+    .button-login{
+        float: right;
+        margin: 30px auto 30px auto;
     }
