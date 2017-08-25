@@ -108,12 +108,21 @@ header ul{
     }    
 
     .login{
+        float: left;
+        max-width: 100%;
         display: inline-block;
-        margin: 20px 30px 10px 30px;
+        margin: 20px auto 10px auto;
+    }
+
+    .logon{
+        float: right;
+        max-width: 100%;
+        display: inline-block;
+        margin: 20px auto 10px auto;
     }
 
     .centraggio-pagina{
-        max-width: 1650px;
+        max-width: 1500px;
         margin: auto;
     }
 
