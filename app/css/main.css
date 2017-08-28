@@ -11,6 +11,21 @@ header ul{
     display: inline;
 }
 
+.center{
+    width: auto;
+    text-align: center!important
+}
+
+.margin-top-1{
+    margin-top: 1cm;
+    }
+    
+.margin-top-2{
+    margin-top: 2cm;
+    }
+
+
+
 /* Header */
 
     header {
@@ -22,8 +37,6 @@ header ul{
     .container_up {
         padding: 0.01em 16px;
         margin: 10px auto 6px auto;
-        padding-left: 15px;
-        padding-right: 15px;
         }
         @media (min-width: 768px) {
             .container_up {
@@ -78,8 +91,6 @@ header ul{
                     }
                 }
 /* NAV */
-    
-    
 /* Footer */
     #footer {
     text-align: center;
@@ -130,3 +141,40 @@ header ul{
         float: right;
         margin: 30px auto 30px auto;
     }
+
+/* About */
+    
+    .text-colon{
+        padding-top: 20px;
+        column-count: 3;
+        column-gap: 20pt;
+        column-rule: 1px solid #aaa;
+        }
+
+    .team-member {
+        font-size: 16px;
+        display: inline-block;
+        vertical-align: top;
+        box-sizing: border-box;
+        padding-left: 1em;
+        padding-right: 1em;
+        margin-bottom: 25px;
+    }
+
+    .team-member-name {
+        margin: 16px 0 0;
+        font-family: "PT Sans";
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .team-member-title {
+        margin: 0;
+        font-family: "Source Sans Pro";
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 2;
+        color: #69656e;
+    }
+
+    
