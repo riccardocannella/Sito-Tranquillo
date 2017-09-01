@@ -24,6 +24,9 @@ header ul{
     margin-top: 2cm;
     }
 
+.pa-15 {
+    padding: 1.07143rem !important;
+    }
 
 
 /* Header */
@@ -177,4 +180,57 @@ header ul{
         color: #69656e;
     }
 
-    
+/* 404 */
+
+
+.min-height-100vh {
+	min-height: 100vh;
+}
+
+.height-100x {
+	height: 100%;
+}
+
+.flex-centered {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-centered-item {
+	flex: 1;
+}
+
+.absolute-centered {
+	position: absolute !important;
+	top: 50% !important;
+	left: 50% !important;
+    transform: translate(-50%, -50%);
+}
+
+/* Media query per resizy font del 404 */
+@media only screen and (min-width: 992px) {
+    .font-size {
+        font-size: 30rem !important;
+    }
+}
+@media only screen and (min-width: 577px) and (max-width: 991px) {
+    .font-size{
+        font-size: 17.14286rem !important;
+    }
+}
+@media only screen and (max-width: 576px){
+    .font-size{
+        font-size: 12.85714rem !important;
+    }
+}
+
+.conserva{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-box-pack: center;
+	-ms-flex-pack: center;
+}
+
