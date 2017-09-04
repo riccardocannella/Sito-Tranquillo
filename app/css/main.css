@@ -59,27 +59,37 @@ header ul{
         padding: 0.01em 16px;
         margin: 10px auto 6px auto;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 200px) {
             .main-header {
-        width: 750px;
+        max-width: 750px;
         }
         }
-        @media (min-width: 997px) {
+        @media only screen and (min-width: 978px) {
             .main-header {
-            width: 950px;
+            max-width: 950px;
         }
         }
         @media (min-width: 1200px) {
             .main-header {
-            width: 1170px;
+            max-width: 1200px;
             }
         }
     
-        @media only screen and (min-width: 978px) {
+/***************************************************
+    Logo
+***************************************************/
+    
+        .loghi{
+            position: absolute !important;
+            top: 115px !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%);
+        }
+
+    @media only screen and (min-width: 978px) {
                 #logo1 { 
                     display: block;
-                    max-width: 100%;
-                    margin: 8px auto 20px auto;
+                    width: 100%;
                     height: auto;
                     }
                 #logo2 { 
@@ -87,11 +97,10 @@ header ul{
                     }
                 }
                 
-        @media only screen and (min-width: 480px) and (max-width: 977px) {
+    @media only screen and (min-width: 480px) and (max-width: 977px) {
                 #logo1 {
                     display: block;
-                    max-width: 90%;
-                    margin: 8px auto 20px auto;
+                    width: 100%;
                     height: auto;
                     }
                 #logo2 {
@@ -105,9 +114,7 @@ header ul{
                     }
                 #logo2 {
                     display: block;
-                    max-width: 60%;
-                    min-width: 40%;
-                    margin: auto auto 20px auto;
+                    min-width: 60%;
                     height: auto
                     }
                 }
