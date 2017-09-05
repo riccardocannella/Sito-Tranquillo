@@ -40,6 +40,13 @@
     padding: 0 5% 5px 5%;
     }
 
+.wrapper-footer{
+    box-sizing: border-box;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5% 5px 5%;
+    }
+
 .clearfix::after {
     content: " ";
     display: table;
