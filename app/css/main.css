@@ -11,6 +11,10 @@
     GENERAL
 ****************************************************/
 
+body {
+    font-family: 'Josefin Sans', sans-serif;
+    color: #A69C7B;
+}
 .center{
     width: auto;
     text-align: center!important
