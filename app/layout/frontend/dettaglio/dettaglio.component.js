@@ -1,6 +1,6 @@
 // Registra il componente 'dettaglio' sul modulo 'dettaglio'
 angular.module('dettaglio').component('dettaglio', {
-    templateUrl: 'moduli/pagine/frontend/dettaglio/dettaglio.template.html',
+    templateUrl: 'layout/frontend/dettaglio/dettaglio.template.html',
     controller: function($http, $routeParams) {
         var dettaglio = this;
         dettaglio.id = $routeParams.id;

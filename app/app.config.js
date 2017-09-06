@@ -13,7 +13,10 @@ config(['$locationProvider', '$routeProvider',
         when('/:id', {
             template: '<dettaglio></dettaglio>'
         }).
-        otherwise('/');
+        when('/404', {
+            template: '<404></404>'
+        }).
+        otherwise('/404');
 
         // tolgo l'hashbang
         $locationProvider.html5Mode(true);

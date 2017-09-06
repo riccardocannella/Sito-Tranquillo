@@ -1,6 +1,6 @@
 // Registra il componente 'home' sul modulo 'home
 angular.module('home').component('home', {
-    templateUrl: 'moduli/pagine/frontend/home/home.template.html',
+    templateUrl: 'layout/frontend/home/home.template.html',
     controller: function($http) {
         var listaProva = this;
         listaProva.ordinamento = 'nome';
