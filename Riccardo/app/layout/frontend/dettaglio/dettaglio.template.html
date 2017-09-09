@@ -1,0 +1,12 @@
+<h3>Dettagli Prodotto {{$ctrl.id}}</h3>
+<div ng-if="$ctrl.prodotto">
+    <p><b>{{ $ctrl.prodotto.nome }}</b></p>
+    <p class="prezzo">€ {{$ctrl.prodotto.prezzo}}</p>
+    <p class="descrizione"> {{ $ctrl.prodotto.descrizioneLunga }} </p>
+</div>
+
+<div ng-if="!$ctrl.prodotto">
+    <h4>Prodotto non trovato</h4>
+</div>
+<hr>
+<a href="/">Torna alla lista prodotti</a>

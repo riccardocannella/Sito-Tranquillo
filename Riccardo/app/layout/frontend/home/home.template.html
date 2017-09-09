@@ -1,0 +1,24 @@
+<h3>Prova Home</h3>
+<div>
+    <p>
+        Ricerca:
+        <input ng-model="$ctrl.query" />
+    </p>
+    <p>
+        Ordina per:
+        <select ng-model="$ctrl.ordinamento">
+            <option value="nome">Nome</option>
+            <option value="prezzo">Prezzo ascendente</option>
+            <option value="-prezzo">Prezzo discendente</option>
+        </select>
+    </p>
+</div>
+<div>
+    <ul>
+        <li ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
+            <a href="/{{elemento._id}}">{{elemento.nome}}</a>
+            <br> {{elemento.descrizioneBreve}}
+            <br> Prezzo: € {{elemento.prezzo}}
+        </li>
+    </ul>
+</div>
