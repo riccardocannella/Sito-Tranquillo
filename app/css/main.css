@@ -1,0 +1,268 @@
+@charset "UTF-8";
+
+/*import Reset */
+    @import url(reset.css);
+/*IMPORT W3C.css*/
+    @import url(w3c.css);
+/*IMPORT ICONE di font-awesome*/
+    @import url(font/font-awesome/css/font-awesome.css);
+
+/***************************************************
+    GENERAL
+****************************************************/
+
+body {
+    font-family: 'Josefin Sans', sans-serif;
+    color: #A69C7B;
+}
+.center{
+    width: auto;
+    text-align: center!important
+}
+
+.margin-top-1{
+    margin-top: 1cm;
+    }
+    
+.margin-top-2{
+    margin-top: 2cm;
+    }
+
+.margin-left-right{
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.pa-15 {
+    padding: 1.07143rem !important;
+    }
+
+.wrapper{
+    box-sizing: border-box;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 5% 5px 5%;
+    }
+
+.wrapper-footer{
+    box-sizing: border-box;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5% 5px 5%;
+    }
+
+.clearfix::after {
+    content: " ";
+    display: table;
+    clear: both;
+}
+
+
+/***************************************************
+    HEADER
+***************************************************/
+
+    header {
+        clear: both;
+    /*padding: 6em 0 4em 0;*/
+    }
+    
+    /* Contenitore up dove ci sono i contatti e la parte login carello */
+    .main-header {
+        padding: 0.01em 16px;
+        margin: 10px auto 6px auto;
+        }
+        @media (min-width: 200px) {
+            .main-header {
+        max-width: 750px;
+        }
+        }
+        @media only screen and (min-width: 978px) {
+            .main-header {
+            max-width: 950px;
+        }
+        }
+        @media (min-width: 1200px) {
+            .main-header {
+            max-width: 1200px;
+            }
+        }
+    
+/***************************************************
+    Logo
+***************************************************/
+    
+        .loghi{
+            position: absolute !important;
+            top: 115px !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%);
+        }
+
+    @media only screen and (min-width: 978px) {
+                #logo1 { 
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                    }
+                #logo2 { 
+                    display: none
+                    }
+                }
+                
+    @media only screen and (min-width: 480px) and (max-width: 977px) {
+                #logo1 {
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                    }
+                #logo2 {
+                    display: none
+                    }
+                }
+                
+        @media only screen and (max-width: 479px) { 
+                #logo1 {
+                    display: none
+                    }
+                #logo2 {
+                    display: block;
+                    min-width: 60%;
+                    height: auto
+                    }
+                }
+/* NAV */
+
+/***************************************************
+    Background images
+***************************************************/
+
+    .banner{
+        text-align: center;
+        padding: 400px 0 30px 0;
+       
+        background-image: url(../images/store.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+
+        /* Metodo single line per ottenere lo stesso risultato con le righe precedenti 
+        
+                    background: url(../images/store.jpg) no-repeat center / cover;
+        
+        */
+    }
+
+    .banner p{
+        font-size: 1.4em;
+        font-family: 'Cardal', sand-serif;
+        color: white;
+    }
+
+/* Footer */
+
+     /* da far ricalcolare una volta finito il footer */
+    .sticky-footer{
+        /* min-height: calc(100vh - 1px); */
+        min-height: 100vh;
+    }
+
+    #footer {
+    text-align: center;
+    }
+
+    #footer:before {
+        content: '';
+        border-top: solid 1px rgba(255, 255, 255, 0.25);
+        width: 10em;
+        display: block;
+    }
+
+/* Login - Logon */
+
+    .button-login{
+        float: right;
+        margin: 30px auto 30px auto;
+    }
+
+/* About */
+    
+    .text-colon{
+        padding-top: 20px;
+        column-count: auto;
+        column-width: 400px;    
+        column-gap: 20pt;
+        column-rule: 1px solid #aaa;
+        }
+
+    .team-member {
+        font-size: 16px;
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: top;
+        padding-left: 1em;
+        padding-right: 1em;
+        margin-bottom: 20px;
+    }
+
+    .team-member-name {
+        margin: 16px 0 0 0;
+        font-family: "PT Sans";
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .team-member-title {
+        margin: 0;
+        font-family: "Source Sans Pro";
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 2;
+        color: rgb(45, 43, 40);
+    }
+
+/* 404 */
+
+    .min-height-100vh {
+	    min-height: 100vh;
+    }
+
+    .height-100x {
+	    height: 100%;
+    }
+
+    .flex-centered {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+    }
+
+    .flex-centered-item {
+	    flex: 1;
+    }
+
+    .absolute-centered {
+	    position: absolute !important;
+	    top: 50% !important;
+	    left: 50% !important;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Media query per resizy font del 404 */
+    @media only screen and (min-width: 992px) {
+        .font-size {
+          font-size: 30rem !important;
+        }
+    }
+    @media only screen and (min-width: 577px) and (max-width: 991px) {
+        .font-size{
+           font-size: 17.14286rem !important;
+        }
+    }
+    @media only screen and (max-width: 576px){
+        .font-size{
+          font-size: 11rem !important;
+        }
+    }
+
