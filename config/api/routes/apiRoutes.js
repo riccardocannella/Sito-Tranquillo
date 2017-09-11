@@ -2,7 +2,7 @@
 module.exports = function(app, db) {
     var api = require('../controllers/apiController.js');
     api.setDb(db);
-    // todoList Routes
+    // Api del db
     app.route('/api/v1.0/prodotti')
         .get(api.listaProdotti)
         .post(api.creaProdotto);

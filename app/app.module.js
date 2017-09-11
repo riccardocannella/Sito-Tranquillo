@@ -3,5 +3,5 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'ngRoute',
     'home',
     'dettaglio',
-    '404'
+    'invalid'
 ]);
