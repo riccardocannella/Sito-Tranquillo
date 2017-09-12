@@ -33,4 +33,4 @@ che si occuperà di installare tutte le dipendenze dell'applicazione e di esegui
 * **Andrea Salvatori**
 
 ## Licenza
-Questo progetto è sotto la licenza GPL V3.0 - guardare [LICENSE.md](LICENSE.md) per dettagli
+Questo progetto è sotto la licenza GPL V3.0 - guardare [LICENSE](LICENSE) per dettagli
