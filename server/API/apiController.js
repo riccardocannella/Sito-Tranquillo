@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 var db;
 exports.setDb = function(extdb) {
     db = extdb;
-}
+};
 
 function handleError(res, ragione, messaggio, codice) {
     console.log("ERRORE: " + ragione);
@@ -24,7 +24,7 @@ exports.listaProdotti = function(req, res) {
             res.status(200).json(docs);
         }
     });
-}
+};
 
 exports.creaProdotto = function(req, res) {
     console.log("POST prodotti");
@@ -47,7 +47,7 @@ exports.creaProdotto = function(req, res) {
             res.status(201).json(nuovoProdotto);
         }
     });
-}
+};
 
 exports.dettagliProdotto = function(req, res) {
     console.log("GET prodotto con id", req.params.id);
