@@ -3,5 +3,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'ngRoute',
     'home',
     'dettaglio',
-    'invalid'
+    'invalid',
+    'loginlogon'
 ]);

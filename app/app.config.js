@@ -16,6 +16,9 @@ angular.module('sitotranquillo')
         .when('/prodotti/:id', {
             template: '<dettaglio></dettaglio>'
         })
+        .when('/loginLogon', {
+            template: '<loginlogon></loginlogon>'
+        })
         .otherwise('/invalidPage');
 
         // tolgo l'hashbang
