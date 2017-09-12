@@ -1,4 +1,7 @@
 # SITO TRANQUILLO
+Sito specializzato nella vendita di estrattori di succo di tutti i tipi, approvato dall'Associazione Mamme italiane.
+
+## Per cominciare
 Per far partire il server, eseguire il comando
 ```
 npm start
@@ -22,3 +25,12 @@ che si occuperà di installare tutte le dipendenze dell'applicazione e di esegui
 * Eseguire ```heroku login```
 * Eseguire ```heroku create```
 * Eseguire ```git push heroku master```
+
+## Autori
+* **Riccardo Cannella**
+* **Corrado Petrelli**
+* **Michele Biondi**
+* **Andrea Salvatori**
+
+## Licenza
+Questo progetto è sotto la licenza GPL V3.0 - guardare [LICENSE.md](LICENSE.md) per dettagli
