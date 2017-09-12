@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(app, db) {
-    var api = require('../controllers/apiController.js');
+    var api = require('../API/apiController.js');
     api.setDb(db);
     // Api del db
     app.route('/api/v1.0/prodotti')

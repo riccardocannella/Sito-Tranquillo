@@ -1,9 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var ApiModel = require('./config/api/controllers/apiModel.js');
+var ApiModel = require('./server/models/apiModel.js');
 
-var dbUrl = require('./config/db.js');
+var dbUrl = require('./server/config/db.js');
 
 var app = express();
 app.use(bodyParser.urlencoded({
@@ -36,7 +36,7 @@ mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) 
     console.log("Connessione al database riuscita");
 
     // importo le api per le operazioni nel db
-    var apiRoutes = require('./config/api/routes/apiRoutes.js');
+    var apiRoutes = require('./server/routes/apiRoutes');
     apiRoutes(app, db);
     //app.use(app.router);
     app.use(function(req, res) {
