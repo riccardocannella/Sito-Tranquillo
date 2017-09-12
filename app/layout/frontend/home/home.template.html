@@ -16,7 +16,7 @@
 <div>
     <ul>
         <li ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
-            <a href="/{{elemento._id}}">{{elemento.nome}}</a>
+            <a href="/prodotti/{{elemento._id}}">{{elemento.nome}}</a>
             <br> {{elemento.descrizioneBreve}}
             <br> Prezzo: € {{elemento.prezzo}}
         </li>
