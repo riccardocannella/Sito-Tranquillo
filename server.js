@@ -1,7 +1,10 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var ApiModel = require('./server/models/apiModel.js');
+
+// Carico i modelli del database
+var modelloProdotto = require('./server/models/prodotto');
+var modelloUtente = require('./server/models/utente');
 
 var dbUrl = require('./server/config/db.js');
 
