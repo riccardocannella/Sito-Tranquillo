@@ -16,8 +16,8 @@ angular.module('sitotranquillo')
         .when('/prodotti/:id', {
             template: '<dettaglio></dettaglio>'
         })
-        .when('/loginLogon', {
-            template: '<loginlogon></loginlogon>'
+        .when('/autenticazione', {
+            template: '<autenticazione></autenticazione>'
         })
         .otherwise('/invalidPage');
 

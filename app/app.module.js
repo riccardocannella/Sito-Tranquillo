@@ -4,5 +4,5 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'home',
     'dettaglio',
     'invalid',
-    'loginlogon'
+    'autenticazione'
 ]);
