@@ -1,8 +1,6 @@
 'use strict';
-// tabelle del DB
+// tabella prodotti
 var PRODOTTI = 'prodotti';
-var UTENTI = 'utenti';
-var ADMINS = 'admins';
 
 var mongoose = require('mongoose'),
     Prodotto = mongoose.model('Prodotto');

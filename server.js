@@ -39,8 +39,8 @@ mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) 
     console.log("Connessione al database riuscita");
 
     // importo le api per le operazioni nel db
-    var apiRoutes = require('./server/routes/apiRoutes');
-    apiRoutes(app, db);
+    var routeProdotti = require('./server/routes/routeProdotti');
+    routeProdotti(app, db);
     //app.use(app.router);
     app.use(function(req, res) {
         res.sendFile(__dirname + '/app/index.html');
