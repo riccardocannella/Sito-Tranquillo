@@ -45,26 +45,3 @@ var ProdottoSchema = new Schema({
 });
 
 module.exports = mongoose.model('Prodotto', ProdottoSchema, 'prodotti');
-
-// Schema per gli utenti
-var UtenteSchema = new Schema({
-    nome: {
-        type: String,
-        Required: 'Inserisci un nome utente'
-    },
-    email: {
-        type: String,
-        validate: {
-            validator: function(v) {
-                return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v);
-            },
-            message: 'Email non valida'
-        },
-        Required: 'Inserisci un\'email valida'
-    },
-    password: {
-        type: String,
-        Required: 'Inserisci una password'
-    }
-});
-module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');

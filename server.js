@@ -1,7 +1,10 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var ApiModel = require('./server/models/apiModel.js');
+
+// Carico i modelli del database
+var modelloProdotto = require('./server/models/prodotto');
+var modelloUtente = require('./server/models/utente');
 
 var dbUrl = require('./server/config/db.js');
 
@@ -36,8 +39,10 @@ mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) 
     console.log("Connessione al database riuscita");
 
     // importo le api per le operazioni nel db
-    var apiRoutes = require('./server/routes/apiRoutes');
-    apiRoutes(app, db);
+    var routeProdotti = require('./server/routes/routeProdotti');
+    routeProdotti(app, db);
+    var routeUtenti = require('./server/routes/routeUtenti');
+    routeUtenti(app, db);
     //app.use(app.router);
     app.use(function(req, res) {
         res.sendFile(__dirname + '/app/index.html');
