@@ -41,6 +41,8 @@ mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) 
     // importo le api per le operazioni nel db
     var routeProdotti = require('./server/routes/routeProdotti');
     routeProdotti(app, db);
+    var routeUtenti = require('./server/routes/routeUtenti');
+    routeUtenti(app, db);
     //app.use(app.router);
     app.use(function(req, res) {
         res.sendFile(__dirname + '/app/index.html');
