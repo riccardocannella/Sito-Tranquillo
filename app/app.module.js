@@ -4,5 +4,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'home',
     'dettaglio',
     'invalid',
-    'condizioni'
+    'condizioni',
+    'about'
 ]);

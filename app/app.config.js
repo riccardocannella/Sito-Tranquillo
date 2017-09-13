@@ -19,6 +19,9 @@ angular.module('sitotranquillo')
                 .when('/condizioni', {
                     template: '<condizioni></condizioni>'
                 })
+                .when('/about', {
+                    template: '<about></about>'
+                })
                 .otherwise('/invalidPage');
 
             // tolgo l'hashbang
