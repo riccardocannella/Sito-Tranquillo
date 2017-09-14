@@ -1,8 +1,12 @@
 'use strict';
 var UTENTI = 'utenti';
 
+<<<<<<< HEAD
 var bcrypt = require('bcrypt');
 <<<<<<< HEAD
+=======
+var bcrypt = require('bcryptjs');
+>>>>>>> upstream/develop
 var q = require('q');
 var jwt = require('jsonwebtoken'); 
 =======
