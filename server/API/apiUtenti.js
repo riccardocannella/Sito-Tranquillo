@@ -19,6 +19,9 @@ function handleError(res, ragione, messaggio, codice) {
     res.status(codice || 500).json({ "errore": messaggio });
 }
 
+/*
+    Registrazione utenti
+*/
 exports.registraUtente = function(req,res) {
     console.log("POST Utenti");
     var password_hash;
