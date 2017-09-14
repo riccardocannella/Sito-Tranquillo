@@ -3,7 +3,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// Schema per gli utenti
+/*
+    Schema per gli utenti con:
+        -nome
+        -email
+        -password criptata con bcryptjs
+        -domanda segreta
+        -risposta cryptata con bcryptjs
+*/
 var UtenteSchema = new Schema({
     nome: {
         type: String,

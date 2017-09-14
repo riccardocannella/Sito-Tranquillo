@@ -1,18 +1,36 @@
 'use strict';
-// tabella prodotti
+/**
+ * Collezione dei prodotti
+ */
 var PRODOTTI = 'prodotti';
 
-var mongoose = require('mongoose'),
-    Prodotto = mongoose.model('Prodotto');
+
+var mongoose = require('mongoose');
+
+/**
+ * Modello mongoose del prodotto
+ */
+var Prodotto = mongoose.model('Prodotto');
+
+/**
+ * Fa riferimento al Database
+ */
 var db;
 exports.setDb = function(extdb) {
     db = extdb;
 };
 
+
 function handleError(res, ragione, messaggio, codice) {
     console.log("ERRORE: " + ragione);
     res.status(codice || 500).json({ "errore": messaggio });
 }
+
+/*
+    Restituisce tutta la lista dei prodotti dal database
+    se c'è un errore richiama la funzione handleError(...)
+    altrimenti invia il risultato tramite JSON
+*/
 exports.listaProdotti = function(req, res) {
     console.log("GET prodotti");
     db.collection(PRODOTTI).find({}).toArray(function(err, docs) {
@@ -24,6 +42,10 @@ exports.listaProdotti = function(req, res) {
     });
 };
 
+/*
+    Crea un nuovo prodotto prendendo le informazioni dal Body
+    e salvalo nel DB
+*/
 exports.creaProdotto = function(req, res) {
     console.log("POST prodotti");
 
@@ -47,6 +69,10 @@ exports.creaProdotto = function(req, res) {
     });
 };
 
+/*
+    Informazioni del prodotto
+    Restituisci un determinato prodotto avente un determinato "id"
+*/
 exports.dettagliProdotto = function(req, res) {
     console.log("GET prodotto con id", req.params.id);
     db.collection(PRODOTTI).findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, doc) {
@@ -58,7 +84,10 @@ exports.dettagliProdotto = function(req, res) {
     });
 };
 
-
+/*
+    Aggiorna il prodotto (trovato attraverso il suo ID) con
+    nuove informazioni
+*/
 exports.aggiornaProdotto = function(req, res) {
     console.log("PUT prodotto con id", req.params.id);
     var updateDoc = req.body;
@@ -74,7 +103,9 @@ exports.aggiornaProdotto = function(req, res) {
     });
 };
 
-
+/*
+    Elimina un prodotto trovato attraverso il suo ID
+*/
 exports.eliminaProdotto = function(req, res) {
     console.log("DELETE prodotto con id", req.params.id);
     db.collection(PRODOTTI).deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, result) {
