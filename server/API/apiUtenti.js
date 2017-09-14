@@ -2,7 +2,6 @@
 var UTENTI = 'utenti';
 
 var bcrypt = require('bcrypt');
-var q = require('q');
 var encryption = require('../config/encryption');
 
 var mongoose = require('mongoose'),
