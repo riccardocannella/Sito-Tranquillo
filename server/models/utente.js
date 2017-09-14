@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 // Schema per gli utenti
 var UtenteSchema = new Schema({
-    nome: {
+    username: {
         type: String,
         Required: 'Inserisci un nome utente'
     },
