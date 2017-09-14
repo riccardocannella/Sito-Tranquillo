@@ -3,6 +3,7 @@ var UTENTI = 'utenti';
 
 var bcrypt = require('bcrypt');
 var q = require('q');
+var jwt = require('jsonwebtoken'); 
 var encryption = require('../config/encryption');
 
 var mongoose = require('mongoose'),
@@ -56,4 +57,43 @@ exports.registraUtente = function(req,res) {
     });
 
     
+};
+
+/*
+    Funzione: loginUtente()
+    Tipo richiesta: POST
+    Parametri accettati:
+        [x-www-form-urlencoded]
+        username : username dell'utente
+        password : password dell'utente
+*/
+exports.loginUtente = function(req,res){
+    console.log("POST login utente");
+    Utente.findOne({username: req.body.username})
+    .then(function(utente){
+        // Utente trovato, passo a controllare la password
+        bcrypt.hash(req.body.password, encryption.saltrounds)
+        .then(function(hash_pass){ // Hashing riuscito
+            if(utente.password_hash == hash_pass){ // Login riuscito
+                // restituisco un JSON Web Token all'utente
+                var token = jwt.sign()( 
+                                        utente,
+                                        encryption.secret,
+                                        {expiresIn : 1440} // scade in 1440 secondi = 24 minuti
+                                      );
+                // restituisco il token indietro
+                res.status(201).json(token); 
+
+            } else { // Password sbagliata
+                return handleError(res,err,"Password errata");
+            }
+        })
+        .catch(function(err){ // Errore nell'hashing della password
+            return handleError(res,err,"Si è verificato un errore durante l'hashing della password");
+        });
+    })
+    .catch(function(err){
+        return handleError(res,err,'Tentativo di login fallito');
+    });
+
 };
