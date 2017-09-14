@@ -115,29 +115,31 @@ exports.loginUtente = function(req,res){
     console.log("POST login utente");
     Utente.findOne({username: req.body.username})
     .then(function(utente){
-        // Utente trovato, passo a controllare la password
-        bcrypt.hash(req.body.password, encryption.saltrounds)
-        .then(function(hash_pass){ // Hashing riuscito
-            if(utente.password_hash == hash_pass){ // Login riuscito
-                // restituisco un JSON Web Token all'utente
-                var token = jwt.sign()( 
-                                        utente,
-                                        encryption.secret,
-                                        {expiresIn : 1440} // scade in 1440 secondi = 24 minuti
-                                      );
-                // restituisco il token indietro
-                res.status(201).json(token); 
+        if(utente){
+            // Utente trovato, passo a controllare la password
+            bcrypt.compare(req.body.password, utente.password_hash)
+            .then(function(esito){
+                if(esito){ // password corretta
+                    // Creo il token
+                    var token = jwt.sign({utente : utente}, encryption.secret,{expiresIn:1440});
+                    
+                    // Restituisco il token
+                    res.status(201).json({'token':token});
 
-            } else { // Password sbagliata
-                return handleError(res,err,"Password errata");
-            }
-        })
-        .catch(function(err){ // Errore nell'hashing della password
-            return handleError(res,err,"Si è verificato un errore durante l'hashing della password");
-        });
+                } else {
+                        return handleError(res,'ReferenceError','Tentativo di login fallito, credenziali non valide');
+                }
+                 
+            })
+            .catch(function(){ // Password errata
+                return handleError(res,'ERR_WRONG_PW',"Problemi durante la creazione del token");
+            });
+        } else { // Utente non trovato
+            return handleError(res,err,'Tentativo di login fallito, credenziali non valide');
+        }
     })
     .catch(function(err){
-        return handleError(res,err,'Tentativo di login fallito');
+        return handleError(res,err,'Tentativo di login fallito, credenziali non valide');
     });
 
 };
