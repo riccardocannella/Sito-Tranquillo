@@ -1,7 +1,7 @@
 'use strict';
 var UTENTI = 'utenti';
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var q = require('q');
 var encryption = require('../config/encryption');
 
