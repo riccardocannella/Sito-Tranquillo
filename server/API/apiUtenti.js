@@ -1,16 +1,8 @@
 'use strict';
 var UTENTI = 'utenti';
 
-<<<<<<< HEAD
-var bcrypt = require('bcrypt');
-<<<<<<< HEAD
-=======
 var bcrypt = require('bcryptjs');
->>>>>>> upstream/develop
-var q = require('q');
 var jwt = require('jsonwebtoken'); 
-=======
->>>>>>> upstream/hotfix-registrazione-nome-unico
 var encryption = require('../config/encryption');
 
 var mongoose = require('mongoose'),
