@@ -1,37 +1,37 @@
 {
-  "name": "sito-tranquillo-git",
-  "version": "0.0.1",
-  "description": "Un sito così tranquillo che le mamme lo adorano",
-  "main": "server.js",
-  "scripts": {
-    "prestart": "npm install",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/riccardocannella/Sito-Tranquillo-Git.git"
-  },
-  "keywords": [
-    "tranquillo",
-    "quiet",
-    "estrattore",
-    "frutta"
-  ],
-  "author": "co-authored by Riccardo Cannella, Corrado Petrelli and Andrea Salvatori",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/riccardocannella/Sito-Tranquillo-Git/issues"
-  },
-  "homepage": "https://github.com/riccardocannella/Sito-Tranquillo-Git#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.17.2",
-    "express": "^4.15.4",
-    "jsonwebtoken": "^8.0.1",
-    "mongoose": "^4.11.6",
-    "nodemailer": "^4.0.1",
-    "q": "^1.5.0"
-  },
-  "private": true
+    "name": "sito-tranquillo-git",
+    "version": "0.0.1",
+    "description": "Un sito così tranquillo che le mamme lo adorano",
+    "main": "server.js",
+    "scripts": {
+        "prestart": "npm install",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/riccardocannella/Sito-Tranquillo-Git.git"
+    },
+    "keywords": [
+        "tranquillo",
+        "quiet",
+        "estrattore",
+        "frutta"
+    ],
+    "author": "co-authored by Riccardo Cannella, Corrado Petrelli and Andrea Salvatori",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/ecommerce-unicam/Sito-Tranquillo/issues"
+    },
+    "homepage": "https://github.com/ecommerce-unicam/Sito-Tranquillo#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.17.2",
+        "express": "^4.15.4",
+        "jsonwebtoken": "^8.0.1",
+        "mongoose": "^4.11.6",
+        "nodemailer": "^4.0.1",
+        "q": "^1.5.0"
+    },
+    "private": true
 }
