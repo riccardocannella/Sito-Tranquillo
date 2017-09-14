@@ -32,7 +32,7 @@ exports.registraUtente = function(req,res) {
             
             // creo un utente in base al modello
             var nuovoUtente = new Utente({
-                nome: req.body.nome,
+                nome: req.body.username,
                 email: req.body.email,
                 password_hash: password_hash,
                 domanda_segreta:req.body.domanda_segreta,
