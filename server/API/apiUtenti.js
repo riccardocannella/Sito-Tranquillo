@@ -8,16 +8,14 @@ var encryption = require('../config/encryption');
 var mongoose = require('mongoose'),
     Utente = mongoose.model('Utente');
 
+// Importo funzioni utili in generale
+var utilities = require('../utilities/utilities');
+
 var db;
 exports.setDb = function(extdb) {
     db = extdb;
 };
 
-
-function handleError(res, ragione, messaggio, codice) {
-    console.log("ERRORE: " + ragione);
-    res.status(codice || 500).json({ "errore": messaggio });
-}
 
 /*--------------------------------------------------------------
 |    Funzione: registraUtente()                                 |
@@ -88,22 +86,22 @@ exports.registraUtente = function(req,res) {
                             // salvo l'utente nel database
                             nuovoUtente.save(function(err){
                                 if(err)
-                                    return handleError(res, err, "I valori non hanno superato la validazione del server"); 
+                                    return utilities.handleError(res, err, "I valori non hanno superato la validazione del server"); 
                                 else{
                                     res.status(201).json({'utente':nuovoUtente,'successo':true});
                                 }
                             });
                         })
                         .catch(function(err){
-                            return handleError(res,err,"Errore riscontrato durante l'hashing della risposta segreta");
+                            return utilities.handleError(res,err,"Errore riscontrato durante l'hashing della risposta segreta");
                         });
                     }).catch(function(err){
-                        return handleError(res,err,"Errore riscontrato durante l'hashing della password dell'utente");
+                        return utilities.handleError(res,err,"Errore riscontrato durante l'hashing della password dell'utente");
                     });
                 }
             })
             .catch(function(err){ // Connessione al database non riuscita
-                return handleError(res,err,'Errore riscontrato durante la connessione al database');
+                return utilities.handleError(res,err,'Errore riscontrato durante la connessione al database');
             })
             
 
@@ -113,7 +111,7 @@ exports.registraUtente = function(req,res) {
     
     })
     .catch(function(err){ // Connessione al database non riuscita
-        return handleError(res,err,'Errore riscontrato durante la connessione al database');
+        return utilities.handleError(res,err,'Errore riscontrato durante la connessione al database');
     });
         
 
@@ -150,19 +148,19 @@ exports.loginUtente = function(req,res){
                     res.status(201).json({'token':token,'successo':true});
 
                 } else {
-                        return handleError(res,'ReferenceError','Tentativo di login fallito, credenziali non valide');
+                        return utilities.handleError(res,'ReferenceError','Tentativo di login fallito, credenziali non valide');
                 }
                  
             })
             .catch(function(){ // Password errata
-                return handleError(res,'ERR_WRONG_PW',"Problemi durante la creazione del token");
+                return utilities.handleError(res,'ERR_WRONG_PW',"Problemi durante la creazione del token");
             });
         } else { // Utente non trovato
-            return handleError(res,err,'Tentativo di login fallito, credenziali non valide');
+            return utilities.handleError(res,err,'Tentativo di login fallito, credenziali non valide');
         }
     })
     .catch(function(err){
-        return handleError(res,err,'Tentativo di login fallito, credenziali non valide');
+        return utilities.handleError(res,err,'Tentativo di login fallito, credenziali non valide');
     });
 
 };
