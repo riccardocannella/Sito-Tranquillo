@@ -1,20 +1,17 @@
 'use strict';
-var UTENTI = 'utenti';
 
+// Importo le librerie che andrò ad utilizzare 
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken'); 
-var encryption = require('../config/encryption');
 
+
+// Modello mongoose dell'utente
 var mongoose = require('mongoose'),
     Utente = mongoose.model('Utente');
 
-// Importo funzioni utili in generale
+// Importo funzioni utili in generale e i file di configurazione
 var utilities = require('../utilities/utilities');
-
-var db;
-exports.setDb = function(extdb) {
-    db = extdb;
-};
+var encryption = require('../config/encryption');
 
 
 /*--------------------------------------------------------------
