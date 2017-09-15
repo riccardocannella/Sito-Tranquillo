@@ -14,7 +14,6 @@ var Schema = mongoose.Schema;
 var UtenteSchema = new Schema({
     username: {
         type: String,
-        Required: 'Inserisci un nome utente',
         required: [true,'Inserisci un nome utente']
     },
     email: {
