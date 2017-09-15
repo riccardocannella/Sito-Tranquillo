@@ -12,7 +12,7 @@ var Schema = mongoose.Schema;
         -risposta cryptata con bcryptjs
 */
 var UtenteSchema = new Schema({
-    nome: {
+    username: {
         type: String,
         Required: 'Inserisci un nome utente'
     },
