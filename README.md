@@ -1,5 +1,5 @@
-# SITO TRANQUILLO
-Sito specializzato nella vendita di estrattori di succo di tutti i tipi, approvato dall'Associazione Mamme italiane.
+# Sito Tranquillo
+E-commerce specializzato nella vendita di estrattori di succo di tutti i tipi, approvato dall'Associazione Mamme italiane.
 
 ## Per cominciare
 Per far partire il server, eseguire il comando
@@ -33,4 +33,6 @@ che si occuperà di installare tutte le dipendenze dell'applicazione e di esegui
 * **Andrea Salvatori**
 
 ## Licenza
-Questo progetto è sotto la licenza GPL V3.0 - guardare [LICENSE](LICENSE) per dettagli
+>Puoi trovare la licenza completa [qui](LICENSE).
+
+Questo progetto è sotto la licenza GPL V3.0.
