@@ -19,11 +19,25 @@ function handleError(res, ragione, messaggio, codice) {
     res.status(codice || 500).json({ "errore": messaggio });
 }
 
-/*
-    Registrazione utenti
-*/
+/*--------------------------------------------------------------
+|    Funzione: registraUtente()                                 |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username del nuovo utente                   |
+|        password : password del nuovo utente                   |
+|        email: email del nuovo utente                          |
+|        domanda_segreta: domanda per recupero account          |
+|        risposta_segreta: risposta della domanda sopra         |
+|                                                               |
+|    Parametri restituiti in caso di successo:                  |
+|        successo: valore impostato a true                      |
+|        utente: Oggetto in formato JSON del nuovo utente       |
+|                                                               |
+ ---------------------------------------------------------------*/
 exports.registraUtente = function(req,res) {
-    console.log("POST Utenti");
+    console.log("POST Utenti registrazione");
     
     // Controllo se l'utente esiste già
     Utente.findOne({username:req.body.username})
@@ -76,7 +90,7 @@ exports.registraUtente = function(req,res) {
                                 if(err)
                                     return handleError(res, err, "I valori non hanno superato la validazione del server"); 
                                 else{
-                                    res.status(201).json(nuovoUtente);
+                                    res.status(201).json({'utente':nuovoUtente,'successo':true});
                                 }
                             });
                         })
