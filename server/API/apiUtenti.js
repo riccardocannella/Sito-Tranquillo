@@ -106,14 +106,20 @@ exports.registraUtente = function(req,res) {
     
 };
 
-/*
-    Funzione: loginUtente()
-    Tipo richiesta: POST
-    Parametri accettati:
-        [x-www-form-urlencoded]
-        username : username dell'utente
-        password : password dell'utente
-*/
+/*--------------------------------------------------------------
+|    Funzione: loginUtente()                                    |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username dell'utente                        |
+|        password : password dell'utente                        |
+|                                                               |
+|    Parametri restituiti in caso di successo:                  |
+|        successo: valore impostato a true                      |
+|        token: stringa che rappresenta il token dell'utente    |
+|                                                               |
+ ---------------------------------------------------------------*/
 exports.loginUtente = function(req,res){
     console.log("POST login utente");
     Utente.findOne({username: req.body.username})
@@ -127,7 +133,7 @@ exports.loginUtente = function(req,res){
                     var token = jwt.sign({utente : utente}, encryption.secret,{expiresIn:1440});
                     
                     // Restituisco il token
-                    res.status(201).json({'token':token});
+                    res.status(201).json({'token':token,'successo':true});
 
                 } else {
                         return handleError(res,'ReferenceError','Tentativo di login fallito, credenziali non valide');
