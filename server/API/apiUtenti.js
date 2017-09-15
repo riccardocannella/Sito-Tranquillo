@@ -87,11 +87,7 @@ exports.registraUtente = function(req,res) {
                                 if(err)
                                     return utilities.handleError(res, err, "I valori non hanno superato la validazione del server"); 
                                 else{
-<<<<<<< Updated upstream
                                     res.status(201).json({'utenteID':nuovoUtente._id,'successo':true});
-=======
-                                    res.status(201).json({'nuovo_utenteID':nuovoUtente._id,'successo':true});
->>>>>>> Stashed changes
                                 }
                             });
                         })
