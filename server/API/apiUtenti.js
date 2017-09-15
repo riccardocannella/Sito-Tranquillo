@@ -87,7 +87,7 @@ exports.registraUtente = function(req,res) {
                                 if(err)
                                     return utilities.handleError(res, err, "I valori non hanno superato la validazione del server"); 
                                 else{
-                                    res.status(201).json({'utente':nuovoUtente,'successo':true});
+                                    res.status(201).json({'utenteID':nuovoUtente._id,'successo':true});
                                 }
                             });
                         })
@@ -141,7 +141,7 @@ exports.loginUtente = function(req,res){
             .then(function(esito){
                 if(esito){ // password corretta
                     // Creo il token
-                    var token = jwt.sign({utente : utente}, encryption.secret,{expiresIn:1440});
+                    var token = jwt.sign({utenteID : utente._id}, encryption.secret,{expiresIn:1440});
                     
                     // Restituisco il token
                     res.status(201).json({'token':token,'successo':true});
