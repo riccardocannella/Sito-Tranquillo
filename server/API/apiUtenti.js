@@ -47,7 +47,8 @@ exports.registraUtente = function(req,res) {
                 allora restituisco un errore 409 'Conflict'
             */
             res.status(409).json({'errore': "Esiste già un utente con questo username",
-                                  'username': req.body.username
+                                  'username': req.body.username,
+                                  'successo':false
                                  });
 
         } else { // Utente non trovato quindi controllo l'email
@@ -59,7 +60,8 @@ exports.registraUtente = function(req,res) {
                 allora restituisco un errore 409 'Conflict'
                 */
                 res.status(409).json({'errore': "Esiste già un utente con questa e-mail",
-                                      'email': req.body.email
+                                      'email': req.body.email,
+                                      'successo':false
                                      });
                 } else { // Email disponibile
                     
