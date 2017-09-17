@@ -12,6 +12,9 @@ var mongoose = require('mongoose');
  */
 var Prodotto = mongoose.model('Prodotto');
 
+// Importo funzioni utili in generale
+var utilities = require('../utilities/utilities');
+
 /**
  * Fa riferimento al Database
  */
@@ -21,21 +24,16 @@ exports.setDb = function(extdb) {
 };
 
 
-function handleError(res, ragione, messaggio, codice) {
-    console.log("ERRORE: " + ragione);
-    res.status(codice || 500).json({ "errore": messaggio });
-}
-
 /*
     Restituisce tutta la lista dei prodotti dal database
-    se c'è un errore richiama la funzione handleError(...)
+    se c'è un errore richiama la funzione utilities.handleError(...)
     altrimenti invia il risultato tramite JSON
 */
 exports.listaProdotti = function(req, res) {
     console.log("GET prodotti");
     db.collection(PRODOTTI).find({}).toArray(function(err, docs) {
         if (err) {
-            handleError(res, err.message, "Operazione di recupero dei prodotti fallita.");
+            utilities.handleError(res, err.message, "Operazione di recupero dei prodotti fallita.");
         } else {
             res.status(200).json(docs);
         }
@@ -61,7 +59,7 @@ exports.creaProdotto = function(req, res) {
     });
 
     nuovoProdotto.save(function(err) {
-        if (err) return handleError(res, err, '');
+        if (err) return utilities.handleError(res, err, '');
         // saved!
         else {
             res.status(201).json(nuovoProdotto);
@@ -77,7 +75,7 @@ exports.dettagliProdotto = function(req, res) {
     console.log("GET prodotto con id", req.params.id);
     db.collection(PRODOTTI).findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, doc) {
         if (err) {
-            handleError(res, err.message, "Operazione di recupero del prodotto fallita, id prodotto " + req.params.id);
+            utilities.handleError(res, err.message, "Operazione di recupero del prodotto fallita, id prodotto " + req.params.id);
         } else {
             res.status(200).json(doc);
         }
@@ -95,7 +93,7 @@ exports.aggiornaProdotto = function(req, res) {
 
     db.collection(PRODOTTI).updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, updateDoc, function(err, doc) {
         if (err) {
-            handleError(res, err.message, "Operazione di aggiornamento del prodotto fallita, id prodotto " + req.params.id);
+            utilities.handleError(res, err.message, "Operazione di aggiornamento del prodotto fallita, id prodotto " + req.params.id);
         } else {
             updateDoc._id = req.params.id;
             res.status(200).json(updateDoc);
@@ -110,7 +108,7 @@ exports.eliminaProdotto = function(req, res) {
     console.log("DELETE prodotto con id", req.params.id);
     db.collection(PRODOTTI).deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, result) {
         if (err) {
-            handleError(res, err.message, "Operazione di rimozione del prodotto fallita, id prodotto " + req.params.id);
+            utilities.handleError(res, err.message, "Operazione di rimozione del prodotto fallita, id prodotto " + req.params.id);
         } else {
             res.status(200).json(req.params.id);
         }

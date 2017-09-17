@@ -1,29 +1,38 @@
 'use strict';
-var UTENTI = 'utenti';
 
+// Importo le librerie che andrò ad utilizzare 
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken'); 
-var encryption = require('../config/encryption');
 
+
+// Modello mongoose dell'utente
 var mongoose = require('mongoose'),
     Utente = mongoose.model('Utente');
 
-var db;
-exports.setDb = function(extdb) {
-    db = extdb;
-};
+// Importo funzioni utili in generale e i file di configurazione
+var utilities = require('../utilities/utilities');
+var encryption = require('../config/encryption');
 
 
-function handleError(res, ragione, messaggio, codice) {
-    console.log("ERRORE: " + ragione);
-    res.status(codice || 500).json({ "errore": messaggio });
-}
-
-/*
-    Registrazione utenti
-*/
+/*--------------------------------------------------------------
+|    Funzione: registraUtente()                                 |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username del nuovo utente                   |
+|        password : password del nuovo utente                   |
+|        email: email del nuovo utente                          |
+|        domanda_segreta: domanda per recupero account          |
+|        risposta_segreta: risposta della domanda sopra         |
+|                                                               |
+|    Parametri restituiti in caso di successo:                  |
+|        successo: valore impostato a true                      |
+|        utente: Oggetto in formato JSON del nuovo utente       |
+|                                                               |
+ ---------------------------------------------------------------*/
 exports.registraUtente = function(req,res) {
-    console.log("POST Utenti");
+    console.log("POST Utenti registrazione");
     
     // Controllo se l'utente esiste già
     Utente.findOne({username:req.body.username})
@@ -35,7 +44,8 @@ exports.registraUtente = function(req,res) {
                 allora restituisco un errore 409 'Conflict'
             */
             res.status(409).json({'errore': "Esiste già un utente con questo username",
-                                  'username': req.body.username
+                                  'username': req.body.username,
+                                  'successo':false
                                  });
 
         } else { // Utente non trovato quindi controllo l'email
@@ -47,7 +57,8 @@ exports.registraUtente = function(req,res) {
                 allora restituisco un errore 409 'Conflict'
                 */
                 res.status(409).json({'errore': "Esiste già un utente con questa e-mail",
-                                      'email': req.body.email
+                                      'email': req.body.email,
+                                      'successo':false
                                      });
                 } else { // Email disponibile
                     
@@ -74,22 +85,22 @@ exports.registraUtente = function(req,res) {
                             // salvo l'utente nel database
                             nuovoUtente.save(function(err){
                                 if(err)
-                                    return handleError(res, err, "I valori non hanno superato la validazione del server"); 
+                                    return utilities.handleError(res, err, "I valori non hanno superato la validazione del server"); 
                                 else{
-                                    res.status(201).json(nuovoUtente);
+                                    res.status(201).json({'utenteID':nuovoUtente._id,'successo':true});
                                 }
                             });
                         })
                         .catch(function(err){
-                            return handleError(res,err,"Errore riscontrato durante l'hashing della risposta segreta");
+                            return utilities.handleError(res,err,"Errore riscontrato durante l'hashing della risposta segreta");
                         });
                     }).catch(function(err){
-                        return handleError(res,err,"Errore riscontrato durante l'hashing della password dell'utente");
+                        return utilities.handleError(res,err,"Errore riscontrato durante l'hashing della password dell'utente");
                     });
                 }
             })
             .catch(function(err){ // Connessione al database non riuscita
-                return handleError(res,err,'Errore riscontrato durante la connessione al database');
+                return utilities.handleError(res,err,'Errore riscontrato durante la connessione al database');
             })
             
 
@@ -99,21 +110,27 @@ exports.registraUtente = function(req,res) {
     
     })
     .catch(function(err){ // Connessione al database non riuscita
-        return handleError(res,err,'Errore riscontrato durante la connessione al database');
+        return utilities.handleError(res,err,'Errore riscontrato durante la connessione al database');
     });
         
 
     
 };
 
-/*
-    Funzione: loginUtente()
-    Tipo richiesta: POST
-    Parametri accettati:
-        [x-www-form-urlencoded]
-        username : username dell'utente
-        password : password dell'utente
-*/
+/*--------------------------------------------------------------
+|    Funzione: loginUtente()                                    |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username dell'utente                        |
+|        password : password dell'utente                        |
+|                                                               |
+|    Parametri restituiti in caso di successo:                  |
+|        successo: valore impostato a true                      |
+|        token: stringa che rappresenta il token dell'utente    |
+|                                                               |
+ ---------------------------------------------------------------*/
 exports.loginUtente = function(req,res){
     console.log("POST login utente");
     Utente.findOne({username: req.body.username})
@@ -124,25 +141,25 @@ exports.loginUtente = function(req,res){
             .then(function(esito){
                 if(esito){ // password corretta
                     // Creo il token
-                    var token = jwt.sign({utente : utente}, encryption.secret,{expiresIn:1440});
+                    var token = jwt.sign({utenteID : utente._id}, encryption.secret,{expiresIn:1440});
                     
                     // Restituisco il token
-                    res.status(201).json({'token':token});
+                    res.status(201).json({'token':token,'successo':true});
 
                 } else {
-                        return handleError(res,'ReferenceError','Tentativo di login fallito, credenziali non valide');
+                        return utilities.handleError(res,'ReferenceError','Tentativo di login fallito, credenziali non valide');
                 }
                  
             })
             .catch(function(){ // Password errata
-                return handleError(res,'ERR_WRONG_PW',"Problemi durante la creazione del token");
+                return utilities.handleError(res,'ERR_WRONG_PW',"Problemi durante la creazione del token");
             });
         } else { // Utente non trovato
-            return handleError(res,err,'Tentativo di login fallito, credenziali non valide');
+            return utilities.handleError(res,err,'Tentativo di login fallito, credenziali non valide');
         }
     })
     .catch(function(err){
-        return handleError(res,err,'Tentativo di login fallito, credenziali non valide');
+        return utilities.handleError(res,err,'Tentativo di login fallito, credenziali non valide');
     });
 
 };
