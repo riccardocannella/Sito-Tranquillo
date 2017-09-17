@@ -24,6 +24,9 @@ angular.module('sitotranquillo')
                 .when('/autenticazione', {
                     template: '<autenticazione></autenticazione>'
                 })
+                .when('/informativa', {
+                    template: '<informativa></informativa>'
+                })
                 .otherwise('/invalidPage');
             // tolgo l'hashbang
             $locationProvider.html5Mode(true);

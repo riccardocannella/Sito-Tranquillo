@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="css/main.css">
     <link href='https://fonts.googleapis.com/css?family=Josefin+Sans:400,700,600italic,400italic,700italic,600' rel='stylesheet'>
     <!-- Angular -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.js"></script>
     <script src="app.module.js"></script>
     <script src="app.config.js"></script>
     <script src="layout/frontend/home/home.module.js"></script>
@@ -38,6 +38,8 @@
     <script src="layout/frontend/condizioni/condizioni.component.js"></script>
     <script src="layout/frontend/about/about.module.js"></script>
     <script src="layout/frontend/about/about.component.js"></script>
+    <script src="layout/frontend/informativa/informativa.module.js"></script>
+    <script src="layout/frontend/informativa/informativa.component.js"></script>
 </head>
 
 <body>
@@ -70,7 +72,9 @@
 
             <!-- LOGO -->
             <section class="loghi">
-                <a href="/"><picture><img id="logo1" src="images/sito-tranq.png"></img></a>
+                <a href="/">
+                    <picture><img id="logo1" src="images/sito-tranq.png"></img>
+                </a>
                 </picture>
                 <picture><img id="logo2" src="icons/sito-tranq-favicon.png"></img>
                 </picture>
@@ -109,7 +113,7 @@
             </div>
         </nav>
         <!-- Main -->
-        
+
         <div class="clearfix">
             <div ng-view></div>
         </div>
@@ -158,7 +162,7 @@
                             <picture><img height="60" width="60" src="images/carte-di-credito/american-express.png"></img></picture>
                             <picture><img height="60" width="60" src="images/carte-di-credito/visa.png"></img></picture>
                         </span>
-                        </div>
+                    </div>
                     <div>
                         <a href="https://t.me/shopbot">Telegram shop bot</a></li>
                     </div>
