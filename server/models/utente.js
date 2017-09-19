@@ -14,7 +14,7 @@ var Schema = mongoose.Schema;
 var UtenteSchema = new Schema({
     username: {
         type: String,
-        Required: 'Inserisci un nome utente'
+        required: [true,'Inserisci un nome utente']
     },
     email: {
         type: String,
@@ -24,19 +24,19 @@ var UtenteSchema = new Schema({
             },
             message: 'Email non valida'
         },
-        Required: 'Inserisci un\'email valida'
+        required: [true,'Inserisci una email valida']
     },
     password_hash: {
         type: String,
-        Required: 'Inserisci una password'
+        required: [true,'Inserisci una password']
     },
     domanda_segreta: {
         type: String,
-        Required: 'Inserisci una domanda segreta'
+        required: [true,'Inserisci una domanda segreta']
     },
     risposta_segreta_hash: {
         type: String,
-        Required: 'Inserisci una risposta alla domanda segreta'
+        required: [true,'Inserisci una risposta segreta']
     }
 });
 module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');
