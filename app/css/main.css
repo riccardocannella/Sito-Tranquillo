@@ -22,7 +22,7 @@
 
     body {
         font-family: 'Josefin Sans', sans-serif;
-        color: #A69C7B;
+        color: #000000;
     }
 
     .center {
@@ -206,10 +206,35 @@
     }
 
 
-/***************************************************
-     Login - Logon
+/****************************************************
+    MAIN
 ****************************************************/
 
+    .sidebar {
+        float: left;
+        height: 100vh;
+        width: 100%;
+        width: 250px;
+        background-color: #fff;
+        /* position: fixed!important; */
+        z-index: 1;
+        overflow: auto;
+    }
+
+    .main{
+        margin-left: 300px;
+        transition: margin-left .4s;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            justify-content: space-around;
+    }
+   
+
+/* Login - Logon */
 
     .button-login {
         float: right;
@@ -308,3 +333,130 @@
         font-size: 11rem !important;
     }
 }
+
+/****************************************************
+    PRODOTTO BREVE
+****************************************************/
+    
+    .container-prodotto-breve{
+    display: flex;
+    width: 370px;
+    }
+
+    .contenitore-immagine {
+        position: relative;
+    order: 1;
+    background-image: linear-gradient(-180deg, #71FEC9 0%, #49C7C9 100%);
+    width: 150px;
+    }
+
+    .photo {
+        position: absolute;
+        top: 40px;
+        left: -20px;
+    }
+    
+    .photo img {
+        width: 150px;
+        filter: drop-shadow(-1px 22px 15px rgba(0, 0, 0, 0.25));
+    }
+
+  .contenitore-text {
+    width: 220px;
+    order: 1;
+    padding: 1em;
+  }
+
+/****************************************************
+    PRODOTTO DETTAGLIO
+****************************************************/
+
+    .photo-dettaglio {
+        margin: auto;
+    }
+
+    .photo-dettaglio img {
+        display: table;
+        width: 400px;
+        margin: auto;
+        animation: fade 3s;
+        filter: drop-shadow(-1px 22px 15px rgba(0, 0, 0, 0.25));
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0
+        }
+        100% {
+            opacity: 1
+        }
+    }
+
+    /*---------- DISPONIBILITA' ---------------*/
+
+    .disponibilita{
+        display: block;
+    }
+
+    .icona-stato {
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+    }
+        
+    .icona-stato.nodisponibile {
+        background-color: #FC0627;
+    }
+
+    .icona-stato.limitata {
+        background-color: #ffab19;
+    }
+
+    .icona-stato.disponibile {
+        background-color: #2BFF00;
+    }
+
+    /*------------------ SELETTORE QUANTITA -----------*/
+
+    .quantita-nav {
+        height: 42px;
+    }
+    
+    .quantita {
+        display: inline-block;
+    }
+
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button
+      {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      
+      input[type=number]
+      {
+        -moz-appearance: textfield;
+      }
+      
+    .quantita input {
+        width: 80px;
+        height: 39px;
+        line-height: 1.65;
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        padding-left: 20px;
+        border: 1px solid #eee;
+      }
+      
+    .quantita input:focus {
+        outline: 0;
+        background-color: #8FA58F;
+    }
+
+    .quantita-button {
+        display: inline-block;
+        cursor: pointer;
+        font-size: 15px;
+        user-select: none;
+    }

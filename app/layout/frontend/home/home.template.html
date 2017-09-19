@@ -1,24 +1,60 @@
-<h3>Prova Home</h3>
-<div>
-    <p>
+<main>
+        <!-- Da riabilitare con l'implementazione di javascript per il responsive del menu laterale
+        <button class="w3-button w3-teal w3-xlarge w3-right w3-hide-large" onclick="menu_open()">&#9776;</button>
+        -->
+<menu id="SidebaR" type="toolbar" class="sidebar w3-collapse w3-card-2 w3-animate-left" >
+        
+        <!-- Da riabilitare con l'implementazione di javascript per il responsive del menu laterale 
+        <button class=" w3-button w3-large w3-hide-large" onclick="menu_close()">Close &times;</button>
+        -->
+
+    <li>
         Ricerca:
         <input ng-model="$ctrl.query" />
-    </p>
-    <p>
+    </li>
+    <li>
         Ordina per:
         <select ng-model="$ctrl.ordinamento">
             <option value="nome">Nome</option>
             <option value="prezzo">Prezzo ascendente</option>
             <option value="-prezzo">Prezzo discendente</option>
         </select>
-    </p>
-</div>
-<div>
-    <ul>
-        <li ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
-            <a href="/prodotti/{{elemento._id}}">{{elemento.nome}}</a>
-            <br> {{elemento.descrizioneBreve}}
-            <br> Prezzo: € {{elemento.prezzo}}
+    </li>
+</menu>
+
+    <ul class="main">
+        <li class="w3-margin container-prodotto-breve w3-card-4" ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
+
+                <!-- contenitore sinistro dove risiede l'immagine -->
+                <div class="contenitore-immagine">
+                    <div class="photo">
+                        <img src="http://img4.hostingpics.net/pics/279657basket.png" />
+                    </div>
+                </div>
+                <!-- contenitore destro bianco dove risiede l'immagine -->
+                <div class="contenitore-text">
+                    <div class="header">
+                        <h5 class="w3-text-orange">
+                            <a href="/prodotti/{{elemento._id}}">{{elemento.nome}}</a>
+                        </h5>
+                    </div>
+                    <p class="w3-text-red">
+                        <del>100€</del> {{elemento.prezzo}} €
+                    </p>
+                    <p>
+                        {{elemento.descrizioneBreve}}.
+                    </p>
+                    <div class="w3-margin-top">
+                        <div class="w3-container w3-cell">
+                            <p>QTY<span> (1)</span></p>
+                        </div>
+                        <div class="w3-container w3-cell">
+                            <button class="w3-button w3-red w3-right"><i class="fa fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+
         </li>
     </ul>
 </div>
+
+</main>
