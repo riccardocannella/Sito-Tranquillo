@@ -286,52 +286,67 @@
         cursor: wait;
     }
 
-/* 404 */
+/*************************************************
+     404 
+**************************************************/
 
-.min-height-100vh {
-    min-height: 100vh;
+.bg-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url(http://www.reactiongifs.us/wp-content/uploads/2015/04/nothing_to_see_here_naked_gun.gif) no-repeat center center fixed;
+  background-size: 1920px 1000px;
+  background-color: #000;
+
 }
 
-.height-100x {
-    height: 100%;
+.content {
+
+  color: #fff;
+  background-color: none;
+  z-index: 2;
+  position: absolute;
+  top: 30%;
+  transform: translateY(-40%);
 }
 
-.flex-centered {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.content h1 {
+  font-size: 160px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
-.flex-centered-item {
-    flex: 1;
+.content h2 {
+  margin-top: 0;
+  max-width: 700px;
+  font-size: 30px;
+  width: 90%;
 }
 
-.absolute-centered {
-    position: absolute !important;
-    top: 80% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
+.content p {
+  text-align: left;
+  padding-bottom: 32px;
 }
 
-
-/* Media query per resizy font del 404 */
-
-@media only screen and (min-width: 992px) {
-    .font-size {
-        font-size: 30rem !important;
-    }
+.btn {
+  display: inline-block;
+  border: 1px solid #aaa;
+  border-radius: 40px;
+  padding: 15px 30px;
+  margin-right: 15px;
+  margin-bottom: 10px;
 }
 
-@media only screen and (min-width: 577px) and (max-width: 991px) {
-    .font-size {
-        font-size: 17.14286rem !important;
-    }
-}
+@media only screen and (max-width: 480px) {
+  .btn {
+    background-color: white;
+    color: #444444;
+    width: 100%;
+  }
 
-@media only screen and (max-width: 576px) {
-    .font-size {
-        font-size: 11rem !important;
-    }
+  .content h1 {
+    font-size: 120px;
+  };
 }
 
 /****************************************************
