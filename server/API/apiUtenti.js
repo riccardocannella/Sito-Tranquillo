@@ -229,3 +229,32 @@ exports.loginUtente = function(req,res){
         return utilities.handleError(res,err,'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
     });
  };
+
+
+ /*--------------------------------------------------------------
+|    Funzione: richiestaRecuperoPassword()                      |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username dell'utente                        |
+|                                                               |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+|        domanda_segreta : domanda segreta dell'utente          |
+ ---------------------------------------------------------------*/
+
+exports.richiestaRecuperoPassword = function(req,res){
+    console.log("POST richiesta recupero pw");
+
+    Utente.findOne({username: req.body.username})
+    .then(function(utente){
+        
+        // Utente trovato, invio la domanda segreta 
+        res.status(201).json({'domanda_segreta':utente.domanda_segreta,'successo':true});
+    })
+    .catch(function(err){
+        return utilities.handleError(res,err,'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
+    });
+};

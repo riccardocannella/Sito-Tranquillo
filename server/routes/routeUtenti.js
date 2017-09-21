@@ -11,4 +11,7 @@ module.exports = function(app, db) {
 
     app.route('/api/v1.0/utenti/recuperopw')
         .post(apiUtenti.recuperoPassword);
+
+    app.route('/api/v1.0/utenti/richiestarecuperopw')
+        .post(apiUtenti.richiestaRecuperoPassword);
 };
