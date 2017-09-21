@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
 // Importo funzioni utili in generale e i file di configurazione
 var utilities = require('../utilities/utilities');
 var encryption = require('../config/encryption');
-
+var mailer = require('../utilities/mailer');
 
 /*--------------------------------------------------------------
 |    Funzione: registraUtente()                                 |
@@ -242,7 +242,6 @@ exports.loginUtente = function(req,res){
 |                                                               |
 |     Parametri restituiti in caso di successo:                 |
 |        successo: valore impostato a true                      |
-|        domanda_segreta : domanda segreta dell'utente          |
  ---------------------------------------------------------------*/
 
 exports.richiestaRecuperoPassword = function(req,res){
@@ -250,9 +249,13 @@ exports.richiestaRecuperoPassword = function(req,res){
 
     Utente.findOne({username: req.body.username})
     .then(function(utente){
-        
-        // Utente trovato, invio la domanda segreta 
-        res.status(201).json({'domanda_segreta':utente.domanda_segreta,'successo':true});
+        var corpoInHtml = "<p> Puoi reimpostare la password fornendo la giusta risposta segreta al seguente link : </p>" + 
+                         " <p>http:// <----- Qui va il sito per recupero password </p>" + 
+                         " <hr /> Cordiali Saluti, Il Team Sito Tranquillo";
+
+        // Utente trovato, invio il link per email alla richiesta
+        mailer.inviaEmail('dummy', 'dummy', utente.email, "Recupero password", corpoInHtml);
+        res.status(201).json({'successo':true});
     })
     .catch(function(err){
         return utilities.handleError(res,err,'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
