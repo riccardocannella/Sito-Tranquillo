@@ -10,12 +10,14 @@
 <form class="">
     <li class="w3-padding">
         <label class="w3-text-blue"><b>Ricerca:</b>
-        <input class="w3-input w3-border" type="search" placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
+        <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
         </label>
     </li>
+</form>
+<form>
     <li class="w3-padding">
         <label class="w3-text-blue"><b>Ordina per:</b></label>
-        <select class="w3-select w3-border" ng-model="$ctrl.ordinamento">
+        <select class="w3-select w3-border" name="ordinamento" ng-model="$ctrl.ordinamento">
             <option value="nome">Nome</option>
             <option value="prezzo">Prezzo ascendente</option>
             <option value="-prezzo">Prezzo discendente</option>
