@@ -8,4 +8,7 @@ module.exports = function(app, db) {
 
     app.route('/api/v1.0/utenti/login')
         .post(apiUtenti.loginUtente);
+
+    app.route('/api/v1.0/utenti/recuperopw')
+        .post(apiUtenti.recuperoPassword);
 };

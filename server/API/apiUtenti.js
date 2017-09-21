@@ -163,3 +163,69 @@ exports.loginUtente = function(req,res){
     });
 
 };
+
+/*--------------------------------------------------------------
+|    Funzione: recuperoPassword()                               |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username dell'utente                        |
+|        risposta_segreta : risposta alla domanda segreta       |
+|        nuova_password : nuova password da impostare           |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+|        messaggio : messaggio di successo                      |
+ ---------------------------------------------------------------*/
+
+ exports.recuperoPassword = function(req,res){
+    console.log("POST Recupero password");
+
+    var utente_trovato;
+
+    Utente.findOne({username: req.body.username})
+    .then(function(utente){
+
+        utente_trovato = utente;
+
+        // Utente trovato, passo a controllare la risposta segreta
+        bcrypt.compare(req.body.risposta_segreta, utente.risposta_segreta_hash)
+        .then(function(esito){
+            if(esito){ // risposta segreta corretta
+                // Creo l'hash della nuova password
+                bcrypt.hash(req.body.nuova_password, encryption.saltrounds)
+                .then(function(hash_nuova_password){
+                    // Cambio la password dell'utente
+                    utente_trovato.password_hash = hash_nuova_password;
+                    utente.save(function(err){
+                        if(err)
+                            return utilities.handleError(res, err, "La nuova password non ha superato la validazione del server"); 
+                        else{
+                            // Restituisco un messaggio di successo
+                            res.status(201).json({'messaggio':"Operazione riuscita",'successo':true});
+                        }
+                    });
+                    
+
+                })
+                .catch(function(err){
+                    return utilities.handleError(res,err,"Errore riscontrato durante l'hashing della password dell'utente");
+                });
+                
+                
+
+            } else {
+                    return utilities.handleError(res,'ReferenceError','Tentativo di recupero password fallito, risposta sbagliata');
+            }
+
+        })
+        .catch(function(err){
+            return utilities.handleError(res,'ERR_SEC_ANS',"La risposta segreta non è pervenuta al server o è sbagliata");
+        });
+         
+    })
+    .catch(function(err){
+        return utilities.handleError(res,err,'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
+    });
+ };
