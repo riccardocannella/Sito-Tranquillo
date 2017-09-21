@@ -217,12 +217,15 @@
         width: 250px;
         background-color: #fff;
         /* position: fixed!important; */
-        z-index: 1;
+        z-index: 0;
         overflow: auto;
+        padding: 0.7em 0 0.7em 0;
+        list-style: none;
     }
 
     .main{
         margin-left: 300px;
+        z-index: -1;
         transition: margin-left .4s;
             display: -webkit-box;
             display: -moz-box;
@@ -360,15 +363,16 @@
 
     .contenitore-immagine {
         position: relative;
-    order: 1;
-    background-image: linear-gradient(-180deg, #71FEC9 0%, #49C7C9 100%);
-    width: 150px;
+        order: 1;
+        background-image: linear-gradient(-180deg, #71FEC9 0%, #49C7C9 100%);
+        width: 150px;
     }
 
     .photo {
         position: absolute;
-        top: 40px;
-        left: -20px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-60%,-50%);
     }
     
     .photo img {
