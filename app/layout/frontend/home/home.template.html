@@ -7,49 +7,40 @@
         <!-- Da riabilitare con l'implementazione di javascript per il responsive del menu laterale 
         <button class=" w3-button w3-large w3-hide-large" onclick="menu_close()">Close &times;</button>
         -->
-
-        <li>
-            Ricerca:
-            <input ng-model="$ctrl.query" />
-        </li>
-        <li>
-            Ordina per:
-            <select ng-model="$ctrl.ordinamento">
+<form class="">
+    <li class="w3-padding">
+        <label class="w3-text-blue"><b>Ricerca:</b>
+        <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
+        </label>
+    </li>
+</form>
+<form>
+    <li class="w3-padding">
+        <label class="w3-text-blue"><b>Ordina per:</b></label>
+        <select class="w3-select w3-border" name="ordinamento" ng-model="$ctrl.ordinamento">
             <option value="nome">Nome</option>
             <option value="prezzo">Prezzo ascendente</option>
             <option value="-prezzo">Prezzo discendente</option>
         </select>
-        </li>
-    </menu>
+    </li>
+</form>
+
+</menu>
 
     <ul class="main">
-        <li class="w3-margin container-prodotto-breve w3-card-4" ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
+        <li class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
 
             <!-- contenitore sinistro dove risiede l'immagine -->
             <div class="contenitore-immagine">
                 <div class="photo">
                     <img src="http://img4.hostingpics.net/pics/279657basket.png" />
                 </div>
-            </div>
-            <!-- contenitore destro bianco dove risiede l'immagine -->
-            <div class="contenitore-text">
-                <div class="header">
-                    <h5 class="w3-text-orange">
-                        <a href="/prodotti/{{elemento._id}}">{{elemento.nome}}</a>
-                    </h5>
-                </div>
-                <p class="w3-text-red">
-                    <del>100€</del> {{elemento.prezzo}} €
-                </p>
-                <p>
-                    {{elemento.descrizioneBreve}}.
-                </p>
-                <div class="w3-margin-top">
-                    <div class="w3-container w3-cell">
-                        <p>QTY<span> (1)</span></p>
-                    </div>
-                    <div class="w3-container w3-cell">
-                        <button class="w3-button w3-red w3-right"><i class="fa fa-shopping-cart"></i></button>
+                <!-- contenitore destro bianco dove risiede il testo -->
+                <div class="contenitore-text">
+                    <div class="header">
+                        <h5 class="w3-text-orange">
+                            <a href="/prodotti/{{elemento._id}}">{{elemento.nome}}</a>
+                        </h5>
                     </div>
                     <div class="w3-container w3-cell">
                         <a href="/admin/modificaProdotti/{{elemento._id}}"><button class="w3-button w3-red w3-right"><i class="fa fa-pencil fa-fw"></i></button></a>
