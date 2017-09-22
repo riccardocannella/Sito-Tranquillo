@@ -27,8 +27,12 @@ angular.module('sitotranquillo')
                 .when('/informativa', {
                     template: '<informativa></informativa>'
                 })
+                // route amministrative (?)
                 .when('/admin/aggiuntaProdotti', {
                     template: '<aggiunta-prodotti></aggiunta-prodotti>'
+                })
+                .when('/admin/modificaProdotti/:id', {
+                    template: '<modifica-prodotti></modifica-prodotti>'
                 })
                 .otherwise('/invalidPage');
             // tolgo l'hashbang
