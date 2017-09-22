@@ -3,7 +3,16 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// Schema per i prodotti
+/*
+    Schema del prodotto avente
+        -nome
+        -prezzo
+        -giacenza
+        -impegno in Carrelli
+        -impegno in Pagamento
+        -descrizione breve
+        -descrizione lunga
+*/
 var ProdottoSchema = new Schema({
     nome: {
         type: String,
