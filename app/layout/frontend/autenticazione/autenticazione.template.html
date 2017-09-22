@@ -1,5 +1,3 @@
-<script type="text/javascript" src="countries.json"></script>
-<script type="text/javascript" src="provinces.json"></script>
 <section class="">
     <h2 class="w3-margin-bottom w3-text-teal w3-center">Autenticazione</h2>
     <div class="wrapper w3-row">
@@ -68,15 +66,16 @@
                     </p>
 
                     <!-- GESTIONE STATO E PROVINCE -->
-                    <span ng-controller="controllerStatesAndProvinces">
                     <p>
-                       <label for="state" required>Stato:
+                        <label for="state" required>Stato:
                         <!--
                             NON SO COSA FARCI 
                             <input class="w3-input w3-border w3-round" type="text" name="stati" list="states" />
                         -->
+                        <span>
+
                             <select class="w3-input w3-border w3-round" ng-model="country">
-                                <option value="{{country}}" ng-repeat="country in countries.name">{{country}}</option>
+                                <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
                             </select>
                             </label>
                     </p>
@@ -88,12 +87,11 @@
                             NON SO COSA FARCI 
                             <input class="w3-input w3-border w3-round" type="text" name="province" list="provinces" />
                          -->
-                         <select class="w3-input w3-border w3-round check-element animate-show-hide"  ng-model="province">
-                                <option value={{province}} ng-repeat="province in provinces.name">{{province}}</option>
+                         <select class="w3-input w3-border w3-round" ng-model="province">
+                                <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
                             </select>
                         </label>
                     </p>
-                    </span>
                     <p>
                         <label for="telefono" required>Telefono</label>
                         <input class="w3-input w3-border w3-round" type="tel" id="telefono" name="telefono">
