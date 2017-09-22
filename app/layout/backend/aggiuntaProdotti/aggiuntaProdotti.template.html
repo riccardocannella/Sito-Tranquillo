@@ -1,0 +1,37 @@
+<h3>Aggiungi Prodotto</h3>
+<form ng-submit="$ctrl.aggiungiProdotto()">
+    <div class="form-group row">
+        <label class="col-2 col-form-label" for="nome">Nome:</label>
+        <div class="col-10">
+            <input type="text" required ng-model="$ctrl.prodotto.nome" class="form-control" id="nome">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label" for="prezzo">Prezzo:</label>
+        <div class="col-10">
+            <input type="number" required name="price" min="0" value="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" ng-model="$ctrl.prodotto.prezzo" class="form-control" id="prezzo">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label" for="giacenza">Giacenza:</label>
+        <div class="col-10">
+            <input type="number" required ng-model="$ctrl.prodotto.giacenza" class="form-control" id="giacenza">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label" for="descrizioneBreve">Descrizione Breve:</label>
+        <div class="col-10">
+            <input type="text" required ng-model="$ctrl.prodotto.descrizioneBreve" class="form-control" id="descrizioneBreve">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label" for="descrizioneLunga">Descrizione Lunga:</label>
+        <div class="col-10">
+            <input type="text" required ng-model="$ctrl.prodotto.descrizioneLunga" class="form-control" id="descrizioneLunga">
+        </div>
+    </div>
+    <input type="reset" class="btn btn-default" value="Annulla">
+    <input type="submit" class="btn btn-default" value="Aggiungi">
+</form>
+<hr>
+<a href="#!/students">Torna alla lista studenti</a>
