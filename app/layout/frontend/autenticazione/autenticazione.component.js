@@ -5,7 +5,17 @@ angular.module('autenticazione')
         templateUrl: 'layout/frontend/autenticazione/autenticazione.template.html',
         controller: function() {
             var autenticazione = this;
+            /*
+                PERCHE' NON FUNZIONA!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?
 
+            $http.get('countries.json').success(function(data) {
+                autenticazione.countries = data;
+            });
+
+            $http.get('provinces.json').success(function(data) {
+                autenticazione.provinces = data;
+            });
+            */
             autenticazione.countries = {
                 "name": [
                     "Afghanistan",
