@@ -7,7 +7,8 @@ var jwt = require('jsonwebtoken');
 
 // Modello mongoose dell'utente
 var mongoose = require('mongoose'),
-    Utente = mongoose.model('Utente');
+    Utente = mongoose.model('Utente'),
+    Prodotto = mongoose.model('Prodotto');
 
 // Importo funzioni utili in generale e i file di configurazione
 var utilities = require('../utilities/utilities');
@@ -261,3 +262,4 @@ exports.richiestaRecuperoPassword = function(req,res){
         return utilities.handleError(res,err,'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
     });
 };
+
