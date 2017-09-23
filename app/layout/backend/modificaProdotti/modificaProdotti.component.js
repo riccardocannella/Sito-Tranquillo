@@ -12,7 +12,17 @@ angular.module('modificaProdotti').component('modificaProdotti', {
         });
         modificaProdotti.reset = function() {
             modificaProdotti.prodotto = angular.copy(prodottoOrig);
-        }
+        };
+        modificaProdotti.eseguiPut = function() {
+            $http.put('api/v1.0/prodotti/' + id, modificaProdotti.prodotto).then(
+                function(res) {
+                    $location.path('');
+                },
+                function(err) {
+                    console.log('errore!\n', err.data);
+                }
+            )
+        };
         modificaProdotti.aggiornaProdotto = function() {
             if (modificaProdotti.immagine) {
                 Upload.upload({
@@ -23,16 +33,11 @@ angular.module('modificaProdotti').component('modificaProdotti', {
                         // valida
                         // magari dovrei fare in modo che la vecchia immagine venga cancellata?
                         modificaProdotti.prodotto.urlImmagine = resp.data.nomeFile;
-                        $http.put('api/v1.0/prodotti/' + id, modificaProdotti.prodotto).then(
-                            function(res) {
-                                $location.path('');
-                            },
-                            function(err) {
-                                console.log('errore!\n', err.data);
-                            }
-                        )
+                        modificaProdotti.eseguiPut();
                     }
                 });
+            } else {
+                modificaProdotti.eseguiPut();
             }
         }
     }
