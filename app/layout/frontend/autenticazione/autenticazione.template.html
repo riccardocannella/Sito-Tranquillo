@@ -38,8 +38,7 @@
             <div class="w3-container w3-teal">
                 <hgroup>
                     <h2>Non sei registrato?</h2>
-                    <h5>Creando un nuovo account su Sito Tranquillo sarai in grado di acquistare<br> velocemente, essere sempre
-                        aggiornato sullo stato dei tuoi ordini e<br> ricevere offerte e promozioni.</h5>
+                    <h5>Creando un nuovo account su Sito Tranquillo sarai in grado di acquistare<br> velocemente, essere sempre aggiornato sullo stato dei tuoi ordini e<br> ricevere offerte e promozioni.</h5>
                 </hgroup>
             </div>
             <div class="w3-light-grey">
@@ -66,33 +65,35 @@
                         <input class="w3-input w3-border w3-round" name="indirizzo" type="text" id="indirizzo">
                     </p>
 
+                    <!-- GESTIONE STATO E PROVINCE -->
                     <p>
-                        <!-- Da modificare per il recupero nel database  -->
-                        <!-- ATTENIONE DA IMPLEMENTARE. In base allo stato deve cambiare la lista delle province  -->
-                        <label for="province" required>Stato:
-                        <input class="w3-input w3-border w3-round" type="text" name="stati" list="states" />
-                            <datalist id="states">
-                            <option>Italia</option>
-                            <option>Germania</option>
-                            <option>Francia</option>
-                            </datalist>
+                        <label for="state" required>Stato:
+                        <!--
+                            NON SO COSA FARCI 
+                            <input class="w3-input w3-border w3-round" type="text" name="stati" list="states" />
+                        -->
+                        <span>
+
+                            <select class="w3-input w3-border w3-round" ng-model="country">
+                                <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
+                            </select>
                             </label>
                     </p>
 
-                    <p>
+                    <p ng-show="country == 'Italy'">
                         <!-- Da modificare per il recupero nel database  -->
                         <label for="province" required>Provincia:
-                    <input class="w3-input w3-border w3-round" type="text" name="province" list="provinces" />
-                        <datalist id="provinces">
-                        <option value="AG">Agrigento</option>
-                        <option value="AL">Alessandria</option>
-                        <option value="AN">Ancona</option>
-                        </datalist>
+                         <!--
+                            NON SO COSA FARCI 
+                            <input class="w3-input w3-border w3-round" type="text" name="province" list="provinces" />
+                         -->
+                         <select class="w3-input w3-border w3-round" ng-model="province">
+                                <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
+                            </select>
                         </label>
                     </p>
-
                     <p>
-                        <label for="telefono" required>Tel.</label>
+                        <label for="telefono" required>Telefono</label>
                         <input class="w3-input w3-border w3-round" type="tel" id="telefono" name="telefono">
                     </p>
 
@@ -107,9 +108,7 @@
                     </p>
 
                     <p>
-                        <input type="checkbox" name="accettoTermini" value="false" />
-                        Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali
-                        ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
+                        <input type="checkbox" name="accettoTermini" value="false" /> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
                     </p>
 
                     <p>
