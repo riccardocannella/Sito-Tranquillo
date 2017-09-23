@@ -33,12 +33,10 @@ angular.module('modificaProdotti').component('modificaProdotti', {
                         // valida
                         // magari dovrei fare in modo che la vecchia immagine venga cancellata?
                         modificaProdotti.prodotto.urlImmagine = resp.data.nomeFile;
-                        modificaProdotti.eseguiPut();
                     }
                 });
-            } else {
-                modificaProdotti.eseguiPut();
             }
+            modificaProdotti.eseguiPut();
         }
     }
 });
