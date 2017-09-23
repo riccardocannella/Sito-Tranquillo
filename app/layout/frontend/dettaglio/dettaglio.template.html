@@ -18,7 +18,7 @@
     <div class="wrapper ">
         <div class="margin-top-2 w3-cell-row">
             <picture class="w3-container w3-cell w3-mobile photo-dettaglio m6">
-                <img class="w3-animate-fading" src="http://img4.hostingpics.net/pics/279657basket.png" />
+                <img class="w3-animate-fading" src="../../../images/uploads/{{$ctrl.prodotto.urlImmagine}}" />
             </picture>
             <div class="w3-mobile w3-cell m6">
                 <p class="w3-container">
@@ -61,7 +61,7 @@
                     <!-- BOZZA DI RICCARDO EVENTUALMENTE DA STILIZZARE -->
                     <ul>
                         <li>Peso: {{$ctrl.prodotto.specifiche.peso}} kg</li>
-                        <li>Dimensioni: {{$ctrl.prodotto.specifiche.dimensioni.lunghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.profondita}}x{{$ctrl.prodotto.specifiche.dimensioni.altezza}}</li>
+                        <li>Dimensioni: {{$ctrl.prodotto.specifiche.dimensioni.lunghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.larghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.altezza}}</li>
                         <li>Colore: {{$ctrl.prodotto.specifiche.colore}}</li>
                     </ul>
                     <!-- FINE BOZZA -->
