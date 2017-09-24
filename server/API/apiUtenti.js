@@ -263,3 +263,67 @@ exports.richiestaRecuperoPassword = function(req,res){
     });
 };
 
+ /*--------------------------------------------------------------
+|    Funzione: aggiungiAlCarrello()                             |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|        prodotto : _id del prodotto immesso                    |
+|        quantita : quantità di prodotti                        |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+exports.aggiungiAlCarrello = function(req, res){
+    console.log("POST aggiungi al carrello");
+
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err){
+            return utilities.handleError(res,err,'Token non valido o scaduto.');   
+        } else {
+
+        
+            // Token valido
+            console.log('Token valido');
+            var utenteID = decoded.utenteID;
+            Prodotto.findById(req.body.prodotto)
+            .then(function(prodotto){
+                // Trovato, quindi controllo se è possibile mettere il prodtto nel carrello
+                if(!req.body.quantita){ // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
+                    return utilities.handleError(res,err,'Devi inserire una quantità per il prodotto richiesto');
+                }
+                if(prodotto.giacenza < req.body.quantita){
+                    return utilities.handleError(res,err,'Hai richiesto più prodotti di quanto disponibile');
+                } else { // Cerco l'utente che ha fatto la richiesta e aggiungo il prodotto al suo carrello
+                    Utente.findByIdAndUpdate(utenteID, // Aggiungo al carrello
+                        { $push : {"carrello.prodotti":{
+                            
+                            nome: prodotto.nome,
+                            prezzo: prodotto.prezzo,
+                            descrizioneBreve: prodotto.descrizioneBreve,
+                            quantita: req.body.quantita,
+                            _id: prodotto._id
+                        }} 
+                    },
+                    {upsert:true})
+                    .then(function(){
+                        // Richiesta andata a buon fine, restituisco il successo positivo ed il carrello
+                        return res.status(201).json({'successo':true});
+                    })
+                    .catch(function(err){
+                        // Errore 
+                        return utilities.handleError(res,err,'Impossibile aggiungere il prodotto richiesto al carrello');                    
+                    })
+
+                }
+            })
+            .catch(function(err){
+                return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto');            
+            });
+        }
+    });
+}
