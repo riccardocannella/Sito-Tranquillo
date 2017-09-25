@@ -25,18 +25,27 @@ angular.module('modificaProdotti').component('modificaProdotti', {
         };
         modificaProdotti.aggiornaProdotto = function() {
             if (modificaProdotti.immagine) {
-                Upload.upload({
-                    url: '/api/v1.0/immagini',
-                    data: { file: modificaProdotti.immagine }
-                }).then(function(resp) {
-                    if (resp.data.error_code === 0) {
-                        // valida
-                        // magari dovrei fare in modo che la vecchia immagine venga cancellata?
-                        modificaProdotti.prodotto.urlImmagine = resp.data.nomeFile;
-                    }
+                var vecchioURLImmagine = modificaProdotti.prodotto.urlImmagine;
+                // dato che si sta cambiando l'immagine elimino la vecchia
+                $http.delete('api/v1.0/immagini/' + vecchioURLImmagine).then(function(resp1) {
+                    // sia se non esisteva il vecchio file, sia se esisteva, carico la nuova immagine
+                    var nuovoURLImmagine;
+                    Upload.upload({
+                        url: '/api/v1.0/immagini',
+                        data: { file: modificaProdotti.immagine }
+                    }).then(function(resp2) {
+                        if (resp2.data.error_code === 0) {
+                            // immagine caricata
+                            nuovoURLImmagine = resp2.data.nomeFile;
+                            // sia se non esisteva il file, sia se esisteva,
+                            // cambio l'url contenuto nel prodotto
+                            modificaProdotti.prodotto.urlImmagine = nuovoURLImmagine;
+                            modificaProdotti.eseguiPut();
+                        }
+                    });
                 });
-            }
-            modificaProdotti.eseguiPut();
+            } else
+                modificaProdotti.eseguiPut();
         }
     }
 });
