@@ -451,8 +451,16 @@ exports.aggiungiAlCarrello = function(req, res){
                         Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato){
                             if(!err){ // Codice plausibile 
                                 if(prodottoTrovato == null){ // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
-                                    
-                                    return utilities.handleError(res,err,'Prodotto non trovato nel database dei prodotti');
+                                    // Quindi rimuovo l'oggetto dal carrello che non esiste più
+                                    Utente.findByIdAndUpdate(utenteID,{
+                                        $pull:{"carrello.prodotti":{ _id: utenteTrovato.carrello.prodotti[found_index]._id}}
+                                    }, function(err){
+                                        if(!err){
+                                             res.status(201).json({'successo':true,'messaggio':'Oggetto non più esistente nel database, quindi eliminato'});
+                                        } else {
+                                             return utilities.handleError(res,err,'Errore durante la rimozione dello oggetto nel carrello');
+                                        }
+                                    });
                                 } else {
                                     // Prodotto trovato
                 
@@ -503,7 +511,16 @@ exports.aggiungiAlCarrello = function(req, res){
                                     
                                 }
                             } else {
-                                
+                                // Quindi rimuovo l'oggetto dal carrello che non esiste più
+                                Utente.findByIdAndUpdate(utenteID,{
+                                    $pull:{"carrello.prodotti":{ _id: utenteTrovato.carrello.prodotti[found_index]._id}}
+                                }, function(err){
+                                    if(!err){
+                                         res.status(201).json({'successo':true,'messaggio':'Oggetto non più esistente nel database, quindi eliminato'});
+                                    } else {
+                                         return utilities.handleError(res,err,'Errore durante la rimozione dello oggetto nel carrello');
+                                    }
+                                });
                                 return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto');
                             }
                         });
