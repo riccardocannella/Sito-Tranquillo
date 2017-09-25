@@ -1,6 +1,7 @@
 'use strict';
 
 var multer = require('multer');
+var fs = require('fs');
 // Importo funzioni utili in generale
 var utilities = require('../utilities/utilities');
 /**
@@ -42,7 +43,6 @@ exports.caricaImmagine = function(req, res) {
 };
 exports.getImmagine = function(req, res) {
     console.log('GET immagine');
-    var fs = require('fs');
     fs.stat(PERCORSO_UPLOADS + req.params.nome, function(err, stat) {
         if (err == null) {
             console.log('File exists');
@@ -53,6 +53,24 @@ exports.getImmagine = function(req, res) {
             res.json({ error: 1, error_message: 'Il file richiesto non esiste', nomeFile: req.params.nome });
         } else {
             console.log('Some other error: ', err.code);
+            res.json({ error: 1, error_message: 'Errore sconosciuto', nomeFile: req.params.nome });
         }
+    });
+};
+exports.eliminaImmagine = function(req, res) {
+    console.log('ELIMINA IMMAGINE');
+    // dò per scontato che esiste
+    fs.unlink(PERCORSO_UPLOADS + req.params.nome, function(err) {
+        if (err == null)
+        // il file esiste, l'ho già eliminato, ritorno un json per confermare
+            res.json({ error: 0, error_message: '', nomeFile: req.params.nome });
+        else if (err.code === 'ENOENT') {
+            // il file non esiste
+            res.json({ error: 1, error_message: 'Il file non esiste', nomeFile: req.params.nome });
+        } else {
+            console.log('Some other error: ', err.code);
+            res.json({ error: 1, error_message: 'Errore sconosciuto', nomeFile: req.params.nome });
+        }
+
     });
 };

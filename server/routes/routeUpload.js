@@ -5,5 +5,6 @@ module.exports = function(app) {
     app.route('/api/v1.0/upload')
         .post(apiUpload.caricaImmagine);
     app.route('/api/v1.0/upload/:nome')
-        .get(apiUpload.getImmagine);
+        .get(apiUpload.getImmagine)
+        .delete(apiUpload.eliminaImmagine);
 };
