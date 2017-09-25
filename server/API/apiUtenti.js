@@ -303,7 +303,7 @@ exports.aggiungiAlCarrello = function(req, res){
                 if(!err){ // Trovato
                     Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato){
                         
-                        if(!err){ // Trovato
+                        if(!err){ // Codice plausibile 
 
                             if(prodottoTrovato == null){ // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
                                 return utilities.handleError(res,err,'Prodotto non trovato');
