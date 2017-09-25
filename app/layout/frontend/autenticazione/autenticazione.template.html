@@ -16,9 +16,8 @@
             
             <div class="w3-container pa-15 w3-light-grey">
                 
-                <form class="" method="post" action="#esegui le operazioni di login.non lo so">
-                    <!--method e action - Se queste proprietà vengono omesse, il contenuto della form sarà inviato all’URL corrente attraverso il metodo POST
-        -->
+                <form method="post" action="/api/v1.0/utenti/login">
+                   
                     <p class="w3-margin-top">
                         <label for="email" required>Email:</label>
                         <input class="w3-input w3-border" name="indirizzo email" type="email" id="email" required>
@@ -47,7 +46,7 @@
             </div>
             
             <div class="w3-container pa-15 w3-light-grey">
-                <form class="" method="post" action="#esegui le operazioni di login.non lo so">
+                <form method="post" action="/api/v1.0/utenti/registrazione">
                     <!--method e action - Se queste proprietà vengono omesse, il contenuto della form sarà inviato all’URL corrente attraverso il metodo POST
                     -->
                     <p class="w3-margin-top">
@@ -93,6 +92,13 @@
                             </select>
                         </label>
                     </p>
+
+                    <p class="w3-margin-top">
+                        <label for="Nome" required>Comune:</label>
+                        <input class="w3-input w3-border" type="text" name="comune" id="comune" placeholder="Apiro"
+                        pattern="[A-Z][a-z]{2,20}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 20." required/>
+                    </p>
+
                     <p class="w3-margin-top">
                         <label for="telefono" required>Telefono</label>
                         <!-- pattern pensato solo per numeri italiani di cellulare o fisso e cmq non troppo specifico nel prefisso -->
@@ -108,7 +114,19 @@
 
                     <p class="w3-margin-top">
                         <label for="password">Conferma Password:</label>
-                        <input class="w3-input w3-border w3-round" name="confermapassword" type="confirm-password" id="confirm-password" placeholder="Conferma Password" required/>
+                        <input class="w3-input w3-border w3-round" name="conferma-password" type="password" id="conferma-password" placeholder="Conferma Password" required/>
+                    </p>
+                    
+                    <p class="w3-margin-top">
+                        <label for="Nome" required>Domanda segreta:</label>
+                        <input class="w3-input w3-border" type="text" name="domanda_segreta" id="domanda_segreta" placeholder="Qual'è il mio sistema operativo preferito"
+                        pattern="[A-Za-z0-9ñÑáéíóúüòàèù'.-.*\s]{5,50}" title="Non inserire punti interrogativi o altri caratteri speciali" required/>
+                    </p>
+
+                    <p class="w3-margin-top">
+                        <label for="Cognome" required>Risposta segreta:</label>
+                        <input class="w3-input w3-border" name="risposta_segreta" type="text" id="risposta_segreta" placeholder="Windows Vista"
+                        pattern="[A-Za-z0-9ñÑáéíóúüòàèù'.*\s]{5,50}" title="non inserire punti esclamativi o altri caratteri speciali"/ required>
                     </p>
 
                     <p class="w3-container w3-border w3-margin-top">
