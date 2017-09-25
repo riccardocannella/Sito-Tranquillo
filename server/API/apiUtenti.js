@@ -295,6 +295,10 @@ exports.aggiungiAlCarrello = function(req, res){
             } else {
                 quantitaRichiesta = parseInt(req.body.quantita); // CONVERTIRE SEMPRE IN INT LE RICHIESTE DESIDERATE IN FORMA NUMERICA
             }
+
+            if(!req.body.prodotto){ // Controllo se la richiesta ha un prodotto
+                return utilities.handleError(res,err,'Devi inserire un codice prodotto');
+            }
         
             
             var utenteID = decoded.utenteID;
@@ -389,9 +393,129 @@ exports.aggiungiAlCarrello = function(req, res){
                         }
                     });
                 } else { // Utente non trovato
-                    return utilities.handleError(res,err,'Errore durante il ritrovamento dello utente'); 
+                    return utilities.handleError(res,err,'Errore durante il ritrovamento dello utente');
                 }
             });
         }
     });
 }
+
+ /*--------------------------------------------------------------
+|    Funzione: rimuoviDalCarrello()                             |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|        prodotto : _id del prodotto da rimuovere               |
+|        quantita : quantità di prodotto da togliere            |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+ exports.rimuoviDalCarrello = function(req,res){
+    console.log("POST rimuovi dal carrello");
+
+    // Controllo il token della richiesta
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err){
+            return utilities.handleError(res,err,'Token non valido o scaduto.');
+        } else {
+
+            var quantitaRichiesta;
+            var utenteID = decoded.utenteID; // Salvo l'id dell'utente
+
+            if(!req.body.quantita || req.body.quantita <= 0){ // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
+                return utilities.handleError(res,err,'Devi inserire una quantità ( maggiore di 0 ) per il prodotto richiesto');
+            } else {
+                quantitaRichiesta = parseInt(req.body.quantita); // CONVERTIRE SEMPRE IN INT LE RICHIESTE DESIDERATE IN FORMA NUMERICA
+            }
+
+            if(!req.body.prodotto){ // Controllo se la richiesta ha un prodotto
+                return utilities.handleError(res,err,'Devi inserire un codice prodotto');
+            }
+
+            // Superati i controlli procedo con la funzione
+            Utente.findById(utenteID, function(err, utenteTrovato){
+                if(!err) { // Trovato
+                    var found_index = -1;
+                    for(var i = 0; i < utenteTrovato.carrello.prodotti.length; i++){
+                        if(utenteTrovato.carrello.prodotti[i]._id.equals(req.body.prodotto)){
+                            found_index = i;
+                            break;
+                        }
+                    }
+
+                    if(found_index != -1){ // Prodotto trovato nel carrello dell'utente
+                        Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato){
+                            if(!err){ // Codice plausibile 
+                                if(prodottoTrovato == null){ // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
+                                    
+                                    return utilities.handleError(res,err,'Prodotto non trovato nel database dei prodotti');
+                                } else {
+                                    // Prodotto trovato
+                
+                                    // Controllo la quantità da togliere e a seconda dei casi mi comporto di conseguenza
+                                    if(utenteTrovato.carrello.prodotti[found_index].quantita > quantitaRichiesta){
+                                        
+                                        //Tolgo l'impegno dal carrello
+                                        prodottoTrovato.impegnoInCarrelli -= quantitaRichiesta;
+                                        
+                                        prodottoTrovato.save(function(err){
+                                            if(!err){
+                                                utenteTrovato.carrello.prodotti[found_index].quantita -= quantitaRichiesta;
+
+                                                utenteTrovato.save(function(err){
+                                                    if(!err){
+                                                        res.status(201).json({'successo':true});
+                                                    } else {
+                                                        return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                                    }
+                                                });
+                                            } else {
+                                                return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                            }
+                                        });
+                                    } else if(utenteTrovato.carrello.prodotti[found_index].quantita == quantitaRichiesta) { // Rimossi tutte le unità
+                                        prodottoTrovato.impegnoInCarrelli -= quantitaRichiesta;
+
+
+                                        prodottoTrovato.save(function(err){
+                                            if(!err){
+                                               // Elimino il prodotto dal carrello
+                                               Utente.findByIdAndUpdate(utenteID,{
+                                                   $pull:{"carrello.prodotti":{ _id: prodottoTrovato._id}}
+                                               }, function(err){
+                                                   if(!err){
+                                                        res.status(201).json({'successo':true});
+                                                   } else {
+                                                        return utilities.handleError(res,err,'Errore durante la rimozione dello oggetto nel carrello');
+                                                   }
+                                               });
+                                            } else {
+                                                return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                            }
+                                        });
+                                    } else { // Si è cercato di rimuovere più di quanto ci fosse nel carrello
+                                        return utilities.handleError(res,err,'Quantità richiesta superiore al numero di oggetti nel carrello');
+                                    }
+                                    
+                                }
+                            } else {
+                                
+                                return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto');
+                            }
+                        });
+
+                    } else { // prodotto non trovato nel carrello
+                        return utilities.handleError(res,err,'Lo utente non ha questo prodotto');
+                    }
+                } else {
+                    return utilities.handleError(res,err,'Errore durante il ritrovamento dello utente');
+                }
+            });
+        } 
+    });
+
+ }

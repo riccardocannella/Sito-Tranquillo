@@ -17,4 +17,7 @@ module.exports = function(app, db) {
     
     app.route('/api/v1.0/utenti/aggiungialcarrello')
         .post(apiUtenti.aggiungiAlCarrello);
+    
+    app.route('/api/v1.0/utenti/rimuovidalcarrello')
+        .post(apiUtenti.rimuoviDalCarrello);
 };
