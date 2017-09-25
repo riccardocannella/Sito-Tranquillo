@@ -1,7 +1,7 @@
 // Registra il componente 'modificaProdotti' sul modulo 'modificaProdotti'
 angular.module('modificaProdotti').component('modificaProdotti', {
     templateUrl: 'layout/backend/modificaProdotti/modificaProdotti.template.html',
-    controller: function($http, $location, $routeParams) {
+    controller: function(Upload, $http, $location, $routeParams) {
         var modificaProdotti = this;
         var id = $routeParams.id;
         var prodottoOrig;
@@ -12,8 +12,8 @@ angular.module('modificaProdotti').component('modificaProdotti', {
         });
         modificaProdotti.reset = function() {
             modificaProdotti.prodotto = angular.copy(prodottoOrig);
-        }
-        modificaProdotti.aggiornaProdotto = function() {
+        };
+        modificaProdotti.eseguiPut = function() {
             $http.put('api/v1.0/prodotti/' + id, modificaProdotti.prodotto).then(
                 function(res) {
                     $location.path('');
@@ -23,5 +23,20 @@ angular.module('modificaProdotti').component('modificaProdotti', {
                 }
             )
         };
+        modificaProdotti.aggiornaProdotto = function() {
+            if (modificaProdotti.immagine) {
+                Upload.upload({
+                    url: '/api/v1.0/upload',
+                    data: { file: modificaProdotti.immagine }
+                }).then(function(resp) {
+                    if (resp.data.error_code === 0) {
+                        // valida
+                        // magari dovrei fare in modo che la vecchia immagine venga cancellata?
+                        modificaProdotti.prodotto.urlImmagine = resp.data.nomeFile;
+                    }
+                });
+            }
+            modificaProdotti.eseguiPut();
+        }
     }
 });

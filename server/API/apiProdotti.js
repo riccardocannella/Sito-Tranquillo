@@ -46,7 +46,7 @@ exports.listaProdotti = function(req, res) {
 */
 exports.creaProdotto = function(req, res) {
     console.log("POST prodotti");
-
+    console.log(req.body);
     //var nuovoProdotto = req.body;
     var nuovoProdotto = new Prodotto({
         nome: req.body.nome,
@@ -55,7 +55,9 @@ exports.creaProdotto = function(req, res) {
         impegnoInCarrelli: req.body.impegnoInCarrelli,
         impegnoInPagamento: req.body.impegnoInPagamento,
         descrizioneBreve: req.body.descrizioneBreve,
-        descrizioneLunga: req.body.descrizioneLunga
+        descrizioneLunga: req.body.descrizioneLunga,
+        urlImmagine: req.body.urlImmagine,
+        specifiche: req.body.specifiche
     });
 
     nuovoProdotto.save(function(err) {
