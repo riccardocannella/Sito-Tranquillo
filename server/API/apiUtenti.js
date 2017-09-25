@@ -286,43 +286,110 @@ exports.aggiungiAlCarrello = function(req, res){
             return utilities.handleError(res,err,'Token non valido o scaduto.');   
         } else {
 
-        
             // Token valido
             console.log('Token valido');
-            var utenteID = decoded.utenteID;
-            Prodotto.findById(req.body.prodotto)
-            .then(function(prodotto){
-                // Trovato, quindi controllo se è possibile mettere il prodtto nel carrello
-                if(!req.body.quantita){ // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
-                    return utilities.handleError(res,err,'Devi inserire una quantità per il prodotto richiesto');
-                }
-                if(prodotto.giacenza < req.body.quantita){
-                    return utilities.handleError(res,err,'Hai richiesto più prodotti di quanto disponibile');
-                } else { // Cerco l'utente che ha fatto la richiesta e aggiungo il prodotto al suo carrello
-                    Utente.findByIdAndUpdate(utenteID, // Aggiungo al carrello
-                        { $push : {"carrello.prodotti":{
-                            
-                            nome: prodotto.nome,
-                            prezzo: prodotto.prezzo,
-                            descrizioneBreve: prodotto.descrizioneBreve,
-                            quantita: req.body.quantita,
-                            _id: prodotto._id
-                        }} 
-                    },
-                    {upsert:true})
-                    .then(function(){
-                        // Richiesta andata a buon fine, restituisco il successo positivo ed il carrello
-                        return res.status(201).json({'successo':true});
-                    })
-                    .catch(function(err){
-                        // Errore 
-                        return utilities.handleError(res,err,'Impossibile aggiungere il prodotto richiesto al carrello');                    
-                    })
+            var quantitaRichiesta;
 
+            if(!req.body.quantita || req.body.quantita <= 0){ // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
+                return utilities.handleError(res,err,'Devi inserire una quantità ( maggiore di 0 ) per il prodotto richiesto');
+            } else {
+                quantitaRichiesta = parseInt(req.body.quantita); // CONVERTIRE SEMPRE IN INT LE RICHIESTE DESIDERATE IN FORMA NUMERICA
+            }
+        
+            
+            var utenteID = decoded.utenteID;
+
+            Utente.findById(utenteID, function(err, utenteTrovato){
+                if(!err){ // Trovato
+                    Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato){
+                        
+                        if(!err){ // Trovato
+
+                            if(prodottoTrovato == null){ // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
+                                return utilities.handleError(res,err,'Prodotto non trovato');
+                            }
+                            
+                            var found_index = -1; // -1 indica non trovato, valore di default
+                            for(var i = 0; i < utenteTrovato.carrello.prodotti.length; i++){
+                                 if(utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)){ // Java sei tu?
+                                    found_index = i;
+                                    break;
+                                };
+                            }
+                            if(found_index == -1){
+                                
+                                // Aggiungo il nuovo prodotto al carrello
+                                if(prodottoTrovato.giacenza < prodottoTrovato.impegnoInCarrelli + quantitaRichiesta + prodottoTrovato.impegnoInPagamento){ // Giacenza minore della richiesta
+                                    return utilities.handleError(res,err,'Hai richiesto più prodotti di quanto disponibile');
+                                } else {// Quantità ok
+                                    Utente.findByIdAndUpdate(utenteID, // Aggiungo al carrello
+                                        { $push : {"carrello.prodotti":{
+                                            
+                                            nome: prodottoTrovato.nome,
+                                            prezzo: prodottoTrovato.prezzo,
+                                            descrizioneBreve: prodottoTrovato.descrizioneBreve,
+                                            quantita: quantitaRichiesta,
+                                            _id: prodottoTrovato._id
+                                        }} 
+                                    },{upsert:true}, function(err){
+                                        if(!err){ // Aggiungo il prodotto
+                                            // Aggiorno l'impegno in carrello del prodotto
+                                            prodottoTrovato.impegnoInCarrelli += quantitaRichiesta;
+
+                                            prodottoTrovato.save(function(err){
+                                                if(!err){
+                                                    res.status(201).json({'successo':true});
+                                                } else {
+                                                    return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                                    
+                                                }
+                                            });
+                                        } else { // Errore nell'aggiungere il prodotto al carrello
+                                            return utilities.handleError(res,err,'Impossibile aggiungere il prodotto richiesto al carrello');
+                                        }
+                                    });
+                                    
+                                }
+                            } else { // Trovato un indice quindi modifico la quantità già presente nel carrello
+                                if(prodottoTrovato.giacenza < prodottoTrovato.impegnoInCarrelli + quantitaRichiesta + prodottoTrovato.impegnoInPagamento){ // Giacenza minore della richiesta
+                                    return utilities.handleError(res,err,'Hai richiesto più prodotti di quanto disponibile');
+                                } else { // Aggiorno carrello e impegnoincarrello
+                                    
+                                    // Aggiorno l'impegno in carrello del prodotto
+                                    prodottoTrovato.impegnoInCarrelli += quantitaRichiesta;
+                                    
+                                    // Salvo nel db
+                                    prodottoTrovato.save(function(err){
+                                        if(!err){
+                                            // Aggiorno la quantità nel carrello
+                                            utenteTrovato.carrello.prodotti[found_index].quantita += quantitaRichiesta;
+
+                                            // Salvo nel db
+                                            utenteTrovato.save(function(err){
+                                                if(!err){
+                                                    res.status(201).json({'successo':true});
+                                                } else {
+                                                    return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                                }
+                                            });
+                                        } else {
+                                            return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                            
+                                        }
+                                    });
+                                    
+                                }
+                                
+                            }
+
+                                                        
+                        } else { // Prodotto non trovato
+                            return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto'); 
+                        }
+                    });
+                } else { // Utente non trovato
+                    return utilities.handleError(res,err,'Errore durante il ritrovamento dello utente'); 
                 }
-            })
-            .catch(function(err){
-                return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto');            
             });
         }
     });
