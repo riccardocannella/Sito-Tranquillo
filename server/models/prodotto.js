@@ -50,6 +50,33 @@ var ProdottoSchema = new Schema({
     descrizioneLunga: {
         type: String,
         required: [true, 'Inserisci una descrizione lunga']
+    },
+    specifiche: {
+        peso: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+        dimensioni: {
+            larghezza: {
+                type: Number,
+                default: 0,
+                min: 0
+            },
+            altezza: {
+                type: Number,
+                default: 0,
+                min: 0
+            },
+            profondita: {
+                type: Number,
+                default: 0,
+                min: 0
+            }
+        },
+        colore: {
+            type: String
+        }
     }
 });
 

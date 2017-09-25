@@ -16,8 +16,8 @@ dove opzioniEmail è un oggetto JSON formato così:
     html: '<h3>Ciao</h3>' // email HTML
     }
 
-L'indirizzo email usato per l'invio nel primo caso è quello accademico di Riccardo Cannella, ovvero
-riccardo.cannella@studenti.unicam.it
+L'indirizzo email usato per l'invio nel primo caso è quello del gruppo dei developer (creato ad hoc per il progetto) , ovvero
+mail.sitotranquillo@gmail.com
 Eventualmente basta cambiare i settaggi nel transporter
 
 Un futuro lavoro potrebbe essere quello di fare in modo che anche il
@@ -29,11 +29,12 @@ const nodemailer = require('nodemailer');
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com', // USO L'ACCOUNT ACCADEMICO
-    port: 587,
-    secure: false, // secure:true for port 465, secure:false for port 587
+    //port: 587,
+    port:465,
+    secure: true, // secure:true for port 465, secure:false for port 587
     auth: {
-        user: 'riccardo.cannella@studenti.unicam.it',
-        pass: 'XXXXXX'
+        user: 'mail.sitotranquillo@gmail.com',
+        pass: 'sitotranquillo2017andreacorradomichelericcardo'
     }
 });
 exports.inviaEmail = function(opzioniEmail) {
@@ -56,7 +57,7 @@ exports.inviaEmail = function(nome, cognome, emailDestinatario, oggetto, corpoIn
     }
     */
     var opzioniEmail = {
-        from: '"Sito Tranquillo" <riccardo.cannella@studenti.unicam.it>',
+        from: '"Sito Tranquillo" <mail.sitotranquillo@gmail.com>',
         to: emailDestinatario,
         subject: oggetto,
         html: corpoInHtml
