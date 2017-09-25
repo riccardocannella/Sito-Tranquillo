@@ -36,8 +36,23 @@ exports.caricaImmagine = function(req, res) {
     upload(req, res, function(err) {
         if (err) {
             res.json({ error_code: 1, err_desc: err });
-            return utilities.handleError(res, err, '');
         }
         res.json({ error_code: 0, err_desc: null, nomeFile: req.file.filename });
+    });
+};
+exports.getImmagine = function(req, res) {
+    console.log('GET immagine');
+    var fs = require('fs');
+    fs.stat(PERCORSO_UPLOADS + req.params.nome, function(err, stat) {
+        if (err == null) {
+            console.log('File exists');
+            res.json({ error: 0, error_message: '', nomeFile: req.params.nome });
+        } else if (err.code == 'ENOENT') {
+            // file does not exist
+            console.log('File does not exist');
+            res.json({ error: 1, error_message: 'Il file richiesto non esiste', nomeFile: req.params.nome });
+        } else {
+            console.log('Some other error: ', err.code);
+        }
     });
 };

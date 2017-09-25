@@ -4,4 +4,6 @@ module.exports = function(app) {
     // Api del caricamento delle immagini
     app.route('/api/v1.0/upload')
         .post(apiUpload.caricaImmagine);
+    app.route('/api/v1.0/upload/:nome')
+        .get(apiUpload.getImmagine);
 };
