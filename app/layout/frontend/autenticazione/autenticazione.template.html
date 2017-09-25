@@ -93,11 +93,12 @@
                         </label>
                     </p>
 
-                    <p class="w3-margin-top">
+                    <p ng-show="country == 'Italy'" class="w3-margin-top">
                         <label for="Nome" required>Comune:</label>
                         <input class="w3-input w3-border" type="text" name="comune" id="comune" placeholder="Apiro"
                         pattern="[A-Z][a-z]{2,20}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 20." required/>
                     </p>
+                    <!-- FINE GESTIONE STATO E PROVINCE -->
 
                     <p class="w3-margin-top">
                         <label for="telefono" required>Telefono</label>
@@ -114,7 +115,7 @@
 
                     <p class="w3-margin-top">
                         <label for="password">Conferma Password:</label>
-                        <input class="w3-input w3-border w3-round" name="conferma-password" type="password" id="conferma-password" placeholder="Conferma Password" required/>
+                        <input class="w3-input w3-border w3-round" name="conferma-password" type="password" id="conferma-password" placeholder="Dovo davvero dirti cosa ci va qui?" required/>
                     </p>
                     
                     <p class="w3-margin-top">
