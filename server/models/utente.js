@@ -43,7 +43,8 @@ var UtenteSchema = new Schema({
             nome : String,
             prezzo : Number,
             descrizioneBreve: String,
-            quantita : Number
+            quantita : Number,
+            urlImmagine : String
         }]
     }
 });

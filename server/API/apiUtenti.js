@@ -329,6 +329,7 @@ exports.aggiungiAlCarrello = function(req, res){
                                             prezzo: prodottoTrovato.prezzo,
                                             descrizioneBreve: prodottoTrovato.descrizioneBreve,
                                             quantita: quantitaRichiesta,
+                                            urlImmagine : prodottoTrovato.urlImmagine,
                                             _id: prodottoTrovato._id
                                         }} 
                                     },{upsert:true}, function(err){
