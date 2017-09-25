@@ -21,12 +21,12 @@
         -->
                     <p class="w3-margin-top">
                         <label for="email" required>Email:</label>
-                        <input class="w3-input w3-border" name="indirizzo email" type="email" id="email">
+                        <input class="w3-input w3-border" name="indirizzo email" type="email" id="email" required>
                     </p>
 
                     <p class="w3-margin-top">
                         <label for="password">Password:</label>
-                        <input class="w3-input w3-border" name="password" type="password" id="password">
+                        <input class="w3-input w3-border" name="login-password" type="password" id="login-password" required>
                     </p>
 
                     <p>
@@ -53,32 +53,32 @@
                     <p class="w3-margin-top">
                         <label for="Nome" required>Nome:</label>
                         <input class="w3-input w3-border" type="text" name="nome" id="nome" placeholder="Antonio"
-                        pattern="[A-Z][a-z]{2,10}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 10."/>
+                        pattern="[A-Z][a-z]{2,10}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 10." required/>
                     </p>
 
                     <p class="w3-margin-top">
                         <label for="Cognome" required>Cognome:</label>
                         <input class="w3-input w3-border" name="cognome" type="text" id="cognome" placeholder="Zappalavigna"
-                        pattern="[A-Z][a-z]{2,15}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 15."/>
+                        pattern="[A-Z][a-z]{2,15}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 15."/ required>
                     </p>
 
                     <p class="w3-margin-top">
                         <label for="email" required>Email:</label>
                         <input class="w3-input w3-border" name="email" type="email" id="email" placeholder="richard@stallman.org" 
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,13}$" title="Mail non valida."/>
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,13}$" title="Mail non valida."/ required>
                     </p>
 
                     <p class="w3-margin-top">
                         <label for="address" required>Indirizzo:</label>
                         <input class="w3-input w3-border" name="indirizzo" type="text" id="indirizzo" placeholder="Via Federico Confalonieri 4"
-                        pattern="[A-Za-z0-9'\.\-\s\,]" title="Indirizzo non valido"/>
+                        pattern="[A-Za-z0-9'.-.*\s]{5,50}" title="Lettere, numeri, - , . "/ required>
                     </p>
 
                     <!-- GESTIONE STATO E PROVINCE -->
                     <p class="w3-margin-top">
                         <label for="state" required>Stato:
                      
-                            <select class="w3-input w3-border w3-round" ng-model="country"/>
+                            <select class="w3-input w3-border w3-round" ng-model="country"/ required>
                             <option default>Italy</option>
                                 <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
                             </select>
@@ -88,7 +88,7 @@
                     <p ng-show="country == 'Italy'" class="w3-margin-top">
                         <label for="province" required>Provincia:
                         
-                         <select class="w3-input w3-border w3-round" ng-model="province"/>
+                         <select class="w3-input w3-border w3-round" ng-model="province"/ required>
                                 <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
                             </select>
                         </label>
@@ -97,7 +97,7 @@
                         <label for="telefono" required>Telefono</label>
                         <!-- pattern pensato solo per numeri italiani di cellulare o fisso e cmq non troppo specifico nel prefisso -->
                         <input class="w3-input w3-border w3-round" type="tel" id="telefono" name="telefono" placeholder="0238591444"
-                        pattern="[03][0-9]{9}" title="numero non valido"/>
+                        pattern="[03][0-9]{9}" title="Massimo 10 cifre"/ required>
                     </p>
 
                     <p class="w3-margin-top">
@@ -108,7 +108,7 @@
 
                     <p class="w3-margin-top">
                         <label for="password">Conferma Password:</label>
-                        <input class="w3-input w3-border w3-round" name="confermapassword" type="password" id="password" placeholder="Conferma Password"/>
+                        <input class="w3-input w3-border w3-round" name="confermapassword" type="confirm-password" id="confirm-password" placeholder="Conferma Password" required/>
                     </p>
 
                     <p class="w3-container w3-border w3-margin-top">
