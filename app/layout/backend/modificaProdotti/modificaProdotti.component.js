@@ -26,7 +26,7 @@ angular.module('modificaProdotti').component('modificaProdotti', {
         modificaProdotti.aggiornaProdotto = function() {
             if (modificaProdotti.immagine) {
                 Upload.upload({
-                    url: '/api/v1.0/upload',
+                    url: '/api/v1.0/immagini',
                     data: { file: modificaProdotti.immagine }
                 }).then(function(resp) {
                     if (resp.data.error_code === 0) {

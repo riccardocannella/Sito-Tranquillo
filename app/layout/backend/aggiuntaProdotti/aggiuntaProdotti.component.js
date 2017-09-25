@@ -8,7 +8,7 @@ angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
             // intanto controllo se c'è
             if (aggiuntaProdotto.immagine) {
                 Upload.upload({
-                    url: '/api/v1.0/upload',
+                    url: '/api/v1.0/immagini',
                     data: { file: aggiuntaProdotto.immagine }
                 }).then(function(resp) {
                     if (resp.data.error_code === 0) {
