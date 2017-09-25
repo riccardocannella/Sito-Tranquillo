@@ -10,7 +10,8 @@
         <form class="">
             <li class="w3-padding">
                 <label class="w3-text-blue"><b>Ricerca:</b>
-        <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
+        <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" pattern="[^'\x22]+" title="Invalid input"
+            placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
         </label>
             </li>
         </form>
