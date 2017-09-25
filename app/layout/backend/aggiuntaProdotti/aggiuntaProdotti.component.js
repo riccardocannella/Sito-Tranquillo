@@ -11,7 +11,7 @@ angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
                     url: '/api/v1.0/immagini',
                     data: { file: aggiuntaProdotto.immagine }
                 }).then(function(resp) {
-                    if (resp.data.error_code === 0) {
+                    if (!resp.data.errore) {
                         // valida
                         aggiuntaProdotto.prodotto.urlImmagine = resp.data.nomeFile;
                         $http.post('api/v1.0/prodotti', aggiuntaProdotto.prodotto).then(
@@ -22,6 +22,7 @@ angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
                     } else {
                         // errore
                         console.log('errore nell\'invio dell\'immagine');
+                        console.log(resp);
                     }
                 }, function(resp) {
                     console.log('Error status: ' + resp.status);

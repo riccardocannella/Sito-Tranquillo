@@ -34,7 +34,7 @@ angular.module('modificaProdotti').component('modificaProdotti', {
                         url: '/api/v1.0/immagini',
                         data: { file: modificaProdotti.immagine }
                     }).then(function(resp2) {
-                        if (resp2.data.error_code === 0) {
+                        if (!resp2.data.errore) {
                             // immagine caricata
                             nuovoURLImmagine = resp2.data.nomeFile;
                             // sia se non esisteva il file, sia se esisteva,
