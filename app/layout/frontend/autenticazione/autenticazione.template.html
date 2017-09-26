@@ -17,21 +17,23 @@
 
             <div class="w3-container pa-15 w3-light-grey">
 
-                <form method="post" action="/api/v1.0/utenti/login">
+                <form>
 
                     <p class="w3-margin-top">
-                        <label for="email" required>Email:</label>
-                        <input class="w3-input w3-border" name="indirizzo email" type="email" id="email" required>
+                        <label for="username" required>Username:</label>
+                        <input ng-model="username" class="w3-input w3-border" name="username" id="email" required>
                     </p>
 
                     <p class="w3-margin-top">
                         <label for="password">Password:</label>
-                        <input class="w3-input w3-border" name="login-password" type="password" id="login-password" required>
+                        <input ng-model="password" class="w3-input w3-border" name="login-password" type="password" id="login-password" required>
                     </p>
 
                     <p>
-                        <input class="w3-button button-login w3-red" name="login" id="login" type="submit" value="login" />
+                        <!-- <input ng-click="login()" class="w3-button button-login w3-red" /> -->
+                        <button ng-click="login()" class="w3-button w3-red ">Accedi</button>
                     </p>
+
                 </form>
             </div>
         </div>
