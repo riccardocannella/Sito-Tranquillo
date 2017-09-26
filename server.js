@@ -38,6 +38,9 @@ mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) 
     db = database;
     console.log("Connessione al database riuscita");
 
+    // importo le api per gli upload delle immagini
+    var routeImmagini = require('./server/routes/routeImmagini');
+    routeImmagini(app);
     // importo le api per le operazioni nel db
     var routeProdotti = require('./server/routes/routeProdotti');
     routeProdotti(app, db);

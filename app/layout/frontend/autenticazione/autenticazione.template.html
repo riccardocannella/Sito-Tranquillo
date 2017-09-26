@@ -1,121 +1,145 @@
 <section class="">
     <h2 class="w3-margin-bottom w3-text-teal w3-center">Autenticazione</h2>
     <div class="wrapper w3-row">
-        <div class="w3-left w3-margin-bottom">
+        
+        <!--#### LOGIN ####-->
+       
+        <div class="w3-col l5 m12 w3-card-4 w3-margin-bottom w3-margin-right">
+            
             <div class="w3-container w3-teal">
                 <hgroup>
-                    <h2>Già registrato?</h2>
-                    <h5>Accedi velocemente inserendo la mail di registrazione
-                        <wbr> e la tua password</h5>
+                    <h2 class="w3-center">Già registrato?</h2>
+                    <h5>Accedi velocemente inserendo la mail di registrazione e la tua password</h5>
                 </hgroup>
 
             </div>
-            <div class="w3-light-grey">
-                <!--#### LOGIN ####-->
-                <form class="w3-container w3-card-4" method="post" action="#esegui le operazioni di login.non lo so">
-                    <!--method e action - Se queste proprietà vengono omesse, il contenuto della form sarà inviato all’URL corrente attraverso il metodo POST
-        -->
-                    <p>
+            
+            <div class="w3-container pa-15 w3-light-grey">
+                
+                <form method="post" action="/api/v1.0/utenti/login">
+                   
+                    <p class="w3-margin-top">
                         <label for="email" required>Email:</label>
-                        <input class="w3-input w3-border w3-round" name="indirizzo email" type="email" id="email">
+                        <input class="w3-input w3-border" name="indirizzo email" type="email" id="email" required>
                     </p>
 
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="password">Password:</label>
-                        <input class="w3-input w3-border w3-round" name="password" type="password" id="password">
+                        <input class="w3-input w3-border" name="login-password" type="password" id="login-password" required>
                     </p>
 
                     <p>
-                        <input class="w3-button button-login w3-red" name="login" type="submit" value="login">
+                        <input class="w3-button button-login w3-red" name="login" id="login" type="submit" value="login">
                     </p>
                 </form>
             </div>
         </div>
-
-
+ 
         <!--#### REGISTRAZIONE ####-->
-        <div class="w3-right w3-margin-bottom">
+        <div class="w3-col l5 m12 w3-right w3-card-4 w3-margin-bottom w3-margin-left">
+            
             <div class="w3-container w3-teal">
                 <hgroup>
-                    <h2>Non sei registrato?</h2>
-                    <h5>Creando un nuovo account su Sito Tranquillo sarai in grado di acquistare<br> velocemente, essere sempre aggiornato sullo stato dei tuoi ordini e<br> ricevere offerte e promozioni.</h5>
+                    <h2 class="w3-center">Non sei registrato?</h2>
+                    <h5>Creando un nuovo account su Sito Tranquillo sarai in grado di acquistare velocemente, essere sempre aggiornato sullo stato dei tuoi ordini e ricevere offerte e promozioni.</h5>
                 </hgroup>
             </div>
-            <div class="w3-light-grey">
-                <form class="w3-container w3-card-4" method="post" action="#esegui le operazioni di login.non lo so">
+            
+            <div class="w3-container pa-15 w3-light-grey">
+                <form method="post" action="/api/v1.0/utenti/registrazione">
                     <!--method e action - Se queste proprietà vengono omesse, il contenuto della form sarà inviato all’URL corrente attraverso il metodo POST
                     -->
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="Nome" required>Nome:</label>
-                        <input class="w3-input w3-border w3-round" name="nome" type="text" id="nome">
+                        <input class="w3-input w3-border" type="text" name="nome" id="nome" placeholder="Antonio"
+                        pattern="[A-Z][a-z]{2,10}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 10." required/>
                     </p>
 
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="Cognome" required>Cognome:</label>
-                        <input class="w3-input w3-border w3-round" name="cognome" type="text" id="cognome">
+                        <input class="w3-input w3-border" name="cognome" type="text" id="cognome" placeholder="Zappalavigna"
+                        pattern="[A-Z][a-z]{2,15}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 15."/ required>
                     </p>
 
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="email" required>Email:</label>
-                        <input class="w3-input w3-border w3-round" name="email" type="email" id="email">
+                        <input class="w3-input w3-border" name="email" type="email" id="email" placeholder="richard@stallman.org" 
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,13}$" title="Mail non valida."/ required>
                     </p>
 
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="address" required>Indirizzo:</label>
-                        <input class="w3-input w3-border w3-round" name="indirizzo" type="text" id="indirizzo">
+                        <input class="w3-input w3-border" name="indirizzo" type="text" id="indirizzo" placeholder="Via Federico Confalonieri 4"
+                        pattern="[A-Za-z0-9'.-.*\s]{5,50}" title="Lettere, numeri, - , . "/ required>
                     </p>
 
                     <!-- GESTIONE STATO E PROVINCE -->
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="state" required>Stato:
-                        <!--
-                            NON SO COSA FARCI 
-                            <input class="w3-input w3-border w3-round" type="text" name="stati" list="states" />
-                        -->
-                        <span>
-
-                            <select class="w3-input w3-border w3-round" ng-model="country">
+                     
+                            <select class="w3-input w3-border w3-round" ng-model="country"/ required>
+                            <option default>Italy</option>
                                 <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
                             </select>
                             </label>
                     </p>
 
-                    <p ng-show="country == 'Italy'">
-                        <!-- Da modificare per il recupero nel database  -->
+                    <p ng-show="country == 'Italy'" class="w3-margin-top">
                         <label for="province" required>Provincia:
-                         <!--
-                            NON SO COSA FARCI 
-                            <input class="w3-input w3-border w3-round" type="text" name="province" list="provinces" />
-                         -->
-                         <select class="w3-input w3-border w3-round" ng-model="province">
+                        
+                         <select class="w3-input w3-border w3-round" ng-model="province"/ required>
                                 <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
                             </select>
                         </label>
                     </p>
-                    <p>
+
+                    <p ng-show="country == 'Italy'" class="w3-margin-top">
+                        <label for="Nome" required>Comune:</label>
+                        <input class="w3-input w3-border" type="text" name="comune" id="comune" placeholder="Apiro"
+                        pattern="[A-Z][a-z]{2,20}" title="Prima lettera MAIUSCOLA. Minimo 2 caratteri, massimo 20." required/>
+                    </p>
+                    <!-- FINE GESTIONE STATO E PROVINCE -->
+
+                    <p class="w3-margin-top">
                         <label for="telefono" required>Telefono</label>
-                        <input class="w3-input w3-border w3-round" type="tel" id="telefono" name="telefono">
+                        <!-- pattern pensato solo per numeri italiani di cellulare o fisso e cmq non troppo specifico nel prefisso -->
+                        <input class="w3-input w3-border w3-round" type="tel" id="telefono" name="telefono" placeholder="0238591444"
+                        pattern="[03][0-9]{9}" title="Massimo 10 cifre"/ required>
                     </p>
 
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="password">Password:</label>
-                        <input class="w3-input w3-border w3-round" name="password" type="password" id="password">
+                        <input class="w3-input w3-border w3-round" name="password" type="password" id="password" placeholder="Questa2embra1passComple224!"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Almeno un NUMERO, un carattere MAIUSCOLO ed uno MINUSCOLO. Deve essere di almeno 8 caratteri"/>
                     </p>
 
-                    <p>
+                    <p class="w3-margin-top">
                         <label for="password">Conferma Password:</label>
-                        <input class="w3-input w3-border w3-round" name="confermapassword" type="password" id="password">
+                        <input class="w3-input w3-border w3-round" name="conferma-password" type="password" id="conferma-password" placeholder="Dovo davvero dirti cosa ci va qui?" required/>
+                    </p>
+                    
+                    <p class="w3-margin-top">
+                        <label for="Nome" required>Domanda segreta:</label>
+                        <input class="w3-input w3-border" type="text" name="domanda_segreta" id="domanda_segreta" placeholder="Qual'è il mio sistema operativo preferito"
+                        pattern="[A-Za-z0-9ñÑáéíóúüòàèù'.-.*\s]{5,50}" title="Non inserire punti interrogativi o altri caratteri speciali" required/>
+                    </p>
+
+                    <p class="w3-margin-top">
+                        <label for="Cognome" required>Risposta segreta:</label>
+                        <input class="w3-input w3-border" name="risposta_segreta" type="text" id="risposta_segreta" placeholder="Windows Vista"
+                        pattern="[A-Za-z0-9ñÑáéíóúüòàèù'.*\s]{5,50}" title="non inserire punti esclamativi o altri caratteri speciali"/ required>
+                    </p>
+
+                    <p class="w3-container w3-border w3-margin-top">
+                        <input class="w3-check" type="checkbox" name="accettoTermini" value="false" required /> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
                     </p>
 
                     <p>
-                        <input type="checkbox" name="accettoTermini" value="false" /> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
-                    </p>
-
-                    <p>
-                        <input class="w3-button button-login w3-red" name="login" type="submit" value="registrati">
+                        <input class="w3-button button-login w3-red" name="login" type="submit" value="registrati"/>
                     </p>
             </div>
             </form>
-        </div>
+        
+    </div>
     </div>
 </section>
