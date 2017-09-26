@@ -49,6 +49,7 @@
     <script src="layout/backend/aggiuntaProdotti/aggiuntaProdotti.component.js"></script>
     <script src="layout/backend/modificaProdotti/modificaProdotti.module.js"></script>
     <script src="layout/backend/modificaProdotti/modificaProdotti.component.js"></script>
+    <script src="layout/frontend/navbar/navbar.controller.js"></script>
 </head>
 
 <body>
@@ -56,22 +57,9 @@
     <div class="sticky-footer">
         <header id="header" class="clearfix">
             <section class="w3-container w3-light-grey">
-                <div class="main-header">
-                    <div class="w3-show-inline-block e3-left">
-                        <div class="w3-btn w3-red w3-hide-small w3-hide-medium">
-                            <a href="tel:0039-000-000-0000" title="Tel: (+39) 00 000 000 00"><i class="fa fa-phone fa-lg"> </i><span class="hidden-xs"> Tel: (+39) 00 000 000 00</span></a>
-                        </div>
-                        <div class="w3-btn w3-white w3-hide-small">
-                            <a href="mailto:info@sitotranquillo.it?&subject=info%20contatto&body=Salve,%20la%20contatto%20per%20....." target="_top"><i class="fa fa-envelope fa-lg"> </i><span> Scrivici una e-Mail</span></a>
-                        </div>
-                    </div>
-                    <div class="w3-show-inline-block w3-right">
-                        <div class="w3-btn w3-blue">
-                            <a href="#carrello" id="cart_contents"><i class="fa fa-shopping-cart fa-lg"></i> <span class="hidden-xs hidden-sm"> Carrello</span></a>
-                        </div>
-                        <div class="w3-btn w3-green">
-                            <a href="/autenticazione"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</a>
-                        </div>
+                <div ng-controller="navbarCtrl" class="main-header">
+                    <div ng-include="navbarTemplate">
+                        
                     </div>
                 </div>
             </section>

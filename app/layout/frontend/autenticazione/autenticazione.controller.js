@@ -1,6 +1,6 @@
 var autenticazione = angular.module('autenticazione');
 
-autenticazione.controller('autenticazioneCtrl',['$scope','$http',function($scope, $http){
+autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$location',function($scope, $http, $window, $location){
     
     var autenticazioneCtrl = this;
     $scope.username = "";
@@ -19,7 +19,8 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http',function($scope
             url: 'http://localhost:8080/api/v1.0/utenti/login',
             data: {'username':$scope.username, 'password':$scope.password}
         }).then(function successCallback(response){ // Login con successo
-                alert("Ciao!");
+                $window.localStorage.setItem("jwtToken", response.data.token);
+                $location.path('/');
         }, function errorCallback(response){ // Login non avvenuto
 
                 alert("Username o password errati");
