@@ -19,7 +19,9 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$loc
             url: 'http://localhost:8080/api/v1.0/utenti/login',
             data: {'username':$scope.username, 'password':$scope.password}
         }).then(function successCallback(response){ // Login con successo
+                console.log(JSON.stringify(response.data));
                 $window.localStorage.setItem("jwtToken", response.data.token);
+                $window.localStorage.setItem("username", response.data.username);
                 $location.path('/');
         }, function errorCallback(response){ // Login non avvenuto
 
