@@ -1,6 +1,7 @@
 'use strict';
 
 var multer = require('multer');
+var fs = require('fs');
 // Importo funzioni utili in generale
 var utilities = require('../utilities/utilities');
 /**
@@ -35,9 +36,38 @@ exports.caricaImmagine = function(req, res) {
     // API per l'upload
     upload(req, res, function(err) {
         if (err) {
-            res.json({ error_code: 1, err_desc: err });
-            return utilities.handleError(res, err, '');
+            // ERRORE
+            utilities.handleError(res, err.code, err.Error, '500');
+            //res.json({ error_code: 1, err_desc: err });
         }
         res.json({ error_code: 0, err_desc: null, nomeFile: req.file.filename });
+    });
+};
+exports.getImmagine = function(req, res) {
+    console.log('GET immagine');
+    fs.stat(PERCORSO_UPLOADS + req.params.nome, function(err, stat) {
+        if (err == null) {
+            console.log('File exists');
+            res.json({ nomeFile: req.params.nome });
+        } else {
+            // ERRORE
+            utilities.handleError(res, err.code, err.Error, '500');
+            //res.json({ error: 1, error_message: 'Errore sconosciuto', nomeFile: req.params.nome });
+        }
+    });
+};
+exports.eliminaImmagine = function(req, res) {
+    console.log('ELIMINA IMMAGINE');
+    // dò per scontato che esiste
+    fs.unlink(PERCORSO_UPLOADS + req.params.nome, function(err) {
+        if (err == null)
+        // il file esiste, l'ho già eliminato, ritorno un json per confermare
+            res.json({ nomeFile: req.params.nome });
+        else {
+            // ERRORE
+            utilities.handleError(res, err.code, err.Error, '500');
+            // res.json({ error: 1, error_message: 'Errore sconosciuto', nomeFile: req.params.nome });
+        }
+
     });
 };
