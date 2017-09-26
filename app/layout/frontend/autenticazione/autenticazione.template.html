@@ -74,7 +74,7 @@
                         -->
                         <span>
 
-                            <select class="w3-input w3-border w3-round" ng-model="country">
+                            <select class="w3-input w3-border w3-round" class="minimal" ng-model="country">
                                 <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
                             </select>
                             </label>
@@ -87,7 +87,7 @@
                             NON SO COSA FARCI 
                             <input class="w3-input w3-border w3-round" type="text" name="province" list="provinces" />
                          -->
-                         <select class="w3-input w3-border w3-round" ng-model="province">
+                         <select class="w3-input w3-border w3-round" class="minimal" ng-model="province">
                                 <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
                             </select>
                         </label>
