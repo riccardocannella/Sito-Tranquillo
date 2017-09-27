@@ -91,7 +91,7 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$loc
                     'comune':$scope.comune,
                     'indirizzo':$scope.inputIndirizzo,
                     'telefono':$scope.inputTelefono,
-                    'password':$scope.password,
+                    'password':$scope.inputPassword,
                     'domanda_segreta':$scope.inputDomandaSegreta,
                     'risposta_segreta':$scope.inputRispostaSegreta
                 }
