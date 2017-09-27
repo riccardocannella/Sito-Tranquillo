@@ -141,10 +141,10 @@
 
                     <p class="w3-margin-top">
                         <label for="password">Password:</label>
-                        <input class="w3-input w3-border w3-round" name="password" type="password" id="password" ng-model="inputPassword" placeholder="Questa2embra1passComple224!" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                        <input class="w3-input w3-border w3-round" name="password" type="password" id="password" ng-model="inputPassword" placeholder="Questa2embra1passComple224!" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,63}" required>
                         <div ng-messages="formValidation.password.$error" ng-show="formValidation.password.$dirty" style="color: red">
                             <p ng-message="required">La tua password è richiesta</p>
-                            <p ng-message="pattern">Almeno un NUMERO, un carattere MAIUSCOLO ed uno MINUSCOLO. Deve essere di almeno 8 caratteri</p>
+                            <p ng-message="pattern">Almeno un NUMERO, un carattere MAIUSCOLO ed uno MINUSCOLO. Deve essere di tra gli 8 ed i 63 caratteri</p>
                         </div>
 
                     </p>
@@ -161,22 +161,19 @@
                         </div>
                     </p>
 
-                    <!-- -->
                     <p class="w3-margin-top">
-                        <label for="domandaSegreta" required>Domanda segreta:</label>
-                        <input class="w3-input w3-border" type="text" name="domandaSegreta" id="domandaSegreta" ng-model="inputDomandaSegreta" placeholder="Qual'è il mio SO preferito" ng-pattern="[A-Za-z0-9ñÑáéíóúüòàèù'.-.*\s]{5,50}" required>
-                        <div ng-messages="formValidation.domandaSegreta.$error" ng-show="formValidation.domandaSegreta.$dirty" style="color: red">
+                        <label for="domanda_segreta">Domanda segreta:</label>
+                        <input class="w3-input w3-border" type="text" name="domanda_segreta" id="domanda_segreta" ng-model="inputDomandaSegreta" placeholder="Qual'è il mio SO preferito" required>
+                        <div ng-messages="formValidation.domanda_segreta.$error" ng-show="formValidation.domanda_segreta.$dirty" style="color: red">
                             <p ng-message="required">La tua domanda segreta è richiesta</p>
-                            <p ng-message="pattern">Non inserire punti interrogativi o altri caratteri speciali</p>
                         </div>
                     </p>
 
                     <p class="w3-margin-top">
-                        <label for="rispostaSegreta">Risposta segreta:</label>
-                        <input class="w3-input w3-border" name="rispostaSegreta" type="text" id="rispostaSegreta" ng-model="inputRispostaSegreta" placeholder="Scampia OS" ng-pattern="[A-Za-z0-9ñÑáéíóúüòàèù'.*\s]{5,50}" required>
-                        <div ng-messages="formValidation.rispostaSegreta.$error" ng-show="formValidation.rispostaSegreta.$dirty" style="color: red">
+                        <label for="risposta_segreta">Risposta segreta:</label>
+                        <input class="w3-input w3-border" name="risposta_segreta" type="text" id="risposta_segreta" ng-model="inputRispostaSegreta" placeholder="Scampia OS" required>
+                        <div ng-messages="formValidation.risposta_segreta.$error" ng-show="formValidation.risposta_segreta.$dirty" style="color: red">
                             <p ng-message="required">La tua risposta segreta è richiesta</p>
-                            <p ng-message="pattern">Non inserire punti esclamativi o altri caratteri speciali</p>
                         </div>
                     </p>
 
