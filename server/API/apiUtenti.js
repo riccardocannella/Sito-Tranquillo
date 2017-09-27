@@ -7,7 +7,8 @@ var jwt = require('jsonwebtoken');
 
 // Modello mongoose dell'utente
 var mongoose = require('mongoose'),
-    Utente = mongoose.model('Utente');
+    Utente = mongoose.model('Utente'),
+    Prodotto = mongoose.model('Prodotto');
 
 // Importo funzioni utili in generale e i file di configurazione
 var utilities = require('../utilities/utilities');
@@ -268,3 +269,277 @@ exports.richiestaRecuperoPassword = function(req,res){
         return utilities.handleError(res,err,'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
     });
 };
+
+ /*--------------------------------------------------------------
+|    Funzione: aggiungiAlCarrello()                             |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|        prodotto : _id del prodotto immesso                    |
+|        quantita : quantità di prodotti                        |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+exports.aggiungiAlCarrello = function(req, res){
+    console.log("POST aggiungi al carrello");
+
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err){
+            return utilities.handleError(res,err,'Token non valido o scaduto.');   
+        } else {
+
+            // Token valido
+            console.log('Token valido');
+            var quantitaRichiesta;
+
+            if(!req.body.quantita || req.body.quantita <= 0){ // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
+                return utilities.handleError(res,err,'Devi inserire una quantità ( maggiore di 0 ) per il prodotto richiesto');
+            } else {
+                quantitaRichiesta = parseInt(req.body.quantita); // CONVERTIRE SEMPRE IN INT LE RICHIESTE DESIDERATE IN FORMA NUMERICA
+            }
+
+            if(!req.body.prodotto){ // Controllo se la richiesta ha un prodotto
+                return utilities.handleError(res,err,'Devi inserire un codice prodotto');
+            }
+        
+            
+            var utenteID = decoded.utenteID;
+
+            Utente.findById(utenteID, function(err, utenteTrovato){
+                if(!err){ // Trovato
+                    Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato){
+                        
+                        if(!err){ // Codice plausibile 
+
+                            if(prodottoTrovato == null){ // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
+                                return utilities.handleError(res,err,'Prodotto non trovato');
+                            }
+                            
+                            var found_index = -1; // -1 indica non trovato, valore di default
+                            for(var i = 0; i < utenteTrovato.carrello.prodotti.length; i++){
+                                 if(utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)){ // Java sei tu?
+                                    found_index = i;
+                                    break;
+                                };
+                            }
+                            if(found_index == -1){
+                                
+                                // Aggiungo il nuovo prodotto al carrello
+                                if(prodottoTrovato.giacenza < prodottoTrovato.impegnoInCarrelli + quantitaRichiesta + prodottoTrovato.impegnoInPagamento){ // Giacenza minore della richiesta
+                                    return utilities.handleError(res,err,'Hai richiesto più prodotti di quanto disponibile');
+                                } else {// Quantità ok
+                                    Utente.findByIdAndUpdate(utenteID, // Aggiungo al carrello
+                                        { $push : {"carrello.prodotti":{
+                                            
+                                            nome: prodottoTrovato.nome,
+                                            prezzo: prodottoTrovato.prezzo,
+                                            descrizioneBreve: prodottoTrovato.descrizioneBreve,
+                                            quantita: quantitaRichiesta,
+                                            urlImmagine : prodottoTrovato.urlImmagine,
+                                            _id: prodottoTrovato._id
+                                        }} 
+                                    },{upsert:true}, function(err){
+                                        if(!err){ // Aggiungo il prodotto
+                                            // Aggiorno l'impegno in carrello del prodotto
+                                            prodottoTrovato.impegnoInCarrelli += quantitaRichiesta;
+
+                                            prodottoTrovato.save(function(err){
+                                                if(!err){
+                                                    res.status(201).json({'successo':true});
+                                                } else {
+                                                    return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                                    
+                                                }
+                                            });
+                                        } else { // Errore nell'aggiungere il prodotto al carrello
+                                            return utilities.handleError(res,err,'Impossibile aggiungere il prodotto richiesto al carrello');
+                                        }
+                                    });
+                                    
+                                }
+                            } else { // Trovato un indice quindi modifico la quantità già presente nel carrello
+                                if(prodottoTrovato.giacenza < prodottoTrovato.impegnoInCarrelli + quantitaRichiesta + prodottoTrovato.impegnoInPagamento){ // Giacenza minore della richiesta
+                                    return utilities.handleError(res,err,'Hai richiesto più prodotti di quanto disponibile');
+                                } else { // Aggiorno carrello e impegnoincarrello
+                                    
+                                    // Aggiorno l'impegno in carrello del prodotto
+                                    prodottoTrovato.impegnoInCarrelli += quantitaRichiesta;
+                                    
+                                    // Salvo nel db
+                                    prodottoTrovato.save(function(err){
+                                        if(!err){
+                                            // Aggiorno la quantità nel carrello
+                                            utenteTrovato.carrello.prodotti[found_index].quantita += quantitaRichiesta;
+
+                                            // Salvo nel db
+                                            utenteTrovato.save(function(err){
+                                                if(!err){
+                                                    res.status(201).json({'successo':true});
+                                                } else {
+                                                    return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                                }
+                                            });
+                                        } else {
+                                            return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                            
+                                        }
+                                    });
+                                    
+                                }
+                                
+                            }
+
+                                                        
+                        } else { // Prodotto non trovato
+                            return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto'); 
+                        }
+                    });
+                } else { // Utente non trovato
+                    return utilities.handleError(res,err,'Errore durante il ritrovamento dello utente');
+                }
+            });
+        }
+    });
+}
+
+ /*--------------------------------------------------------------
+|    Funzione: rimuoviDalCarrello()                             |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|        prodotto : _id del prodotto da rimuovere               |
+|        quantita : quantità di prodotto da togliere            |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+ exports.rimuoviDalCarrello = function(req,res){
+    console.log("POST rimuovi dal carrello");
+
+    // Controllo il token della richiesta
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err){
+            return utilities.handleError(res,err,'Token non valido o scaduto.');
+        } else {
+
+            var quantitaRichiesta;
+            var utenteID = decoded.utenteID; // Salvo l'id dell'utente
+
+            if(!req.body.quantita || req.body.quantita <= 0){ // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
+                return utilities.handleError(res,err,'Devi inserire una quantità ( maggiore di 0 ) per il prodotto richiesto');
+            } else {
+                quantitaRichiesta = parseInt(req.body.quantita); // CONVERTIRE SEMPRE IN INT LE RICHIESTE DESIDERATE IN FORMA NUMERICA
+            }
+
+            if(!req.body.prodotto){ // Controllo se la richiesta ha un prodotto
+                return utilities.handleError(res,err,'Devi inserire un codice prodotto');
+            }
+
+            // Superati i controlli procedo con la funzione
+            Utente.findById(utenteID, function(err, utenteTrovato){
+                if(!err) { // Trovato
+                    var found_index = -1;
+                    for(var i = 0; i < utenteTrovato.carrello.prodotti.length; i++){
+                        if(utenteTrovato.carrello.prodotti[i]._id.equals(req.body.prodotto)){
+                            found_index = i;
+                            break;
+                        }
+                    }
+
+                    if(found_index != -1){ // Prodotto trovato nel carrello dell'utente
+                        Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato){
+                            if(!err){ // Codice plausibile 
+                                if(prodottoTrovato == null){ // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
+                                    // Quindi rimuovo l'oggetto dal carrello che non esiste più
+                                    Utente.findByIdAndUpdate(utenteID,{
+                                        $pull:{"carrello.prodotti":{ _id: utenteTrovato.carrello.prodotti[found_index]._id}}
+                                    }, function(err){
+                                        if(!err){
+                                             res.status(201).json({'successo':true,'messaggio':'Oggetto non più esistente nel database, quindi eliminato'});
+                                        } else {
+                                             return utilities.handleError(res,err,'Errore durante la rimozione dello oggetto nel carrello');
+                                        }
+                                    });
+                                } else {
+                                    // Prodotto trovato
+                
+                                    // Controllo la quantità da togliere e a seconda dei casi mi comporto di conseguenza
+                                    if(utenteTrovato.carrello.prodotti[found_index].quantita > quantitaRichiesta){
+                                        
+                                        //Tolgo l'impegno dal carrello
+                                        prodottoTrovato.impegnoInCarrelli -= quantitaRichiesta;
+                                        
+                                        prodottoTrovato.save(function(err){
+                                            if(!err){
+                                                utenteTrovato.carrello.prodotti[found_index].quantita -= quantitaRichiesta;
+
+                                                utenteTrovato.save(function(err){
+                                                    if(!err){
+                                                        res.status(201).json({'successo':true});
+                                                    } else {
+                                                        return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                                    }
+                                                });
+                                            } else {
+                                                return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                            }
+                                        });
+                                    } else if(utenteTrovato.carrello.prodotti[found_index].quantita == quantitaRichiesta) { // Rimossi tutte le unità
+                                        prodottoTrovato.impegnoInCarrelli -= quantitaRichiesta;
+
+
+                                        prodottoTrovato.save(function(err){
+                                            if(!err){
+                                               // Elimino il prodotto dal carrello
+                                               Utente.findByIdAndUpdate(utenteID,{
+                                                   $pull:{"carrello.prodotti":{ _id: prodottoTrovato._id}}
+                                               }, function(err){
+                                                   if(!err){
+                                                        res.status(201).json({'successo':true});
+                                                   } else {
+                                                        return utilities.handleError(res,err,'Errore durante la rimozione dello oggetto nel carrello');
+                                                   }
+                                               });
+                                            } else {
+                                                return utilities.handleError(res,err,'Errore durante il salvataggio del database');
+                                            }
+                                        });
+                                    } else { // Si è cercato di rimuovere più di quanto ci fosse nel carrello
+                                        return utilities.handleError(res,err,'Quantità richiesta superiore al numero di oggetti nel carrello');
+                                    }
+                                    
+                                }
+                            } else {
+                                // Quindi rimuovo l'oggetto dal carrello che non esiste più
+                                Utente.findByIdAndUpdate(utenteID,{
+                                    $pull:{"carrello.prodotti":{ _id: utenteTrovato.carrello.prodotti[found_index]._id}}
+                                }, function(err){
+                                    if(!err){
+                                         res.status(201).json({'successo':true,'messaggio':'Oggetto non più esistente nel database, quindi eliminato'});
+                                    } else {
+                                         return utilities.handleError(res,err,'Errore durante la rimozione dello oggetto nel carrello');
+                                    }
+                                });
+                                return utilities.handleError(res,err,'Errore durante il ritrovamento del prodotto');
+                            }
+                        });
+
+                    } else { // prodotto non trovato nel carrello
+                        return utilities.handleError(res,err,'Lo utente non ha questo prodotto');
+                    }
+                } else {
+                    return utilities.handleError(res,err,'Errore durante il ritrovamento dello utente');
+                }
+            });
+        } 
+    });
+
+ }

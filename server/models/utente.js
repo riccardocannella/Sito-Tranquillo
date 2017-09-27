@@ -63,6 +63,15 @@ var UtenteSchema = new Schema({
     risposta_segreta_hash: {
         type: String,
         required: [true,'Inserisci una risposta segreta']
+    },
+    carrello: {
+        prodotti :[{ // Array
+            nome : String,
+            prezzo : Number,
+            descrizioneBreve: String,
+            quantita : Number,
+            urlImmagine : String
+        }]
     }
 });
 module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');
