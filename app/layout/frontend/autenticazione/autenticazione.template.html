@@ -80,7 +80,7 @@
 
                     <p class="w3-margin-top">
                         <label for="Nome">Username:</label>
-                        <input class="w3-input w3-border" type="text" name="username" id="username" ng-model="inputUsername" disabled>
+                        <input class="w3-input w3-border" type="text" name="username" id="username" ng-model="inputUsername" required>
                         <!--Da gestire la sua creazione, propongo di fare nome.cognome.numeroCasualetra0e1000-->
                     </p>
 
@@ -97,7 +97,7 @@
                     <p class="w3-margin-top">
                         <label for="state">Stato:                     
                             <select class="w3-input w3-border w3-round" class="minimal" ng-model="country" required>
-                                <option default>Italy</option>
+                                <!--<option default>Italy</option>-->
                                 <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
                             </select>
                             </label>
@@ -106,7 +106,7 @@
                     <div ng-show="country == 'Italy'">
                         <p class="w3-margin-top">
                             <label for="province">Provincia:</label>
-                            <select class="w3-input w3-border w3-round" class="minimal" ng-model="province" required>
+                            <select class="w3-input w3-border w3-round" class="minimal" ng-model="province">
                                     <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
                                 </select>
 
@@ -114,7 +114,7 @@
 
                         <p class="w3-margin-top">
                             <label for="Nome">Comune:</label>
-                            <input class="w3-input w3-border" type="text" name="comune" id="comune" placeholder="Apiro" pattern="[A-Z][a-z]{2,20}" required>
+                            <input class="w3-input w3-border" type="text" name="comune" id="comune" ng-model="comune" placeholder="Apiro" pattern="[A-Z][a-z]{2,20}">
                         </p>
                     </diV>
 
@@ -181,7 +181,7 @@
                     </p>
 
                     <p class="w3-container w3-border w3-margin-top">
-                        <input class="w3-check" type="checkbox" name="accettoTermini" value="false" required> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
+                        <input class="w3-check" ng-model="inputAccettoTermini" type="checkbox" name="accettoTermini" required> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
                     </p>
 
                     <p><button ng-click="logon()" class="w3-button w3-red button-login">Registrati</button></p>
