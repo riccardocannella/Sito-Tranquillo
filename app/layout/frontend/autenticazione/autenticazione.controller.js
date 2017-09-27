@@ -3,9 +3,11 @@ var autenticazione = angular.module('autenticazione');
 autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$location',function($scope, $http, $window, $location){
     
     var autenticazioneCtrl = this;
+    // Variabili per il login
     $scope.username = "";
     $scope.password = "";
-
+    
+    // Funzione per il login
     $scope.login = function(){
         if($scope.username == undefined || $scope.password == undefined 
             ||
@@ -31,6 +33,77 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$loc
                 $scope.password = "";
         });
 
+    };
+
+
+    //Variabili per la registrazione
+    $scope.inputNome = "";
+    $scope.inputCognome = "";
+    $scope.inputUsername = "";
+    $scope.inputEmail = "";
+    $scope.country = "Italy"; // Default a Italia
+    $scope.province;
+    $scope.comune;
+    $scope.inputIndirizzo = "";
+    $scope.inputTelefono = "";
+    $scope.inputPassword = "";
+    $scope.inputConfermaPassword = "";
+    $scope.inputDomandaSegreta = "";
+    $scope.inputRispostaSegreta = "";
+    $scope.inputAccettoTermini = false;
+
+
+    // Funzione per la registrazione
+    $scope.logon = function(){
+        // Se non c'è qualche campo necessario non esegue la registrazione
+        if($scope.inputNome == ""|| $scope.inputNome == undefined
+            || $scope.inputCognome == "" || $scope.inputCognome == undefined
+            || $scope.inputUsername == "" || $scope.inputUsername == undefined
+            || $scope.inputEmail == "" || $scope.inputEmail == undefined
+            || $scope.country == "" || $scope.country == undefined
+            || $scope.inputIndirizzo == "" || $scope.inputIndirizzo == undefined
+            || $scope.inputTelefono == "" || $scope.inputTelefono == undefined
+            || $scope.inputPassword == "" || $scope.inputPassword == undefined
+            || $scope.inputConfermaPassword == "" || $scope.inputConfermaPassword == undefined
+            || $scope.inputDomandaSegreta == "" || $scope.inputDomandaSegreta == undefined
+            || $scope.inputRispostaSegreta == "" || $scope.inputRispostaSegreta == undefined
+        ){
+            return; // Non fa niente se quei campi sono vuoti.
+        }
+            
+        
+        // Se i termini non sono accettati non esegue la registrazione
+        if($scope.inputAccettoTermini == false || $scope.inputAccettoTermini == undefined){
+            alert("Eh volevi??? Accetta i termini");
+            return; // Azione nulla
+        }
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/api/v1.0/utenti/registrazione',
+            data: {
+                    'nome':$scope.inputNome,
+                    'cognome':$scope.inputCognome,
+                    'username':$scope.inputUsername,
+                    'email':$scope.inputEmail,
+                    'stato':$scope.country,
+                    'provincia':$scope.province,
+                    'comune':$scope.comune,
+                    'indirizzo':$scope.inputIndirizzo,
+                    'telefono':$scope.inputTelefono,
+                    'password':$scope.password,
+                    'domanda_segreta':$scope.inputDomandaSegreta,
+                    'risposta_segreta':$scope.inputRispostaSegreta
+                }
+        }).then(function successCallback(response){ // Login con successo
+                alert("Registrazione avvenuta con successo " + $scope.inputNome + " " + $scope.inputCognome + " \n Esegui il login!");
+                $scope.username = $scope.inputUsername;
+
+        }, function errorCallback(response){ // Login non avvenuto
+
+                alert("Errore nella registrazione");
+        });
+
     }
 
 
@@ -41,11 +114,8 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$loc
 
 
 
-
-
-
     /*
-        PERCHE' NON FUNZIONA!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?
+        In futuro diventa qualcosa simile a 
 
     $http.get('countries.json').success(function(data) {
         autenticazione.countries = data;
