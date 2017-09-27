@@ -12,9 +12,35 @@ var Schema = mongoose.Schema;
         -risposta cryptata con bcryptjs
 */
 var UtenteSchema = new Schema({
+    nome: {
+        type: String,
+        required: [true,'Inserisci un nome']
+    },
+    cognome: {
+        type: String,
+        required: [true,'Inserisci un cognome']
+    },
     username: {
         type: String,
         required: [true,'Inserisci un nome utente']
+    },
+    stato: {
+        type: String,
+        required: [true,'Inserisci uno Stato']
+    },
+    provincia: {
+        type: String
+    },
+    comune: {
+        type: String
+    },
+    indirizzo: {
+        type: String,
+        required: [true,'Inserisci un indirizzo']
+    },
+    telefono:{
+        type: String,
+        required:[true,'Inserisci un numero']
     },
     email: {
         type: String,
