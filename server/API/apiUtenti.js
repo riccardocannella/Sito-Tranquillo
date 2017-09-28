@@ -259,11 +259,13 @@ exports.richiestaRecuperoPassword = function(req, res) {
 
     Utente.findOne({ username: req.body.username })
         .then(function(utente) {
+            var indirizzoRecupero = req.body.indirizzo || 'localhost:8080/recupero/';
             var corpoInHtml = "<p> Puoi reimpostare la password fornendo la giusta risposta segreta al seguente link : </p>" +
-                " <p>http:// <----- Qui va il sito per recupero password </p>" +
+                indirizzoRecupero +
+                " <p></p>" +
                 " <hr /> Cordiali Saluti, Il Team Sito Tranquillo";
 
-            // Utente trovato, invio il link per email alla richiesta
+            // Utente trovato, invio il link per email alla richiesta 
             mailer.inviaEmail('dummy', 'dummy', utente.email, "Recupero password", corpoInHtml);
             res.status(201).json({ 'successo': true });
         })
