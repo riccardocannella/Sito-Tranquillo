@@ -18,7 +18,7 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$loc
 
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/api/v1.0/utenti/login',
+            url: '/api/v1.0/utenti/login',
             data: {'username':$scope.username, 'password':$scope.password}
         }).then(function successCallback(response){ // Login con successo
                 console.log(JSON.stringify(response.data));
@@ -80,7 +80,7 @@ autenticazione.controller('autenticazioneCtrl',['$scope','$http','$window','$loc
 
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/api/v1.0/utenti/registrazione',
+            url: '/api/v1.0/utenti/registrazione',
             data: {
                     'nome':$scope.inputNome,
                     'cognome':$scope.inputCognome,
