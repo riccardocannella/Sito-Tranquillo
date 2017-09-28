@@ -34,6 +34,10 @@ angular.module('sitotranquillo')
                     template: '<informativa></informativa>',
                     title: 'Informativa'
                 })
+                .when('/recupero', {
+                    template: '<recupero></recupero>',
+                    title: 'Recupero Password'
+                })
                 // route amministrative (?)
                 .when('/admin/aggiuntaProdotti', {
                     template: '<aggiunta-prodotti></aggiunta-prodotti>',
