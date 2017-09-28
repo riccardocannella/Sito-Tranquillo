@@ -76,11 +76,18 @@ exports.registraUtente = function(req,res) {
                             
                             // creo un utente in base al modello
                             var nuovoUtente = new Utente({
+                                nome: req.body.nome,
+                                cognome: req.body.cognome,
                                 username: req.body.username,
+                                stato: req.body.stato,
+                                provincia: req.body.provincia,
+                                comune: req.body.comune,
+                                indirizzo: req.body.indirizzo,
+                                telefono: req.body.telefono,
                                 email: req.body.email,
                                 password_hash: password_hash,
                                 domanda_segreta:req.body.domanda_segreta,
-                                risposta_segreta_hash: risposta_segreta_hash 
+                                risposta_segreta_hash: risposta_segreta_hash
                             });
             
                             // salvo l'utente nel database
