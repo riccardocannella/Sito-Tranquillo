@@ -38,6 +38,10 @@ angular.module('sitotranquillo')
                     template: '<recupero></recupero>',
                     title: 'Recupero Password'
                 })
+                .when('/resetPassword/:token', {
+                    template: '<reset></reset>',
+                    title: 'Reset Password'
+                })
                 // route amministrative (?)
                 .when('/admin/aggiuntaProdotti', {
                     template: '<aggiunta-prodotti></aggiunta-prodotti>',

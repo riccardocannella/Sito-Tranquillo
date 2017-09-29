@@ -10,5 +10,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'informativa',
     'aggiuntaProdotti',
     'modificaProdotti',
-    'recupero'
+    'recupero',
+    'reset'
 ]);

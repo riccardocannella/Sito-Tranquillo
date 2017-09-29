@@ -3,6 +3,7 @@
 // Importo le librerie che andrò ad utilizzare 
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var UTENTI = 'utenti';
 
 
 // Modello mongoose dell'utente
@@ -14,6 +15,14 @@ var mongoose = require('mongoose'),
 var utilities = require('../utilities/utilities');
 var encryption = require('../config/encryption');
 var mailer = require('../utilities/mailer');
+
+/**
+ * Fa riferimento al Database
+ */
+var db;
+exports.setDb = function(extdb) {
+    db = extdb;
+};
 
 /*--------------------------------------------------------------
 |    Funzione: registraUtente()                                 |
@@ -175,13 +184,51 @@ exports.loginUtente = function(req, res) {
 };
 
 /*--------------------------------------------------------------
+|    Funzione: validaRispostaSegreta()                          |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        username : username dell'utente                        |
+|        risposta_segreta : la risposta da validare             |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        username : username dell'utente                        |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+exports.validaRispostaSegreta = function(req, res) {
+    console.log('POST risposta alla domanda segreta');
+
+    Utente.findOne({ username: req.body.username })
+        .then(function(utente) {
+            bcrypt.compare(req.body.risposta_segreta, utente.risposta_segreta_hash)
+                .then(function(esito) {
+                    if (esito) return res.json({ username: utente.username, successo: true });
+                    else return utilities.handleError(res, "ERR_RISPOSTA_ERRATA", "La risposta fornita non corrisponde");
+                })
+                .catch(function(err) {
+                    return utilities.handleError(res, err, "Errore sconosciuto");
+                })
+        });
+};
+exports.getUtente = function(req, res) {
+    console.log('GET utente');
+    Utente.findOne({ username: req.params.utente })
+        .then(function(utente) {
+            res.json({ utente });
+        })
+        .catch(function(err) {
+            return utilities.handleError(res, err);
+        });
+};
+
+/*--------------------------------------------------------------
 |    Funzione: recuperoPassword()                               |
 |    Tipo richiesta: POST                                       |
 |                                                               |
 |    Parametri accettati:                                       |
 |        [x-www-form-urlencoded]                                |
 |        username : username dell'utente                        |
-|        risposta_segreta : risposta alla domanda segreta       |
 |        nuova_password : nuova password da impostare           |
 |                                                               |
 |     Parametri restituiti in caso di successo:                 |
@@ -189,55 +236,73 @@ exports.loginUtente = function(req, res) {
 |        messaggio : messaggio di successo                      |
  ---------------------------------------------------------------*/
 
-exports.recuperoPassword = function(req, res) {
-    console.log("POST Recupero password");
-
-    var utente_trovato;
+exports.resetPassword = function(req, res) {
+    console.log("POST Reset password");
 
     Utente.findOne({ username: req.body.username })
         .then(function(utente) {
-
-            utente_trovato = utente;
-
-            // Utente trovato, passo a controllare la risposta segreta
-            bcrypt.compare(req.body.risposta_segreta, utente.risposta_segreta_hash)
-                .then(function(esito) {
-                    if (esito) { // risposta segreta corretta
-                        // Creo l'hash della nuova password
-                        bcrypt.hash(req.body.nuova_password, encryption.saltrounds)
-                            .then(function(hash_nuova_password) {
-                                // Cambio la password dell'utente
-                                utente_trovato.password_hash = hash_nuova_password;
-                                utente.save(function(err) {
-                                    if (err)
-                                        return utilities.handleError(res, err, "La nuova password non ha superato la validazione del server");
-                                    else {
-                                        // Restituisco un messaggio di successo
-                                        res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
-                                    }
-                                });
-
-
-                            })
-                            .catch(function(err) {
-                                return utilities.handleError(res, err, "Errore riscontrato durante l'hashing della password dell'utente");
-                            });
-
-
-
-                    } else {
-                        return utilities.handleError(res, 'ReferenceError', 'Tentativo di recupero password fallito, risposta sbagliata');
-                    }
-
+            // Utente trovato, creo l'hash per la nuova password
+            bcrypt.hash(req.body.nuova_password, encryption.saltrounds)
+                .then(function(hash_nuova_password) {
+                    // Cambio la password dell'utente
+                    utente.password_hash = hash_nuova_password;
+                    // Invalido l'eventuale token
+                    utente.scadenzaRecupero = Date.now();
+                    utente.tokenRecupero = '';
+                    utente.save(function(err, updatedDoc) {
+                        if (err) return utilities.handleError(res, err);
+                        else res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
+                    })
                 })
                 .catch(function(err) {
-                    return utilities.handleError(res, 'ERR_SEC_ANS', "La risposta segreta non è pervenuta al server o è sbagliata");
+                    return utilities.handleError(res, err, "Errore riscontrato durante l'hashing della password dell'utente");
                 });
-
         })
         .catch(function(err) {
-            return utilities.handleError(res, err, 'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
+            return utilities.handleError(res, err, 'Tentativo di reset password fallito');
         });
+};
+
+/*--------------------------------------------------------------
+|    Funzione: validaToken()                                    |
+|    Tipo richiesta: POST                                        |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : il token da usare per il recupero              |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        username: il nome utente                               |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+exports.validaToken = function(req, res) {
+    console.log("POST Token per recupero");
+    var dataAttuale = Date.now();
+    Utente.findOne({
+            tokenRecupero: req.body.token
+        }, function(err, utente) {
+            if (err) return utilities.handleError(res, err);
+            if (utente === null) return utilities.handleError(res, "ERR_TOKEN_NON_VALIDO", "Token per il recupero password non valido");
+            if (utente.scadenzaRecupero < dataAttuale && utente.scadenzaRecupero != null) {
+                // token scaduto
+                return utilities.handleError(res, "ERR_TOKEN_SCADUTO", "Token per recupero password scaduto")
+
+            } else {
+                // DECOMMENTARE PER DISABILITARE IL LINK APPENA CLICCATO
+                // utente.tokenRecupero='';
+                // utente.scadenzaRecupero=Date.now();
+                // utente.save(function(err, updatedDoc){
+                // if (err) return utilities.handleError(res,err);
+                // else return res.json({ username: updatedDoc.username, successo: true });
+                //})
+                return res.json({ username: utente.username, successo: true });
+            }
+        })
+        .catch(function(err) {
+            return utilities.handleError(res, err);
+        });
+
 };
 
 
@@ -256,23 +321,37 @@ exports.recuperoPassword = function(req, res) {
 
 exports.richiestaRecuperoPassword = function(req, res) {
     console.log("POST richiesta recupero pw");
-
+    var crypto = require('crypto');
     Utente.findOne({ username: req.body.username })
         .then(function(utente) {
-            var indirizzoRecupero = req.body.indirizzo || 'localhost:8080/recupero/';
-            var corpoInHtml = "<p> Puoi reimpostare la password fornendo la giusta risposta segreta al seguente link : </p>" +
-                indirizzoRecupero +
-                " <p></p>" +
-                " <hr /> Cordiali Saluti, Il Team Sito Tranquillo";
+            var indirizzoRecupero = req.body.indirizzo;
+            crypto.randomBytes(20, function(err, buf) {
+                var token = buf.toString('hex');
+                var dataScadenza = Date.now() + (3600000 * 5); // cinque ore
+                // imposto il token per il recupero e la sua scadenza
+                utente.tokenRecupero = token;
+                utente.scadenzaRecupero = dataScadenza;
+                utente.save(function(err, updatedDoc) {
+                    if (err) return utilities.handleError(res, err);
+                    else {
+                        var corpoInHtml = "<p> Puoi reimpostare la password fornendo la giusta risposta segreta al seguente link : </p>" +
+                            '<a href="' + indirizzoRecupero + token + '">' + indirizzoRecupero + token + '</a>' +
+                            " <p>Il link rimarrà valido per 5 ore da ora.</p>" +
+                            " <p></p>" +
+                            " <hr /> Cordiali Saluti, Il Team Sito Tranquillo";
 
-            // Utente trovato, invio il link per email alla richiesta 
-            mailer.inviaEmail('dummy', 'dummy', utente.email, "Recupero password", corpoInHtml);
-            res.status(201).json({ 'successo': true });
-        })
-        .catch(function(err) {
-            return utilities.handleError(res, err, 'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
+                        // Utente trovato, invio il link per email alla richiesta 
+                        mailer.inviaEmail('dummy', 'dummy', utente.email, "Recupero password", corpoInHtml);
+                        res.status(201).json({ 'successo': true });
+                    }
+                });
+            })
+
+            .catch(function(err) {
+                return utilities.handleError(res, err, 'Tentativo di recupero password fallito, non esiste lo utente scelto o richiesta malformata');
+            });
         });
-};
+}
 
 /*--------------------------------------------------------------
 |    Funzione: aggiungiAlCarrello()                             |
