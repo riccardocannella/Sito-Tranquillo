@@ -201,6 +201,7 @@ exports.validaRispostaSegreta = function(req, res) {
 
     Utente.findOne({ username: req.body.username })
         .then(function(utente) {
+            if (!utente) return utilities.handleError(res, err, "Non so come sia possibile, ma sei arrivato a questa richiesta con un nome utente non valido!")
             bcrypt.compare(req.body.risposta_segreta, utente.risposta_segreta_hash)
                 .then(function(esito) {
                     if (esito) return res.json({ username: utente.username, successo: true });
@@ -265,14 +266,14 @@ exports.resetPassword = function(req, res) {
 
 /*--------------------------------------------------------------
 |    Funzione: validaToken()                                    |
-|    Tipo richiesta: POST                                        |
+|    Tipo richiesta: POST                                       |
 |                                                               |
 |    Parametri accettati:                                       |
 |        [x-www-form-urlencoded]                                |
 |        token : il token da usare per il recupero              |
 |                                                               |
 |     Parametri restituiti in caso di successo:                 |
-|        username: il nome utente                               |
+|        user: tutti i dati dell'utente che fa richiesta        |
 |        successo: valore impostato a true                      |
  ---------------------------------------------------------------*/
 
@@ -294,9 +295,9 @@ exports.validaToken = function(req, res) {
                 // utente.scadenzaRecupero=Date.now();
                 // utente.save(function(err, updatedDoc){
                 // if (err) return utilities.handleError(res,err);
-                // else return res.json({ username: updatedDoc.username, successo: true });
+                // else return res.json({ user: utente, successo: true });
                 //})
-                return res.json({ username: utente.username, successo: true });
+                return res.json({ user: utente, successo: true });
             }
         })
         .catch(function(err) {

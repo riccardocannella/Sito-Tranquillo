@@ -1,6 +1,6 @@
 <h3>Reset Password</h3>
 <div ng-show="tokenValido === true && rispostaGiusta != 1 && pwResettata !=1">
-    Ciao {{$ctrl.nome_utente}}, per resettare la password rispondi alla tua domanda segreta.
+    Ciao {{$ctrl.utente.username}}, per resettare la password rispondi alla tua domanda segreta.
     <form ng-submit="$ctrl.validaRisposta()">
         <label for="risposta">{{$ctrl.utente.domanda_segreta}}</label>
         <input type="text" required name="risposta" id="risposta" ng-model="$ctrl.risposta" />

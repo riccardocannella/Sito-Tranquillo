@@ -3,7 +3,7 @@ angular.module('reset').component('reset', {
     controller: function($http, $routeParams, $scope) {
         var resetCtrl = this;
         resetCtrl.validaRisposta = function() {
-            $http.post('/api/v1.0/utenti/validaRisposta', { username: resetCtrl.nome_utente, risposta_segreta: resetCtrl.risposta })
+            $http.post('/api/v1.0/utenti/validaRisposta', { username: resetCtrl.utente.username, risposta_segreta: resetCtrl.risposta })
                 .then(function(response) {
                     if (response.data.successo === true)
                         $scope.rispostaGiusta = 1;
@@ -23,11 +23,8 @@ angular.module('reset').component('reset', {
         };
         $http.post('/api/v1.0/utenti/validaToken', { token: $routeParams.token }).then(function(res) {
             if (res.data.successo === true) {
-                resetCtrl.nome_utente = res.data.username;
-                resetCtrl.utente = null;
-                $http.get('/api/v1.0/utenti/get/' + resetCtrl.nome_utente).then(function(resp) {
-                    resetCtrl.utente = resp.data.utente;
-                });
+                console.log(res.data);
+                resetCtrl.utente = res.data.user;
                 $scope.tokenValido = true;
 
             } else $scope.tokenValido = false;
