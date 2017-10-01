@@ -9,11 +9,14 @@ angular.module('recupero').component('recupero', {
         $scope.utenteEsistente = true; // per non far vedere il messaggio prima del tempo
         recuperoPwd.checkUtente = function() {
             $http.post('api/v1.0/utenti/richiestarecuperopw', { username: recuperoPwd.utente.nome, indirizzo: $location.protocol() + "://" + $location.host() + ":" + $location.port() + '/resetPassword/' }).then(function(res) {
-                if (res.data.successo === true) {
-                    $scope.utenteEsistente = 1;
-                    $scope.formSubmitted = true;
-                } else $scope.utenteEsistente = false;
-            });
+                    if (res.data.successo === true) {
+                        $scope.utenteEsistente = 1;
+                        $scope.formSubmitted = true;
+                    }
+                },
+                function(err) {
+                    $scope.utenteEsistente = 0;
+                });
         };
     }
 });
