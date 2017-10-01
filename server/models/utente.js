@@ -12,9 +12,35 @@ var Schema = mongoose.Schema;
         -risposta cryptata con bcryptjs
 */
 var UtenteSchema = new Schema({
+    nome: {
+        type: String,
+        required: [true, 'Inserisci un nome']
+    },
+    cognome: {
+        type: String,
+        required: [true, 'Inserisci un cognome']
+    },
     username: {
         type: String,
-        required: [true,'Inserisci un nome utente']
+        required: [true, 'Inserisci un nome utente']
+    },
+    stato: {
+        type: String,
+        required: [true, 'Inserisci uno Stato']
+    },
+    provincia: {
+        type: String
+    },
+    comune: {
+        type: String
+    },
+    indirizzo: {
+        type: String,
+        required: [true, 'Inserisci un indirizzo']
+    },
+    telefono: {
+        type: String,
+        required: [true, 'Inserisci un numero']
     },
     email: {
         type: String,
@@ -24,19 +50,34 @@ var UtenteSchema = new Schema({
             },
             message: 'Email non valida'
         },
-        required: [true,'Inserisci una email valida']
+        required: [true, 'Inserisci una email valida']
     },
     password_hash: {
         type: String,
-        required: [true,'Inserisci una password']
+        required: [true, 'Inserisci una password']
     },
     domanda_segreta: {
         type: String,
-        required: [true,'Inserisci una domanda segreta']
+        required: [true, 'Inserisci una domanda segreta']
     },
     risposta_segreta_hash: {
         type: String,
-        required: [true,'Inserisci una risposta segreta']
+        required: [true, 'Inserisci una risposta segreta']
+    },
+    carrello: {
+        prodotti: [{ // Array
+            nome: String,
+            prezzo: Number,
+            descrizioneBreve: String,
+            quantita: Number,
+            urlImmagine: String
+        }]
+    },
+    scadenzaRecupero: {
+        type: Date
+    },
+    tokenRecupero: {
+        type: String
     }
 });
 module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');
