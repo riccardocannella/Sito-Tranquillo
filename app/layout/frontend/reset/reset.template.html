@@ -1,31 +1,50 @@
-<h3>Reset Password</h3>
-<div ng-show="tokenValido === true && rispostaGiusta != 1 && pwResettata !=1">
-    Ciao {{$ctrl.utente.username}}, per resettare la password rispondi alla tua domanda segreta.
-    <form ng-submit="$ctrl.validaRisposta()">
-        <label for="risposta">{{$ctrl.utente.domanda_segreta}}</label>
-        <input type="text" required name="risposta" id="risposta" ng-model="$ctrl.risposta" />
-        <input type="submit" value="Controlla risposta">
-    </form>
-</div>
-<div ng-show="tokenValido === false">
-    Token non valido, <a href="/">torna alla home</a>.
-</div>
-<div ng-show="rispostaGiusta === 1 && pwResettata != 1">
-    <form ng-submit="$ctrl.resetPwd()">
-        <label for="password">Password</label>
-        <input type="password" required name="password" id="password" ng-model="$ctrl.password" />
-        <label for="conferma">Conferma Password</label>
-        <input type="password" required name="conferma" id="conferma" ng-model="$ctrl.conferma" />
+<section class="wrapper w3-row w3-center">
 
-        <input type="submit" value="Cambia Password">
-    </form>
-</div>
-<div ng-show="rispostaGiusta === 0 && pwResettata != 1">
-    Risposta errata.
-</div>
-<div ng-show="pwResettata === 1">
-    Password resettata correttamente. <a href="/autenticazione">Torna alla pagina di login</a>
-</div>
-<div ng-show="pwResettata === 0">
-    Errore nel reset della password.
-</div>
+    <h3 class="w3-col l12 m12 s12 w3-light-gray w3-text-teal">Reset Password</h3>
+
+    <div class="w3-col l12 m12 s12 margin-top-1 margin-bottom-1">
+        
+        <div ng-show="tokenValido === true && rispostaGiusta != 1 && pwResettata !=1">
+            Ciao {{$ctrl.utente.username}}, per resettare la password rispondi alla tua domanda segreta.
+            <form ng-submit="$ctrl.validaRisposta()">
+                <label for="risposta"><h4 class="w3-margin">{{$ctrl.utente.domanda_segreta}}</h4></label>
+                <div style="width: 45vh; margin: auto;">
+                    <input class="w3-input w3-border w3-margin w3-text-orange" type="text" name="risposta" id="risposta" ng-model="$ctrl.risposta"
+                        required />
+                    <input class="w3-btn w3-border w3-yellow" type="submit" value="Controlla risposta" />
+                </div>
+            </form>
+        </div>
+        
+        <div class="w3-container pa-15" ng-show="tokenValido === false">
+            <p><img src="https://media.giphy.com/media/l2SqbuwpIKYQvH8bu/giphy.gif" style="max-width: 100%"></p>
+            <p class="w3-tag w3-blue w3-padding w3-margin-top"><i class="fa fa-arrow-left" aria-hidden="true"></i><a href="/"> Link non valido, torna alla home.</a></p>
+        </div>
+
+        <div ng-show="rispostaGiusta === 1 && pwResettata != 1">
+            <form ng-submit="$ctrl.resetPwd()">
+                <p>
+                    <label for="password">Password</label>
+                    <input class="w3-input w3-border w3-center" type="password" required name="password" id="password" ng-model="$ctrl.password" / style="width: 45vh; margin: auto;">
+                </p>
+                <p>
+                    <label for="conferma">Conferma Password</label>
+                    <input class="w3-input w3-border w3-center" type="password" required name="conferma" id="conferma" ng-model="$ctrl.conferma" style="width: 45vh; margin: auto;"/>
+                </p>
+                <input type="submit" value="Cambia Password">
+            </form>
+        </div>
+        
+        <div class="w3-margin w3-text-red" ng-show="rispostaGiusta === 0 && pwResettata != 1">
+            <h3>Risposta errata.</h3>
+        </div>
+        <div class="w3-margin w3-text-green" ng-show="pwResettata === 1">
+            <h3>Password resettata correttamente. <a href="/autenticazione">Torna alla pagina di login</a></h3>
+        </div>
+        <div class="w3-margin w3-text-red" ng-show="pwResettata === 0">
+            <h3>Errore nel reset della password.</h3>
+        </div>
+
+    </div>
+
+</section>
