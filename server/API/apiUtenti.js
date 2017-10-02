@@ -632,3 +632,94 @@ exports.rimuoviDalCarrello = function(req, res) {
     });
 
 }
+
+/*--------------------------------------------------------------
+|    Funzione: acquistaProdottiNelCarrello()                    |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|                                                               |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+|        carrello_obsoleto: valore impostato a false            |
+|                                                               |
+|     Parametri restituiti in caso di oggetto non presente nel  |
+|     db:                                                       |
+|        successo: valore impostato a false                     |
+|        carrello_obsoleto: valore impostato a true             |                                   
+ ---------------------------------------------------------------*/
+
+exports.acquistaProdottiNelCarrello = function(req,res){
+    // Controllo la validità del token e procedo all'acquisto
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded){
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato){
+                if(err || utenteTrovato == null){
+                    return utilities.handleError(res, err, 'Utente non trovato')   
+                } else { // Utente trovato controllo il suo carrello
+                    if(utenteTrovato.carrello.prodotti.length == 0 || utenteTrovato.carrello.prodotti == null){
+                        // Carrello vuoto, nothing to do here.
+                        return utilities.handleError(res, 'EMP_CAR', 'Carrello vuoto')
+                    } else {
+                        // INIZIO funzione con promessa
+
+                        let acquistoORimozione = new Promise(function(resolve,reject){
+                            Prodotto.find({}, function(err, elencoProdotti){
+                                if(err){
+                                    return utilities.handleError(res, err, 'Server Error');
+                                } else {
+                                    var i = 0;
+                                    var obsoleto = false; // True se sono presenti oggetti sbagliati nel carrello
+                                    var prodotti_obsoleti = [];
+                                    for(i = 0; i<utenteTrovato.carrello.prodotti.length; i++){
+                                        for(var j=0; j<elencoProdotti.length;j++){
+                                            if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
+                                                break; // Passa all'elemento successivo del carrello
+                                            }
+                                            if(j == elencoProdotti.length - 1){
+                                                obsoleto = true;
+                                                prodotti_obsoleti.push(utenteTrovato.carrello.prodotti[i]._id);
+                                            }
+                                        }
+                                    }
+                                    if(obsoleto == true){
+                                        // Elimino i prodotti uguali e ritorno
+                                        for(i = 0; i < prodotti_obsoleti.length;i++){
+                                            utenteTrovato.carrello.prodotti =  utenteTrovato.carrello.prodotti.filter(function(prod){
+                                                return !(prod._id.equals(prodotti_obsoleti[i]));
+                                            });
+                                        }
+                                        utenteTrovato.save(function(err){
+                                            if(err){
+                                                return utilities.handleError(res,err,'Server error');
+                                            }
+                                            reject(true);
+
+                                        })
+                                        
+                                    } else {
+                                        resolve(false);
+                                    }
+                                }
+                            });                 
+                        });
+
+                        //FINE funzione con promessa
+
+                        acquistoORimozione.then(function(fromResolve){
+                            res.status(201).json({'successo':true,'carrello_obsoleto':fromResolve});
+                        }).catch(function(fromReject){
+                            res.status(500).json({'successo':false,'carrello_obsoleto':fromReject});
+                        });
+                    }
+                }
+            });
+        }
+    });
+}
+

@@ -73,6 +73,18 @@ var UtenteSchema = new Schema({
             urlImmagine: String
         }]
     },
+    storia_acquisti: {
+        acquisti: [{ // Array
+            data_acquisto: Date,
+            prodotti: [{
+                nome: String,
+                prezzo: Number,
+                descrizioneBreve: String,
+                quantita: Number,
+                urlImmagine: String
+            }]
+        }]
+    },
     scadenzaRecupero: {
         type: Date
     },
