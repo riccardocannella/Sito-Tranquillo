@@ -325,6 +325,7 @@ exports.richiestaRecuperoPassword = function(req, res) {
     var crypto = require('crypto');
     Utente.findOne({ username: req.body.username })
         .then(function(utente) {
+            if (!utente) return utilities.handleError(res, "ERR_NO_USER", "L'utente ricercato non esiste");
             var indirizzoRecupero = req.body.indirizzo;
             crypto.randomBytes(20, function(err, buf) {
                 var token = buf.toString('hex');

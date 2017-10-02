@@ -1,3 +1,4 @@
+
 <section class="wrapper w3-row w3-center">
         
         <h3 class="w3-col l12 m12 s12 w3-light-gray w3-text-teal">Recupero password</h3>
@@ -13,7 +14,7 @@
                     </div>
                 </div>  
                 <div class="">
-                    <div ng-show="!utenteEsistente">Questo nome utente non esiste.</div>
+                    <div ng-show="utenteEsistente === 0">Questo nome utente non esiste.</div>
                     <div class="margin-top-1">
                         <input type="reset" class="w3-btn w3-border w3-border-red" value="Annulla">
                         <input type="submit" class="w3-btn w3-border w3-border-green" value="Successivo">
@@ -22,6 +23,6 @@
             </div>
         </form>
     
-        <div class="margin-top-2" ng-show="formSubmitted && utenteEsistente === 0"><h3>E' stata inviata un'email all'indirizzo specificato in fase di registrazione.</h3></div>
+        <div class="margin-top-2" ng-show="formSubmitted && utenteEsistente === 1"><h3>E' stata inviata un'email all'indirizzo specificato in fase di registrazione.</h3></div>
     
 </section>
