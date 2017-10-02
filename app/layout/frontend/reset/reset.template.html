@@ -5,33 +5,52 @@
     <div class="w3-col l12 m12 s12 margin-top-1 margin-bottom-1">
         
         <div ng-show="tokenValido === true && rispostaGiusta != 1 && pwResettata !=1">
-            Ciao {{$ctrl.utente.username}}, per resettare la password rispondi alla tua domanda segreta.
+            <h4>Ciao {{$ctrl.utente.username}}, per resettare la password rispondi alla tua domanda segreta.</h4>
             <form ng-submit="$ctrl.validaRisposta()">
                 <label for="risposta"><h4 class="w3-margin">{{$ctrl.utente.domanda_segreta}}</h4></label>
                 <div style="width: 45vh; margin: auto;">
-                    <input class="w3-input w3-border w3-margin w3-text-orange" type="text" name="risposta" id="risposta" ng-model="$ctrl.risposta"
+                    <input class="w3-input w3-border w3-margin w3-center" type="text" name="risposta" id="risposta" ng-model="$ctrl.risposta"
                         required />
-                    <input class="w3-btn w3-border w3-yellow" type="submit" value="Controlla risposta" />
+                    <input class="w3-btn w3-border w3-blue-gray" type="submit" value="Controlla risposta" />
                 </div>
             </form>
         </div>
         
         <div class="w3-container pa-15" ng-show="tokenValido === false">
             <p><img src="https://media.giphy.com/media/l2SqbuwpIKYQvH8bu/giphy.gif" style="max-width: 100%"></p>
-            <p class="w3-tag w3-blue w3-padding w3-margin-top"><i class="fa fa-arrow-left" aria-hidden="true"></i><a href="/"> Link non valido, torna alla home.</a></p>
+            <p class="w3-btn w3-blue w3-margin-top"><a href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Link non valido, torna alla home.</a></p>
         </div>
 
         <div ng-show="rispostaGiusta === 1 && pwResettata != 1">
-            <form ng-submit="$ctrl.resetPwd()">
-                <p>
+           <p>
+               <h4>Inserisci le tue nuove credenziali</h4>
+           </p>
+            <form name="resetValidation" ng-submit="$ctrl.resetPwd()">
+                <p class="margin-top-1">
                     <label for="password">Password</label>
-                    <input class="w3-input w3-border w3-center" type="password" required name="password" id="password" ng-model="$ctrl.password" / style="width: 45vh; margin: auto;">
+                    <input class="w3-input w3-border w3-center" name="password" type="password" id="resetPassword" ng-model="$ctrl.password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,63}"
+                        style="width: 45vh; margin: auto;" required />
+                    <div ng-messages="resetValidation.password.$error" ng-show="resetValidation.password.$dirty" style="color: red">
+                        <p ng-message="required">La tua password è richiesta</p>
+                        <p ng-message="pattern">Almeno un NUMERO, un carattere MAIUSCOLO ed uno MINUSCOLO. Deve essere di tra gli 8 ed i 63 caratteri</p>
+                    </div>
                 </p>
-                <p>
+                <p class="margin-top-1">
                     <label for="conferma">Conferma Password</label>
-                    <input class="w3-input w3-border w3-center" type="password" required name="conferma" id="conferma" ng-model="$ctrl.conferma" style="width: 45vh; margin: auto;"/>
+                    <input class="w3-input w3-border w3-center" name="conferma" type="password" id="resetConferma" ng-model="$ctrl.conferma"
+                        style="width: 45vh; margin: auto;" required />
+                    <div ng-messages="resetValidation.conferma-password.$error" ng-show="resetValidation.conferma-password.$dirty" style="color: red">
+                        <p ng-message="required">La tua conferma della password è richiesta</p>
+                    </div>
+                    <div ng-hide="(resetValidation.password.$error | json) != '{}' && $ctrl.password != ''">
+                        <p ng-if="$ctrl.password != $ctrl.conferma" style="color:red">Le password non coincidono <i class="fa fa-frown-o" aria-hidden="true"></i></p>
+                        <p ng-if="$ctrl.password == $ctrl.conferma" style="color:green">Le password coincidono <i class="fa fa-smile-o" aria-hidden="true"></i></p>
+                    </div>
                 </p>
-                <input type="submit" value="Cambia Password">
+
+                <div style="width: 45vh; margin: auto;">
+                    <input class="w3-btn w3-border w3-green margin-top-1" type="submit" value="Cambia Password" />
+                </div>
             </form>
         </div>
         
@@ -39,7 +58,7 @@
             <h3>Risposta errata.</h3>
         </div>
         <div class="w3-margin w3-text-green" ng-show="pwResettata === 1">
-            <h3>Password resettata correttamente. <a href="/autenticazione">Torna alla pagina di login</a></h3>
+            <h3>Password resettata correttamente. <a href="/autenticazione"><i class="fa fa-sign-in" aria-hidden="true"></i> Torna alla pagina di login</a></h3>
         </div>
         <div class="w3-margin w3-text-red" ng-show="pwResettata === 0">
             <h3>Errore nel reset della password.</h3>
