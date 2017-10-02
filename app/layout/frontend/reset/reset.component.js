@@ -13,7 +13,7 @@ angular.module('reset').component('reset', {
                 });
         };
         resetCtrl.resetPwd = function() {
-            $http.post('/api/v1.0/utenti/resetPw', { username: resetCtrl.nome_utente, nuova_password: resetCtrl.password })
+            $http.post('/api/v1.0/utenti/resetPw', { username: resetCtrl.utente.username, nuova_password: resetCtrl.password })
                 .then(function(resp2) {
                     if (resp2.data.successo === true)
                         $scope.pwResettata = 1;
