@@ -670,9 +670,11 @@ exports.acquistaProdottiNelCarrello = function(req,res){
 
                         let acquistoORimozione = new Promise(function(resolve,reject){
                             Prodotto.find({}, function(err, elencoProdotti){
+                                console.log(utenteTrovato);
                                 if(err){
                                     return utilities.handleError(res, err, 'Server Error');
                                 } else {
+
                                     var i = 0;
                                     var obsoleto = false; // True se sono presenti oggetti sbagliati nel carrello
                                     var prodotti_obsoleti = [];
@@ -703,7 +705,36 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                         })
                                         
                                     } else {
-                                        resolve(false);
+                                        for(i=0; i < utenteTrovato.carrello.prodotti.length; i++){
+                                            for(var j = 0; j < elencoProdotti.length;j++){
+                                                if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
+                                                    elencoProdotti[j].impegnoInCarrelli -= utenteTrovato.carrello.prodotti[i].quantita;
+                                                    elencoProdotti[j].giacenza -= utenteTrovato.carrello.prodotti[i].quantita;
+                                                    console.log(i + ' ' + elencoProdotti[j].impegnoInCarrelli);
+                                                    console.log(i + ' ' + elencoProdotti[j].giacenza);
+                                                }
+                                            }
+                                        }
+                                            elencoProdotti.save(function(err){
+                                                if(err){
+                                                    return utilities.handleError(res,err,'Server error');
+                                                }
+
+                                                var acquisto = new Object();
+                                                acquisto['data_acquisto'] = Date.now();
+                                                acquisto['prodotti'] = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack to clone an object
+                                                utenteTrovato.carrello.prodotti = null; // Rimuovo i prodotti dal carrello
+                                                utenteTrovato.storia_acquisti.push(acquisto);
+
+                                                utenteTrovato.save(function(err){
+                                                    if(err){
+                                                        return utilities.handleError(res,err,'Server error');
+                                                    }
+
+                                                    resolve(false); // carrello non obsoleto, quindi acquisto effettuato
+                                                });
+                                                
+                                            });
                                     }
                                 }
                             });                 
