@@ -714,27 +714,47 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                     console.log(i + ' ' + elencoProdotti[j].giacenza);
                                                 }
                                             }
-                                        }
-                                            elencoProdotti.save(function(err){
-                                                if(err){
-                                                    return utilities.handleError(res,err,'Server error');
+                                            if(i == (utenteTrovato.carrello.prodotti.length - 1)){
+                                                var total = elencoProdotti.length
+                                                , result = [];
+                                                
+                                                function saveAll(){
+                                                    var doc = elencoProdotti.pop();
+                                                    doc.save(function(err,saved){
+                                                        if(err){return utilities.handleError(res,err,'Server error');}
+                                                        result.push(saved[0]);
+
+                                                        if(--total){ saveAll();}
+                                                        else{
+                                                            lastSave();
+                                                        }
+                                                    });
                                                 }
 
-                                                var acquisto = new Object();
-                                                acquisto['data_acquisto'] = Date.now();
-                                                acquisto['prodotti'] = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack to clone an object
-                                                utenteTrovato.carrello.prodotti = null; // Rimuovo i prodotti dal carrello
-                                                utenteTrovato.storia_acquisti.push(acquisto);
+                                                function lastSave(){
+                                                    //var acquisto = new Object();
+                                                    //acquisto['data_acquisto'] = Date.now();
+                                                    //acquisto['prodotti'] = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack per clonare un oggetto
+                                                    utenteTrovato.carrello.prodotti = []; // Rimuovo i prodotti dal carrello
+                                                    //utenteTrovato.storia_acquisti.push(acquisto);
+        
+                                                    utenteTrovato.save(function(err){
+                                                        if(err){
+                                                            return utilities.handleError(res,err,'Server error');
+                                                        }
+        
+                                                        resolve(false); // carrello non obsoleto, quindi acquisto effettuato
+                                                    });
+                                                }
 
-                                                utenteTrovato.save(function(err){
-                                                    if(err){
-                                                        return utilities.handleError(res,err,'Server error');
-                                                    }
+                                                saveAll();  // Chiamo la funzione
 
-                                                    resolve(false); // carrello non obsoleto, quindi acquisto effettuato
-                                                });
                                                 
-                                            });
+                                            }
+
+                                            
+                                        }
+                                                
                                     }
                                 }
                             });                 
