@@ -39,7 +39,7 @@
                     <label for="conferma">Conferma Password</label>
                     <input class="w3-input w3-border w3-center" name="conferma" type="password" id="resetConferma" ng-model="$ctrl.conferma"
                         style="width: 45vh; margin: auto;" required />
-                    <div ng-messages="resetValidation.conferma-password.$error" ng-show="resetValidation.conferma-password.$dirty" style="color: red">
+                    <div ng-messages="resetValidation.conferma.$error" ng-show="resetValidation.conferma-password.$dirty" style="color: red">
                         <p ng-message="required">La tua conferma della password è richiesta</p>
                     </div>
                     <div ng-hide="(resetValidation.password.$error | json) != '{}' && $ctrl.password != ''">
