@@ -1,17 +1,16 @@
 <main>
-    <!-- Da riabilitare con l'implementazione di javascript per il responsive del menu laterale
-        <button class="w3-button w3-teal w3-xlarge w3-right w3-hide-large" onclick="menu_open()">&#9776;</button>
-        -->
-    <menu id="SidebaR" type="toolbar" class="sidebar w3-collapse w3-card-2 w3-animate-left">
+   
+        <button class="w3-button w3-large" ng-click="ShowHide()">Close &times;</button>
+        
 
-        <!-- Da riabilitare con l'implementazione di javascript per il responsive del menu laterale 
-        <button class=" w3-button w3-large w3-hide-large" onclick="menu_close()">Close &times;</button>
-        -->
+    <menu id="SidebaR" type="toolbar" ng-show = "IsVisible" class="sidebar w3-collapse w3-card-2 w3-animate-left">
+
+
         <form class="">
             <li class="w3-padding">
                 <label class="w3-text-blue"><b>Ricerca:</b>
-        <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" pattern="[^'\x22]+" title="Invalid input"
-            placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
+                <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" pattern="[^'\x22]+" title="Invalid input"
+                placeholder="Cerca qui un prodotto" ng-model="$ctrl.query" />
         </label>
             </li>
         </form>
