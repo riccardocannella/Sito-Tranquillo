@@ -710,6 +710,7 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                 if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
                                                     elencoProdotti[j].impegnoInCarrelli -= utenteTrovato.carrello.prodotti[i].quantita;
                                                     elencoProdotti[j].giacenza -= utenteTrovato.carrello.prodotti[i].quantita;
+                                                    // DEBUG (rimuovere le seguenti 2 righe se si vuole)
                                                     console.log(i + ' ' + elencoProdotti[j].impegnoInCarrelli);
                                                     console.log(i + ' ' + elencoProdotti[j].giacenza);
                                                 }
@@ -718,6 +719,7 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                 var total = elencoProdotti.length
                                                 , result = [];
                                                 
+                                                //Funzione che salva i nuovi prodotti uno ad uno
                                                 function saveAll(){
                                                     var doc = elencoProdotti.pop();
                                                     doc.save(function(err,saved){
@@ -730,7 +732,8 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                         }
                                                     });
                                                 }
-
+                                                
+                                                // Funzione che salva l'utente rimuovendo il carrello e aggiungendolo alla lista degli acquisti precedenti
                                                 function lastSave(){
                                                     
                                                                                                         
@@ -760,7 +763,7 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                     });
                                                 }
 
-                                                saveAll();  // Chiamo la funzione
+                                                saveAll();  // Chiamo la funzione (sopra sono soltanto dichiarate)
 
                                                 
                                             }
