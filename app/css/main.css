@@ -175,13 +175,6 @@ header {
         */
 }
 
-.banner p {
-    font-size: 1.4em;
-    font-family: 'Cardal', sand-serif;
-    color: white;
-}
-
-
 /***************************************************
      Footer
 ***************************************************/
@@ -190,7 +183,7 @@ header {
 /* da far ricalcolare una volta finito il footer */
 
 .sticky-footer {
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - 200px);
     /* min-height: 100vh; */
 }
 
