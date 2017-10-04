@@ -732,18 +732,31 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                 }
 
                                                 function lastSave(){
-                                                    //var acquisto = new Object();
-                                                    //acquisto['data_acquisto'] = Date.now();
-                                                    //acquisto['prodotti'] = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack per clonare un oggetto
+                                                    
+                                                                                                        
+
+                                                    var backup_carrello = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack per clonare un oggetto
                                                     utenteTrovato.carrello.prodotti = []; // Rimuovo i prodotti dal carrello
-                                                    //utenteTrovato.storia_acquisti.push(acquisto);
-        
+
+                                                    // Salvo i cambiamenti all'utente
                                                     utenteTrovato.save(function(err){
                                                         if(err){
                                                             return utilities.handleError(res,err,'Server error');
                                                         }
-        
-                                                        resolve(false); // carrello non obsoleto, quindi acquisto effettuato
+                                                        
+                                                        // Aggiungo la storia dell'acquisto all'utente
+                                                        Utente.findByIdAndUpdate(decoded.utenteID,{$push : {"storia_acquisti.acquisti": {
+                                                                data_acquisto: Date.now(),
+                                                                prodotti: backup_carrello
+                                                            }}},{upsert:true})
+                                                            .then(function(){
+                                                                resolve(false); // carrello non obsoleto, quindi acquisto effettuato
+                                                            })
+                                                            .catch(function(err){
+                                                                return utilities.handleError(res,err,'Server error');
+                                                            });
+                                                            
+                                                        
                                                     });
                                                 }
 
