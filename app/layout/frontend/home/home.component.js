@@ -8,9 +8,11 @@ angular.module('home').component('home', {
         $http.get('api/v1.0/prodotti').then(function(response) {
             listaProva.prodotti = response.data;
         });
+
+        //Funzione per chiudere e riaprire la sidebar nella home page
         $scope.IsVisible = true;
         $scope.ShowHide = function () {
-            //If DIV is visible it will be hidden and vice versa.
+            //Se la sidebar è visibile allora verrà chiusa e viceversa
             $scope.IsVisible = $scope.IsVisible ? false : true;
         }
     }
