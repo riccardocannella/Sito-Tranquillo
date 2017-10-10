@@ -90,6 +90,10 @@ var UtenteSchema = new Schema({
     },
     tokenRecupero: {
         type: String
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');
