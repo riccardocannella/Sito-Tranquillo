@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="author" content="co-authored by Riccardo Cannella, Corrado Petrelli, Andrea Salvatori, Michele Biondi">
     <meta name="generator" content="Visual Studio Code">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Mobile device -->
     <meta name="description" content="E-commerce per la vendita di estrattori di cui ti puoi fidare!!">
     <meta HTTP-EQUIV="keywords" content="sito site tranquillo quiet negozio shop vendita sale estrattori accessori cucina">
@@ -20,12 +20,16 @@
     <link rel="icon" type="image/png" href="icons/sito-tranq-favicon.png" sizes="192x192">
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/select.css">
     <link href='https://fonts.googleapis.com/css?family=Josefin+Sans:400,700,600italic,400italic,700italic,600' rel='stylesheet'>
     <!-- Angular -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-messages.min.js"></script>
     <script src="app.module.js"></script>
     <script src="app.config.js"></script>
+    <script src="scripts/ng-file-upload-12.2.13/ng-file-upload.min.js"></script>
+    <script src="scripts/ng-file-upload-12.2.13/ng-file-upload-shim.min.js"></script>
     <script src="layout/frontend/home/home.module.js"></script>
     <script src="layout/frontend/home/home.component.js"></script>
     <script src="layout/frontend/invalid/invalid.module.js"></script>
@@ -34,16 +38,22 @@
     <script src="layout/frontend/dettaglio/dettaglio.component.js"></script>
     <script src="layout/frontend/autenticazione/autenticazione.module.js"></script>
     <script src="layout/frontend/autenticazione/autenticazione.component.js"></script>
+    <script src="layout/frontend/autenticazione/autenticazione.controller.js"></script>
     <script src="layout/frontend/condizioni/condizioni.module.js"></script>
     <script src="layout/frontend/condizioni/condizioni.component.js"></script>
     <script src="layout/frontend/about/about.module.js"></script>
     <script src="layout/frontend/about/about.component.js"></script>
     <script src="layout/frontend/informativa/informativa.module.js"></script>
     <script src="layout/frontend/informativa/informativa.component.js"></script>
+    <script src="layout/frontend/recupero/recupero.module.js"></script>
+    <script src="layout/frontend/recupero/recupero.component.js"></script>
+    <script src="layout/frontend/reset/reset.module.js"></script>
+    <script src="layout/frontend/reset/reset.component.js"></script>
     <script src="layout/backend/aggiuntaProdotti/aggiuntaProdotti.module.js"></script>
     <script src="layout/backend/aggiuntaProdotti/aggiuntaProdotti.component.js"></script>
     <script src="layout/backend/modificaProdotti/modificaProdotti.module.js"></script>
     <script src="layout/backend/modificaProdotti/modificaProdotti.component.js"></script>
+    <script src="layout/frontend/navbar/navbar.controller.js"></script>
 </head>
 
 <body>
@@ -51,23 +61,8 @@
     <div class="sticky-footer">
         <header id="header" class="clearfix">
             <section class="w3-container w3-light-grey">
-                <div class="main-header">
-                    <div class="w3-show-inline-block e3-left">
-                        <div class="w3-btn w3-red w3-hide-small w3-hide-medium">
-                            <a href="tel:0039-000-000-0000" title="Tel: (+39) 00 000 000 00"><i class="fa fa-phone fa-lg"> </i><span class="hidden-xs"> Tel: (+39) 00 000 000 00</span></a>
-                        </div>
-                        <div class="w3-btn w3-white w3-hide-small">
-                            <a href="mailto:info@sitotranquillo.it?&subject=info%20contatto&body=Salve,%20la%20contatto%20per%20....." target="_top"><i class="fa fa-envelope fa-lg"> </i><span> Scrivici una e-Mail</span></a>
-                        </div>
-                    </div>
-                    <div class="w3-show-inline-block w3-right">
-                        <div class="w3-btn w3-blue">
-                            <a href="#carrello" id="cart_contents"><i class="fa fa-shopping-cart fa-lg"></i> <span class="hidden-xs hidden-sm"> Carrello</span></a>
-                        </div>
-                        <div class="w3-btn w3-green">
-                            <a href="/autenticazione"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> Login</a>
-                        </div>
-                    </div>
+                <div ng-controller="navbarCtrl" class="main-header">
+                    <div ng-include="navbarTemplate"></div>
                 </div>
             </section>
 
@@ -90,7 +85,7 @@
         <!-- Navigation-->
         <nav>
             <div class="w3-bar w3-teal">
-                <div>
+                <div>                        
                     <a href="/" class="w3-bar-item w3-button">Home</a>
                     <div class="w3-dropdown-hover">
                         <button class="w3-button">Estrattori <i class="fa fa-caret-down" aria-hidden="true"></i></button>
@@ -112,8 +107,6 @@
                     <a href="admin/aggiuntaProdotti" class="w3-bar-item w3-button">Link 1</a>
                     <a href="#" class="w3-bar-item w3-button">Link 2</a>
                 </div>
-                <input type="text" class="w3-right w3-bar-item w3-input" placeholder="Cerca qui il tuo prodotto..." ng-model="$ctrl.query" />
-                <a href="#" class="w3-right w3-bar-item w3-button"><i class="fa fa-search" aria-hidden="true"></i></a>
             </div>
         </nav>
         <!-- Main -->
@@ -121,7 +114,8 @@
         <div class="clearfix">
             <div ng-view></div>
         </div>
-
+    <!-- Div di chiusura Sticky footer -->
+    </div> 
         <!-- Footer -->
         <footer class="w3-text-white w3-teal center">
             <section class="w3-row">

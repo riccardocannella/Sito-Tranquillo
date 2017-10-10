@@ -1,7 +1,8 @@
 'use strict';
 module.exports = function(app, db) {
     var apiUtenti = require('../API/apiUtenti.js');
-    
+    apiUtenti.setDb(db);
+
     // Api degli utenti
     app.route('/api/v1.0/utenti/registrazione')
         .post(apiUtenti.registraUtente);
@@ -9,9 +10,24 @@ module.exports = function(app, db) {
     app.route('/api/v1.0/utenti/login')
         .post(apiUtenti.loginUtente);
 
-    app.route('/api/v1.0/utenti/recuperopw')
-        .post(apiUtenti.recuperoPassword);
+    app.route('/api/v1.0/utenti/resetpw/')
+        .post(apiUtenti.resetPassword);
 
     app.route('/api/v1.0/utenti/richiestarecuperopw')
         .post(apiUtenti.richiestaRecuperoPassword);
+
+    app.route('/api/v1.0/utenti/aggiungialcarrello')
+        .post(apiUtenti.aggiungiAlCarrello);
+
+    app.route('/api/v1.0/utenti/rimuovidalcarrello')
+        .post(apiUtenti.rimuoviDalCarrello);
+
+    app.route('/api/v1.0/utenti/validaToken')
+        .post(apiUtenti.validaToken);
+    app.route('/api/v1.0/utenti/validaRisposta')
+        .post(apiUtenti.validaRispostaSegreta);
+    app.route('/api/v1.0/utenti/get/:utente')
+        .get(apiUtenti.getUtente);
+    app.route('/api/v1.0/utenti/acquistaProdottiNelCarrello')
+        .post(apiUtenti.acquistaProdottiNelCarrello);
 };

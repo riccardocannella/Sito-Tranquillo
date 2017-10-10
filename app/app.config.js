@@ -31,18 +31,25 @@ angular.module('sitotranquillo')
                     title: 'Login'
                 })
                 .when('/informativa', {
-                    template: '<informativa></informativa>'
+                    template: '<informativa></informativa>',
                     title: 'Informativa'
-                
+                })
+                .when('/recupero', {
+                    template: '<recupero></recupero>',
+                    title: 'Recupero Password'
+                })
+                .when('/resetPassword/:token', {
+                    template: '<reset></reset>',
+                    title: 'Reset Password'
                 })
                 // route amministrative (?)
                 .when('/admin/aggiuntaProdotti', {
-                    template: '<aggiunta-prodotti></aggiunta-prodotti>'
+                    template: '<aggiunta-prodotti></aggiunta-prodotti>',
                     title: 'Aggiungi Prodotti'
-
                 })
                 .when('/admin/modificaProdotti/:id', {
-                    template: '<modifica-prodotti></modifica-prodotti>'
+                    template: '<modifica-prodotti></modifica-prodotti>',
+                    title: 'Modifica Prodotti'
                 })
                 .otherwise('/invalidPage');
             // tolgo l'hashbang

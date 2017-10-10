@@ -1,23 +1,24 @@
 <article class="" ng-if="$ctrl.prodotto">
-    
+
     <p class="wrapper w3-container pa-15">
         <span class="w3-tag w3-blue w3-padding"><i class="fa fa-arrow-left" aria-hidden="true"></i><a href="/"> Torna alla lista prodotti</a></span>
     </p>
     <hr style="padding: 0; margin: 0;">
-    
+
     <div class="w3-panel w3-light-gray">
         <div class="wrapper">
             <div class="w3-show-inline-block w3-left">
                 <h1><b>{{ $ctrl.prodotto.nome }}</b></h1>
             </div>
-            <div class="w3-show-inline-block w3-right"><h3>€ {{$ctrl.prodotto.prezzo}}</h3><span><small>(prezzi iva esclusa)</small></span></div>
+            <div class="w3-show-inline-block w3-right">
+                <h3>€ {{$ctrl.prodotto.prezzo}}</h3><span><small>(prezzi iva esclusa)</small></span></div>
         </div>
     </div>
 
     <div class="wrapper ">
         <div class="margin-top-2 w3-cell-row">
             <picture class="w3-container w3-cell w3-mobile photo-dettaglio m6">
-                <img class="w3-animate-fading" src="http://img4.hostingpics.net/pics/279657basket.png" />
+                <img class="w3-animate-fading" src="../../../images/uploads/{{$ctrl.prodotto.urlImmagine}}" />
             </picture>
             <div class="w3-mobile w3-cell m6">
                 <p class="w3-container">
@@ -33,22 +34,22 @@
                         &nbsp;
                     </div>
                     <div class="w3-twothird w3-center">
-                    <div class="w3-container w3-block quantita-nav">
-                        <div class="quantita-button">
-                            <button class="w3-button w3-black"><span class="">-</span></button>
+                        <div class="w3-container w3-block quantita-nav">
+                            <div class="quantita-button">
+                                <button class="w3-button w3-black"><span class="">-</span></button>
+                            </div>
+                            <div class="quantita">
+                                <input name="prod_quantita" value="1" maxlength="5" step="1" value="1" id="prod_quantita" type="number">
+                            </div>
+                            <div class="quantita-button">
+                                <button class="w3-button w3-teal">+</button>
+                            </div>
                         </div>
-                        <div class="quantita">
-                            <input name="prod_quantita" value="1" maxlength="5" step="1" value="1" id="prod_quantita" type="number">
-                        </div>
-                        <div class="quantita-button">
-                            <button class="w3-button w3-teal">+</button>
-                        </div>
-                    </div>
 
-                    <div class="w3-container w3-block w3-margin-top">
-                        <button class="w3-btn w3-teal">Aggiungi al carrello <i class="fa fa-shopping-cart fa-2x"></i></button>
+                        <div class="w3-container w3-block w3-margin-top">
+                            <button class="w3-btn w3-teal">Aggiungi al carrello <i class="fa fa-shopping-cart fa-2x"></i></button>
+                        </div>
                     </div>
-                </div>
                 </section>
             </div>
         </div>
@@ -56,7 +57,15 @@
         <div class="margin-top-2 margin-bottom-1 w3-cell-row w3-mobile">
             <div class="w3-container w3-cell">
                 <h3 class="w3-tag w3-teal">Specifiche</h3>
-                <p class="w3-container w3-padding">NG-IF SPECIFICHE</p>
+                <p class="w3-container w3-padding">
+                    <!-- BOZZA DI RICCARDO EVENTUALMENTE DA STILIZZARE -->
+                    <ul>
+                        <li>Peso: {{$ctrl.prodotto.specifiche.peso}} kg</li>
+                        <li>Dimensioni: {{$ctrl.prodotto.specifiche.dimensioni.lunghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.larghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.altezza}}</li>
+                        <li>Colore: {{$ctrl.prodotto.specifiche.colore}}</li>
+                    </ul>
+                    <!-- FINE BOZZA -->
+                </p>
             </div>
 
             <div class="w3-container w3-cell w3-mobile">
@@ -65,29 +74,29 @@
             </div>
         </div>
 
-    <div ng-if="!$ctrl.prodotto">
-        <span class="w3-tag w3-jumbo w3-red">P</span>
-        <span class="w3-tag w3-jumbo">R</span>
-        <span class="w3-tag w3-jumbo w3-yellow">O</span>
-        <span class="w3-tag w3-jumbo">D</span>
-        <span class="w3-tag w3-jumbo w3-red">O</span>
-        <span class="w3-tag w3-jumbo">T</span>
-        <span class="w3-tag w3-jumbo w3-yellow">T</span>
-        <span class="w3-tag w3-jumbo">O</span>
-        <br>
-        <span class="w3-tag w3-jumbo w3-red">N</span>
-        <span class="w3-tag w3-jumbo">O</span>
-        <span class="w3-tag w3-jumbo w3-yellow">N</span>
-        <br>
-        <span class="w3-tag w3-jumbo w3-red">T</span>
-        <span class="w3-tag w3-jumbo">R</span>
-        <span class="w3-tag w3-jumbo w3-yellow">O</span>
-        <span class="w3-tag w3-jumbo">V</span>
-        <span class="w3-tag w3-jumbo w3-red">A</span>
-        <span class="w3-tag w3-jumbo">T</span>
-        <span class="w3-tag w3-jumbo w3-yellow">O</span>
-    </div>
+        <div ng-if="!$ctrl.prodotto">
+            <span class="w3-tag w3-jumbo w3-red">P</span>
+            <span class="w3-tag w3-jumbo">R</span>
+            <span class="w3-tag w3-jumbo w3-yellow">O</span>
+            <span class="w3-tag w3-jumbo">D</span>
+            <span class="w3-tag w3-jumbo w3-red">O</span>
+            <span class="w3-tag w3-jumbo">T</span>
+            <span class="w3-tag w3-jumbo w3-yellow">T</span>
+            <span class="w3-tag w3-jumbo">O</span>
+            <br>
+            <span class="w3-tag w3-jumbo w3-red">N</span>
+            <span class="w3-tag w3-jumbo">O</span>
+            <span class="w3-tag w3-jumbo w3-yellow">N</span>
+            <br>
+            <span class="w3-tag w3-jumbo w3-red">T</span>
+            <span class="w3-tag w3-jumbo">R</span>
+            <span class="w3-tag w3-jumbo w3-yellow">O</span>
+            <span class="w3-tag w3-jumbo">V</span>
+            <span class="w3-tag w3-jumbo w3-red">A</span>
+            <span class="w3-tag w3-jumbo">T</span>
+            <span class="w3-tag w3-jumbo w3-yellow">O</span>
+        </div>
 
-</div>
+    </div>
 
 </article>

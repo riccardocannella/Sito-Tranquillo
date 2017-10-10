@@ -50,6 +50,37 @@ var ProdottoSchema = new Schema({
     descrizioneLunga: {
         type: String,
         required: [true, 'Inserisci una descrizione lunga']
+    },
+    urlImmagine: {
+        type: String,
+        required: [true, 'Va necessariamente inserita un\'immagine']
+    },
+    specifiche: {
+        peso: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+        dimensioni: {
+            lunghezza: {
+                type: Number,
+                default: 0,
+                min: 0
+            },
+            larghezza: {
+                type: Number,
+                default: 0,
+                min: 0
+            },
+            altezza: {
+                type: Number,
+                default: 0,
+                min: 0
+            }
+        },
+        colore: {
+            type: String
+        }
     }
 });
 
