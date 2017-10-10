@@ -13,7 +13,12 @@ angular.module('home').component('home', {
         $scope.IsVisible = true;
         $scope.ShowHide = function () {
             //Se la sidebar è visibile allora verrà chiusa e viceversa
-            $scope.IsVisible = $scope.IsVisible ? false : true;
+            if($scope.IsVisible == true){
+                $scope.IsVisible = false;
+            }
+            else{
+                $scope.IsVisible = true;
+            }
         }
     }
 });

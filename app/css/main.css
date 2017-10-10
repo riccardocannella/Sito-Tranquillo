@@ -198,38 +198,65 @@ header {
     display: block;
 }
 
-
 /****************************************************
-    MAIN
-****************************************************/
+    SIDEBAR
+***************************************************/
 
 .sidebar {
-    z-index: 3;
     float: left;
     height: 100vh;
-    width: 100%;
     width: 250px;
-    background-color: #fff;
-    /* position: fixed!important; */
-    z-index: 0;
-    overflow: auto;
+    background-color: rgb(212, 211, 211);
     padding: 0.7em 0 0.7em 0;
     list-style: none;
 }
 
-.main {
-    transition: margin-left .4s;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-flow: row wrap;
-    justify-content: space-around;
+.animate-show-hide{
+    transform: translateX(100px)
+}
+.animate-show-hide.ng-hide {
+    position: relative;
+    animation: myChange 1s;
 }
 
+.animate-show-hide.ng-hide-remove {
+    position: relative;
+  animation: myChange1 1s;
+}
 
-/* Login - Logon */
+@keyframes myChange {
+    from {
+        width: 250px;
+    } to {
+        width: 0;
+    }
+}
+@keyframes myChange1 {
+    from {
+        width: 0px;
+    } to {
+        width: 250px;
+    }
+}
+/****************************************************
+    MAIN
+****************************************************/
+
+    .main {
+        padding: 1.5%;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: space-around;
+    }
+
+/***************************************************
+     Login - Logon 
+***************************************************/
 
 .button-login {
     float: right;

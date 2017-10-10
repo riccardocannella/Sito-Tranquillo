@@ -1,11 +1,11 @@
 <section>
-    <button class="w3-button w3-large w3-hide-large w3-hide-medium" ng-click="ShowHide()">&#9776;</button>
 
+    <button class="w3-button w3-large w3-hide-large" ng-click="ShowHide()">&#9776;</button>
 
-    <menu id="SidebaR" type="toolbar" ng-show="IsVisible" class="sidebar w3-collapse w3-card-2 w3-animate-left w3-hide-small">
+<!-- classi tolte per test = w3-collapse -->
+    <menu id="SidebaR" type="toolbar" ng-show="IsVisible" class="animate-show-hide sidebar w3-bar-block w3-card-2">
 
-
-        <form class="">
+        <form>
             <li class="w3-padding">
                 <label class="w3-text-blue"><b>Ricerca:</b>
         <input class="w3-input w3-border" for="search" type="search" nome="search" id="product-search" pattern="[^'\x22]+" title="Invalid input"
@@ -26,6 +26,7 @@
         </form>
 
     </menu>
+
 </section>
 
 <main>
