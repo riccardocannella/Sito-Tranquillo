@@ -28,4 +28,6 @@ module.exports = function(app, db) {
         .post(apiUtenti.validaRispostaSegreta);
     app.route('/api/v1.0/utenti/get/:utente')
         .get(apiUtenti.getUtente);
+    app.route('/api/v1.0/utenti/acquistaProdottiNelCarrello')
+        .post(apiUtenti.acquistaProdottiNelCarrello);
 };
