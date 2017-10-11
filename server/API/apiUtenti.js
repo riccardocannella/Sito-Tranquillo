@@ -160,7 +160,7 @@ exports.loginUtente = function(req, res) {
                     .then(function(esito) {
                         if (esito) { // password corretta
                             // Creo il token
-                            var token = jwt.sign({ utenteID: utente._id }, encryption.secret, { expiresIn: 1440 });
+                            var token = jwt.sign({ utenteID: utente._id, admin: utente.admin }, encryption.secret, { expiresIn: 1440 });
 
                             // Restituisco il token
                             res.status(201).json({ 'token': token, 'successo': true, 'username': utente.username });
