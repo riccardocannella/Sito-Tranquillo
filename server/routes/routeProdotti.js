@@ -4,12 +4,12 @@ module.exports = function(app, db) {
     apiProdotti.setDb(db);
     // Api del db
     app.route('/api/v1.0/prodotti')
-        .get(apiProdotti.listaProdotti)
-        .post(apiProdotti.creaProdotto);
+        .get(apiProdotti.listaProdotti);
+        //.post(apiProdotti.creaProdotto);
 
 
     app.route('/api/v1.0/prodotti/:id')
-        .get(apiProdotti.dettagliProdotto)
-        .put(apiProdotti.aggiornaProdotto)
-        .delete(apiProdotti.eliminaProdotto);
+        .get(apiProdotti.dettagliProdotto);
+        //.put(apiProdotti.aggiornaProdotto)
+        //.delete(apiProdotti.eliminaProdotto);
 };
