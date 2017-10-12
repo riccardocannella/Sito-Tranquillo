@@ -51,7 +51,7 @@
                     <div class="w3-margin">
                         <label for="descrizioneLunga">Descrizione Lunga:</label>
                         <div>
-                            <textarea class="w3-input w3-border w3-center w3-light-grey" maxlenght="200" cols="10" rows="10" required ng-model="$ctrl.prodotto.descrizioneLunga"
+                            <textarea class="w3-input w3-border w3-light-grey" maxlenght="200" cols="10" rows="10" required ng-model="$ctrl.prodotto.descrizioneLunga"
                                 id="descrizioneLunga">
                             </textarea>
                         </div>
@@ -76,8 +76,8 @@
                 <div class="w3-col l6 m6 s12" style="width: 60vh">
 
                     <div class="w3-margin">
-                        <label class="col-2 col-form-label" for="larghezza">Larghezza (mm):</label>
-                        <div class="col-10">
+                        <label for="larghezza">Larghezza (mm):</label>
+                        <div>
                             <input type="number" class="w3-input w3-border w3-center w3-light-grey" required name="larghezza" min="0" value="0" ng-model="$ctrl.prodotto.specifiche.dimensioni.larghezza"
                                 id="larghezza">
                         </div>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="w3-margin">
                             <h5>Anteprima immagine:</h5>
-                            <img style="width: 100px;" ngf-thumbnail="$ctrl.immagine || '/thumb.jpg'" />
+                            <img style="width: 150px;" ngf-thumbnail="$ctrl.immagine || '/thumb.jpg'" />
                         </div>
                     </div>
 
