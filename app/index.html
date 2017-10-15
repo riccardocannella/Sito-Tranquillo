@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="author" content="co-authored by Riccardo Cannella, Corrado Petrelli, Andrea Salvatori, Michele Biondi">
     <meta name="generator" content="Visual Studio Code">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Mobile device -->
     <meta name="description" content="E-commerce per la vendita di estrattori di cui ti puoi fidare!!">
     <meta HTTP-EQUIV="keywords" content="sito site tranquillo quiet negozio shop vendita sale estrattori accessori cucina">
@@ -62,9 +62,7 @@
         <header id="header" class="clearfix">
             <section class="w3-container w3-light-grey">
                 <div ng-controller="navbarCtrl" class="main-header">
-                    <div ng-include="navbarTemplate">
-
-                    </div>
+                    <div ng-include="navbarTemplate"></div>
                 </div>
             </section>
 
@@ -87,7 +85,7 @@
         <!-- Navigation-->
         <nav>
             <div class="w3-bar w3-teal">
-                <div>
+                <div>                        
                     <a href="/" class="w3-bar-item w3-button">Home</a>
                     <div class="w3-dropdown-hover">
                         <button class="w3-button">Estrattori <i class="fa fa-caret-down" aria-hidden="true"></i></button>
@@ -109,8 +107,6 @@
                     <a href="admin/aggiuntaProdotti" class="w3-bar-item w3-button">Link 1</a>
                     <a href="#" class="w3-bar-item w3-button">Link 2</a>
                 </div>
-                <input type="text" class="w3-right w3-bar-item w3-input" placeholder="Cerca qui il tuo prodotto..." ng-model="$ctrl.query" />
-                <a href="#" class="w3-right w3-bar-item w3-button"><i class="fa fa-search" aria-hidden="true"></i></a>
             </div>
         </nav>
         <!-- Main -->
@@ -118,7 +114,8 @@
         <div class="clearfix">
             <div ng-view></div>
         </div>
-
+    <!-- Div di chiusura Sticky footer -->
+    </div> 
         <!-- Footer -->
         <footer class="w3-text-white w3-teal center">
             <section class="w3-row">
