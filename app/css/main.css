@@ -114,7 +114,7 @@ header {
 
 .loghi {
     position: absolute !important;
-    top: 115px !important;
+    top: 120px !important;
     left: 50% !important;
     transform: translate(-50%, -50%);
 }
