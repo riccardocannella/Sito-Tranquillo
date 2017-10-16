@@ -46,6 +46,10 @@ mongoose.connect(MONGODB_URI, { useMongoClient: true }, function(err, database) 
     routeProdotti(app, db);
     var routeUtenti = require('./server/routes/routeUtenti');
     routeUtenti(app, db);
+
+    var routeAdmin = require('./server/routes/routeAdmin');
+    app.use('/api/v1.0/admin/', routeAdmin);   // metto /api/v1.0//admin come prefisso per le varie richieste
+    
     //app.use(app.router);
     app.use(function(req, res) {
         res.sendFile(__dirname + '/app/index.html');

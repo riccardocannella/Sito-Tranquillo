@@ -85,8 +85,7 @@ header {
 /* Contenitore up dove ci sono i contatti e la parte login carello */
 
 .main-header {
-    padding: 0.01em 16px;
-    margin: 10px auto 6px auto;
+    margin: 6px auto 6px auto;
 }
 
 @media (min-width: 200px) {
@@ -161,12 +160,11 @@ header {
 ***************************************************/
 
 .banner {
-    text-align: center;
-    padding: 400px 0 30px 0;
-    background-image: url(../images/store.jpg);
+    padding: 300px 0 30px 0;
+    background-image: url(../images/store1.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center ;
     background-attachment: fixed;
     /* Metodo single line per ottenere lo stesso risultato con le righe precedenti 
         background: url(../images/store.jpg) no-repeat center / cover;
