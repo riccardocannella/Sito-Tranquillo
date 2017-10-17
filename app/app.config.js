@@ -42,6 +42,10 @@ angular.module('sitotranquillo')
                     template: '<reset></reset>',
                     title: 'Reset Password'
                 })
+                .when('/carrello', {
+                    template: '<carrello></carrello>',
+                    title: 'Carrello utente'
+                })
                 // route amministrative (?)
                 .when('/admin/aggiuntaProdotti', {
                     template: '<aggiunta-prodotti></aggiunta-prodotti>',

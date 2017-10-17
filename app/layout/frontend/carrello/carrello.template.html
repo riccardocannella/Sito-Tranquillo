@@ -1,0 +1,60 @@
+<section>
+    <h2>Carrello</h2>
+
+    <div>
+        <label >Prodotto</label>
+        <label >Prezzo</label>
+        <label >Quatità</label>
+        <label >Totale</label>
+    </div>
+
+    <hr>
+
+    <div class="">
+        <div class="">
+            <img src="../../../images/uploads/{{elemento.urlImmagine}}" />
+        </div>
+        <div class="">
+            <div class=""><a href="/prodotti/{{elemento._id}}">{{elemento.nome}} Pinco pallo</a></div>
+            <p class="">{{elemento.descrizioneBreve}}. lksndkasndjakfadsjfjsfjsbdjfsdjvbsdkbvd
+            </p>
+        </div>
+        <div class="">{{elemento.prezzo}} 100 €</div>
+        <div class="">
+            <input type="number" value="2" min="1">
+        </div>
+        <div class="">
+            <button class="">
+                Remove
+            </button>
+        </div>
+        <div class="">Totale quantità</div>
+    </div>
+
+    <hr>
+
+    <button class="">Svuota Carrello</button>
+    <label>*Si avvisa che il carrello sarà svuotato ogni giorno alla mezzanotte</label>
+
+    <div class="">
+        <div class="">
+          <label>Totale provvisorio:</label>
+          <div class="">71.97</div>
+        </div>
+        <div class="">
+          <label>Tax (21%)</label>
+          <div class="">-</div>
+        </div>
+        <div class="">
+          <label>Spese spedizione:</label>
+          <div class="">15.00</div>
+        </div>
+        <div class="">
+          <label>Totale finale:</label>
+          <div class="">90.57</div>
+        </div>
+      </div>
+          
+          <button class="">Acquista</button>
+
+</section>
