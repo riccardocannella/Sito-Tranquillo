@@ -725,6 +725,11 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                     doc.save(function(err,saved){
                                                         if(err){return utilities.handleError(res,err,'Server error');}
                                                         result.push(saved[0]);
+                                                        // Faccio il check e notifico gli admin per eventuali prodotti in esaurimento
+                                                        if (doc.giacenza <= 3){
+                                                            utilities.notificaAdminProdottoEsaurito(doc.nome,doc._id);
+                                                        }
+                                                        
 
                                                         if(--total){ saveAll();}
                                                         else{
