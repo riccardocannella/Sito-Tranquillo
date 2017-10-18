@@ -510,7 +510,7 @@ exports.rimuoviDalCarrello = function(req, res) {
 
             // Superati i controlli procedo con la funzione
             Utente.findById(utenteID, function(err, utenteTrovato) {
-                if (!err) { // Trovato
+                if (!err) { // Trovato l'utente
                     var found_index = -1;
                     for (var i = 0; i < utenteTrovato.carrello.prodotti.length; i++) {
                         if (utenteTrovato.carrello.prodotti[i]._id.equals(req.body.prodotto)) {
@@ -522,7 +522,7 @@ exports.rimuoviDalCarrello = function(req, res) {
                     if (found_index != -1) { // Prodotto trovato nel carrello dell'utente
                         Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato) {
                             if (!err) { // Codice plausibile 
-                                if (prodottoTrovato == null) { // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
+                                if (prodottoTrovato == null) { // Prodotto non esiste più
                                     // Quindi rimuovo l'oggetto dal carrello che non esiste più
                                     Utente.findByIdAndUpdate(utenteID, {
                                         $pull: { "carrello.prodotti": { _id: utenteTrovato.carrello.prodotti[found_index]._id } }
@@ -539,31 +539,20 @@ exports.rimuoviDalCarrello = function(req, res) {
                                     // Controllo la quantità da togliere e a seconda dei casi mi comporto di conseguenza
                                     if (utenteTrovato.carrello.prodotti[found_index].quantita > quantitaRichiesta) {
 
-                                        //Tolgo l'impegno dal carrello
-                                        prodottoTrovato.impegnoInCarrelli -= quantitaRichiesta;
 
-                                        prodottoTrovato.save(function(err) {
+                                        
+                                        utenteTrovato.carrello.prodotti[found_index].quantita -= quantitaRichiesta;
+
+                                        utenteTrovato.save(function(err) {
                                             if (!err) {
-                                                utenteTrovato.carrello.prodotti[found_index].quantita -= quantitaRichiesta;
-
-                                                utenteTrovato.save(function(err) {
-                                                    if (!err) {
-                                                        res.status(201).json({ 'successo': true });
-                                                    } else {
-                                                        return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
-                                                    }
-                                                });
+                                                res.status(201).json({ 'successo': true });
                                             } else {
                                                 return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
                                             }
                                         });
+
                                     } else if (utenteTrovato.carrello.prodotti[found_index].quantita == quantitaRichiesta) { // Rimossi tutte le unità
-                                        prodottoTrovato.impegnoInCarrelli -= quantitaRichiesta;
 
-
-                                        prodottoTrovato.save(function(err) {
-                                            if (!err) {
-                                                // Elimino il prodotto dal carrello
                                                 Utente.findByIdAndUpdate(utenteID, {
                                                     $pull: { "carrello.prodotti": { _id: prodottoTrovato._id } }
                                                 }, function(err) {
@@ -573,10 +562,7 @@ exports.rimuoviDalCarrello = function(req, res) {
                                                         return utilities.handleError(res, err, 'Errore durante la rimozione dello oggetto nel carrello');
                                                     }
                                                 });
-                                            } else {
-                                                return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
-                                            }
-                                        });
+                                                
                                     } else { // Si è cercato di rimuovere più di quanto ci fosse nel carrello
                                         return utilities.handleError(res, err, 'Quantità richiesta superiore al numero di oggetti nel carrello');
                                     }
