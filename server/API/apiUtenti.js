@@ -562,7 +562,7 @@ exports.rimuoviDalCarrello = function(req, res) {
                                                         return utilities.handleError(res, err, 'Errore durante la rimozione dello oggetto nel carrello');
                                                     }
                                                 });
-                                                
+
                                     } else { // Si è cercato di rimuovere più di quanto ci fosse nel carrello
                                         return utilities.handleError(res, err, 'Quantità richiesta superiore al numero di oggetti nel carrello');
                                     }
@@ -606,12 +606,12 @@ exports.rimuoviDalCarrello = function(req, res) {
 |                                                               |
 |     Parametri restituiti in caso di successo:                 |
 |        successo: valore impostato a true                      |
-|        carrello_obsoleto: valore impostato a false            |
+|        carrello_aggiornato: false                             |
 |                                                               |
 |     Parametri restituiti in caso di oggetto non presente nel  |
-|     db:                                                       |
-|        successo: valore impostato a false                     |
-|        carrello_obsoleto: valore impostato a true             |                                   
+|       db o quantità diverse:                                  |
+|        successo: valore impostato a true                      |
+|        carrello_aggiornato: valore impostato a true           |                                
  ---------------------------------------------------------------*/
 
 exports.acquistaProdottiNelCarrello = function(req,res){
@@ -623,26 +623,30 @@ exports.acquistaProdottiNelCarrello = function(req,res){
             Utente.findById(decoded.utenteID, function(err, utenteTrovato){
                 if(err || utenteTrovato == null){
                     return utilities.handleError(res, err, 'Utente non trovato')   
-                } else { // Utente trovato controllo il suo carrello
+                } else { // Utente trovato controllo se il carrello è valido
                     if(utenteTrovato.carrello.prodotti.length == 0 || utenteTrovato.carrello.prodotti == null){
                         // Carrello vuoto, nothing to do here.
                         return utilities.handleError(res, 'EMP_CAR', 'Carrello vuoto')
                     } else {
-                        // INIZIO funzione con promessa
-
-                        let acquistoORimozione = new Promise(function(resolve,reject){
+                        
+                        // INIZIO Funzione ausiliaria con promessa per evitare che diventi bloccante per il server
+                        let acquistoOAggiornamento = new Promise(function(resolve,reject){
                             Prodotto.find({}, function(err, elencoProdotti){
-                                console.log(utenteTrovato);
                                 if(err){
                                     return utilities.handleError(res, err, 'Server Error');
                                 } else {
-
                                     var i = 0;
                                     var obsoleto = false; // True se sono presenti oggetti sbagliati nel carrello
                                     var prodotti_obsoleti = [];
+                                    // Controllo i prodotti nel carrello
                                     for(i = 0; i<utenteTrovato.carrello.prodotti.length; i++){
                                         for(var j=0; j<elencoProdotti.length;j++){
                                             if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
+                                                //Controllo se le quantità sono acquistabili
+                                                if(utenteTrovato.carrello.prodotti[i].quantita > elencoProdotti[j].quantita){
+                                                    obsoleto = true // Non posso comunque procedere all'acquisto
+                                                    utenteTrovato.carrello.prodotti[i].quantita = elencoProdotti[j].quantita; //Imposto la quantità al massimo ottenibile
+                                                }
                                                 break; // Passa all'elemento successivo del carrello
                                             }
                                             if(j == elencoProdotti.length - 1){
@@ -651,8 +655,9 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                             }
                                         }
                                     }
-                                    if(obsoleto == true){
-                                        // Elimino i prodotti uguali e ritorno
+
+                                    if(obsoleto == true){ // Trovati prodotti non conformi all'acquisto
+                                        // Elimino i prodotti obsoleti (se ci sono) e salvo il nuovo carrello con le giuste quantità nel database
                                         for(i = 0; i < prodotti_obsoleti.length;i++){
                                             utenteTrovato.carrello.prodotti =  utenteTrovato.carrello.prodotti.filter(function(prod){
                                                 return !(prod._id.equals(prodotti_obsoleti[i]));
@@ -660,48 +665,57 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                         }
                                         utenteTrovato.save(function(err){
                                             if(err){
-                                                return utilities.handleError(res,err,'Server error');
+                                                return utilities.handleError(res,err,'Non è stato possibile aggiornare il carrello, contatta un admin');
                                             }
                                             reject(true);
 
                                         })
                                         
-                                    } else {
+                                    } else { // Altrimenti procedo alla preparazione dell'acquisto
                                         for(i=0; i < utenteTrovato.carrello.prodotti.length; i++){
                                             for(var j = 0; j < elencoProdotti.length;j++){
-                                                if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
-                                                    elencoProdotti[j].impegnoInCarrelli -= utenteTrovato.carrello.prodotti[i].quantita;
+                                                if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){ // Aggiorno la giacenza 
                                                     elencoProdotti[j].giacenza -= utenteTrovato.carrello.prodotti[i].quantita;
-                                                    // DEBUG (rimuovere le seguenti 2 righe se si vuole)
-                                                    console.log(i + ' ' + elencoProdotti[j].impegnoInCarrelli);
-                                                    console.log(i + ' ' + elencoProdotti[j].giacenza);
+                                                    
                                                 }
                                             }
+                                            // Ho finito di aggiornare le giacenze in base al carrello
                                             if(i == (utenteTrovato.carrello.prodotti.length - 1)){
-                                                var total = elencoProdotti.length
-                                                , result = [];
+                                                var totaleProdottiDaProcessare = elencoProdotti.length;
                                                 
-                                                //Funzione che salva i nuovi prodotti uno ad uno
-                                                function saveAll(){
-                                                    var doc = elencoProdotti.pop();
-                                                    doc.save(function(err,saved){
-                                                        if(err){return utilities.handleError(res,err,'Server error');}
-                                                        result.push(saved[0]);
-                                                        // Faccio il check e notifico gli admin per eventuali prodotti in esaurimento
-                                                        if (doc.giacenza <= 3){
-                                                            utilities.notificaAdminProdottoEsaurito(doc.nome,doc._id);
-                                                        }
-                                                        
+                                                //Funzione che salva i nuovi prodotti modificati uno ad uno
+                                                function salvaTutto(){
+                                                    var prodottoDaProcessare = elencoProdotti.pop();
+                                                    //Ciclo tra gli elementi del carrello per controllare se è da salvare o meno
+                                                    for(var z = 0; z < utenteTrovato.carrello.prodotti.length; z++){ 
+                                                        if(utenteTrovato.carrello.prodotti[z]._id.equals(prodottoDaProcessare._id)){
+                                                            
+                                                            prodottoDaProcessare.save(function(err,salvato){
+                                                                if(err){
+                                                                    return utilities.handleError(res,err,'Errore durante il salvataggio di un prodtto, contatta un admin');
+                                                                }
+                                                                // Faccio il check delle rimanenze e notifico gli admin per eventuali prodotti in esaurimento
+                                                                if (salvato.giacenza <= 3){
+                                                                    utilities.notificaAdminProdottoEsaurito(salvato.nome,salvato._id);
+                                                                }
+                                                                
+                                                            });
 
-                                                        if(--total){ saveAll();}
-                                                        else{
-                                                            lastSave();
+                                                            break; // Ottimizzazione, non serve ciclare oltre
                                                         }
-                                                    });
+                                                    }
+                                                        
+                                                    
+                                                    if(--totaleProdottiDaProcessare){ //Finchè ci sono prodotti da controllare continuo 
+                                                        salvaTutto();
+                                                    }
+                                                    else{ // Altrimenti procedo alla fase finale
+                                                        faseFinale();
+                                                    }
                                                 }
-                                                
-                                                // Funzione che salva l'utente rimuovendo il carrello e aggiungendolo alla lista degli acquisti precedenti
-                                                function lastSave(){
+
+                                                // Funzione per la fase finale di svuotamento del carrello
+                                                function faseFinale(){
                                                     
                                                                                                         
 
@@ -730,26 +744,26 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                     });
                                                 }
 
-                                                saveAll();  // Chiamo la funzione (sopra sono soltanto dichiarate)
-
-                                                
+                                                // Richiamo la funzione dichiarata sopra per salvare tutto (e indirettamente la fase finale)
+                                                salvaTutto();
+                                                  
                                             }
 
-                                            
                                         }
-                                                
                                     }
+
                                 }
-                            });                 
+                            });
                         });
+                        // FINE Funzione ausiliaria con promessa
 
-                        //FINE funzione con promessa
-
-                        acquistoORimozione.then(function(fromResolve){
-                            res.status(201).json({'successo':true,'carrello_obsoleto':fromResolve});
+                        // Chiamo la funzione con la promessa
+                        acquistoOAggiornamento.then(function(fromResolve){
+                            res.status(201).json({'successo':true,'carrello_aggiornato':fromResolve});
                         }).catch(function(fromReject){
-                            res.status(500).json({'successo':false,'carrello_obsoleto':fromReject});
+                            res.status(500).json({'successo':false,'carrello_aggiornato':fromReject});
                         });
+                        
                     }
                 }
             });
