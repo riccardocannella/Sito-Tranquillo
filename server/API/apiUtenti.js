@@ -407,7 +407,7 @@ exports.aggiungiAlCarrello = function(req, res) {
 
                             var found_index = -1; // -1 indica non trovato, valore di default
                             for (var i = 0; i < utenteTrovato.carrello.prodotti.length; i++) {
-                                if (utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)) { // Java sei tu?
+                                if (utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)) { 
                                     found_index = i;
                                     break;
                                 };
@@ -415,36 +415,21 @@ exports.aggiungiAlCarrello = function(req, res) {
                             if (found_index == -1) {
 
                                 // Aggiungo il nuovo prodotto al carrello
-                                if (prodottoTrovato.giacenza < prodottoTrovato.impegnoInCarrelli + quantitaRichiesta + prodottoTrovato.impegnoInPagamento) { // Giacenza minore della richiesta
+                                if (prodottoTrovato.giacenza < quantitaRichiesta) { // Giacenza minore della richiesta
                                     return utilities.handleError(res, err, 'Hai richiesto più prodotti di quanto disponibile');
                                 } else { // Quantità ok
                                     Utente.findByIdAndUpdate(utenteID, // Aggiungo al carrello
                                         {
                                             $push: {
                                                 "carrello.prodotti": {
-
-                                                    nome: prodottoTrovato.nome,
-                                                    prezzo: prodottoTrovato.prezzo,
-                                                    descrizioneBreve: prodottoTrovato.descrizioneBreve,
                                                     quantita: quantitaRichiesta,
-                                                    urlImmagine: prodottoTrovato.urlImmagine,
                                                     _id: prodottoTrovato._id
                                                 }
                                             }
                                         }, { upsert: true },
                                         function(err) {
-                                            if (!err) { // Aggiungo il prodotto
-                                                // Aggiorno l'impegno in carrello del prodotto
-                                                prodottoTrovato.impegnoInCarrelli += quantitaRichiesta;
-
-                                                prodottoTrovato.save(function(err) {
-                                                    if (!err) {
-                                                        res.status(201).json({ 'successo': true });
-                                                    } else {
-                                                        return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
-
-                                                    }
-                                                });
+                                            if (!err) { 
+                                                res.status(201).json({ 'successo': true });
                                             } else { // Errore nell'aggiungere il prodotto al carrello
                                                 return utilities.handleError(res, err, 'Impossibile aggiungere il prodotto richiesto al carrello');
                                             }
@@ -452,32 +437,23 @@ exports.aggiungiAlCarrello = function(req, res) {
 
                                 }
                             } else { // Trovato un indice quindi modifico la quantità già presente nel carrello
-                                if (prodottoTrovato.giacenza < prodottoTrovato.impegnoInCarrelli + quantitaRichiesta + prodottoTrovato.impegnoInPagamento) { // Giacenza minore della richiesta
+                                if (prodottoTrovato.giacenza < (quantitaRichiesta + utenteTrovato.carrello.prodotti[found_index].quantita) ) { // Giacenza minore della richiesta
                                     return utilities.handleError(res, err, 'Hai richiesto più prodotti di quanto disponibile');
-                                } else { // Aggiorno carrello e impegnoincarrello
+                                } else { // Aggiorno carrello
 
-                                    // Aggiorno l'impegno in carrello del prodotto
-                                    prodottoTrovato.impegnoInCarrelli += quantitaRichiesta;
+                            
+                                    // Aggiorno la quantità nel carrello
+                                    utenteTrovato.carrello.prodotti[found_index].quantita += quantitaRichiesta;
 
                                     // Salvo nel db
-                                    prodottoTrovato.save(function(err) {
+                                    utenteTrovato.save(function(err) {
                                         if (!err) {
-                                            // Aggiorno la quantità nel carrello
-                                            utenteTrovato.carrello.prodotti[found_index].quantita += quantitaRichiesta;
-
-                                            // Salvo nel db
-                                            utenteTrovato.save(function(err) {
-                                                if (!err) {
-                                                    res.status(201).json({ 'successo': true });
-                                                } else {
-                                                    return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
-                                                }
-                                            });
+                                            res.status(201).json({ 'successo': true });
                                         } else {
                                             return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
-
                                         }
                                     });
+                                        
 
                                 }
 
