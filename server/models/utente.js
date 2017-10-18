@@ -75,7 +75,6 @@ var UtenteSchema = new Schema({
             prodotti: [{
                 nome: String,
                 prezzo: Number,
-                descrizioneBreve: String,
                 quantita: Number,
                 urlImmagine: String
             }]
