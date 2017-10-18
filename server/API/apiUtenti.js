@@ -638,15 +638,25 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                     var i = 0;
                                     var obsoleto = false; // True se sono presenti oggetti sbagliati nel carrello
                                     var prodotti_obsoleti = [];
+                                    // Variabili di appoggio per la storia degli acquisti
+                                    var urlImmagini = [];
+                                    var prezziProdotti = [];
+                                    var nomiProdotti = [];
+
                                     // Controllo i prodotti nel carrello
                                     for(i = 0; i<utenteTrovato.carrello.prodotti.length; i++){
                                         for(var j=0; j<elencoProdotti.length;j++){
                                             if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
+                                                
                                                 //Controllo se le quantità sono acquistabili
-                                                if(utenteTrovato.carrello.prodotti[i].quantita > elencoProdotti[j].quantita){
-                                                    obsoleto = true // Non posso comunque procedere all'acquisto
-                                                    utenteTrovato.carrello.prodotti[i].quantita = elencoProdotti[j].quantita; //Imposto la quantità al massimo ottenibile
+                                                if(utenteTrovato.carrello.prodotti[i].quantita > elencoProdotti[j].giacenza){
+                                                    obsoleto = true; // Non posso comunque procedere all'acquisto
+                                                    utenteTrovato.carrello.prodotti[i].quantita = elencoProdotti[j].giacenza; //Imposto la quantità al massimo ottenibile
                                                 }
+                                                // Salvo i dettagli aggiuntivi che verranno aggiunti nella storia acquisti
+                                                urlImmagini.push(elencoProdotti[j].urlImmagine);
+                                                prezziProdotti.push(elencoProdotti[j].prezzo);
+                                                nomiProdotti.push(elencoProdotti[j].nome);
                                                 break; // Passa all'elemento successivo del carrello
                                             }
                                             if(j == elencoProdotti.length - 1){
@@ -721,7 +731,14 @@ exports.acquistaProdottiNelCarrello = function(req,res){
 
                                                     var backup_carrello = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack per clonare un oggetto
                                                     utenteTrovato.carrello.prodotti = []; // Rimuovo i prodotti dal carrello
-
+                                                    
+                                                    // Aggiorno la copia del carrello con i relativi dettagli dell'acquisto
+                                                    for(var x = 0; x < backup_carrello.length; x++){
+                                                        backup_carrello[x].prezzo = prezziProdotti[x];
+                                                        backup_carrello[x].urlImmagine = urlImmagini[x];
+                                                        backup_carrello[x].nome = nomiProdotti[x];
+                                                    }
+                                                
                                                     // Salvo i cambiamenti all'utente
                                                     utenteTrovato.save(function(err){
                                                         if(err){
@@ -731,7 +748,7 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                         // Aggiungo la storia dell'acquisto all'utente
                                                         Utente.findByIdAndUpdate(decoded.utenteID,{$push : {"storia_acquisti.acquisti": {
                                                                 data_acquisto: Date.now(),
-                                                                prodotti: backup_carrello
+                                                                prodotti: backup_carrello // La copia del carrello diventano i prodotti della storia d'acquisto
                                                             }}},{upsert:true})
                                                             .then(function(){
                                                                 resolve(false); // carrello non obsoleto, quindi acquisto effettuato
@@ -742,6 +759,7 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                             
                                                         
                                                     });
+                                                
                                                 }
 
                                                 // Richiamo la funzione dichiarata sopra per salvare tutto (e indirettamente la fase finale)
@@ -757,7 +775,7 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                         });
                         // FINE Funzione ausiliaria con promessa
 
-                        // Chiamo la funzione con la promessa
+                        // Chiamo la funzione ausiliaria con la promessa
                         acquistoOAggiornamento.then(function(fromResolve){
                             res.status(201).json({'successo':true,'carrello_aggiornato':fromResolve});
                         }).catch(function(fromReject){
