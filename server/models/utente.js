@@ -66,11 +66,8 @@ var UtenteSchema = new Schema({
     },
     carrello: {
         prodotti: [{ // Array
-            nome: String,
-            prezzo: Number,
-            descrizioneBreve: String,
-            quantita: Number,
-            urlImmagine: String
+            id: String,
+            quantita: Number
         }]
     },
     storia_acquisti: {
