@@ -1,3 +1,8 @@
+// Definizione del modulo 'dettaglio'
+angular.module('dettaglio', [
+    'ngRoute'
+]);
+
 // Registra il componente 'dettaglio' sul modulo 'dettaglio'
 angular.module('dettaglio').component('dettaglio', {
     templateUrl: 'layout/frontend/dettaglio/dettaglio.template.html',
