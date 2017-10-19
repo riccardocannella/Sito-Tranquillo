@@ -31,11 +31,11 @@ body {
 }
 
 .margin-top-1 {
-    margin-top: 1cm;
+    margin-top: 1cm !important;
 }
 
 .margin-top-2 {
-    margin-top: 2cm;
+    margin-top: 2cm !important;
 }
 
 .margin-left-right {
@@ -44,11 +44,15 @@ body {
 }
 
 .margin-bottom-1 {
-    margin-bottom: 1cm;
+    margin-bottom: 1cm !important;
 }
 
 .pa-15 {
     padding: 1.07143rem !important;
+}
+
+.pa-03{
+    padding: 1em;
 }
 
 .wrapper {
@@ -424,6 +428,35 @@ input[type=number] {
     cursor: wait;
 }
 
+/*************************************************
+     Carrello
+**************************************************/
+
+.input-carrello {
+    border: 1px solid #ddd;
+    display: inline-block;
+    padding: .5em 2em;
+    text-align: center;
+    transition: border-color .4s ease;
+    max-width: 2em;
+  }
+  .input-carrello:focus {
+    border-color: lightseagreen;
+    outline: none;
+  }
+  .input-carrello::-webkit-outer-spin-button, .input-carrello::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  .btn-carrello {
+    display: inline-block;
+    border: 1px solid #222;
+    background-color: #222;
+    line-height: 1;
+    color: #fff;
+    width: 2em;
+    height: 2em;
+  }
 
 /*************************************************
      404 
