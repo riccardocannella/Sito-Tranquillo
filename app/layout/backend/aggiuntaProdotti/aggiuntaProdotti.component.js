@@ -7,7 +7,7 @@ angular.module('aggiuntaProdotti', [
 // Registra il componente 'aggiuntaProdotti' sul modulo 'aggiuntaProdotti'
 angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
     templateUrl: 'layout/backend/aggiuntaProdotti/aggiuntaProdotti.template.html',
-    controller: function(Upload, $http, $location) {
+    controller: function(Upload, $http, $location, $window) {
         var aggiuntaProdotto = this;
         aggiuntaProdotto.aggiungiProdotto = function() {
             // validazione immagine da fare (come?)
@@ -20,8 +20,10 @@ angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
                     if (!resp.data.errore) {
                         // valida
                         aggiuntaProdotto.prodotto.urlImmagine = resp.data.nomeFile;
-                        $http.post('api/v1.0/prodotti', aggiuntaProdotto.prodotto).then(
+                        aggiuntaProdotto.prodotto.token = $window.localStorage.getItem("jwtToken");
+                        $http.post('api/v1.0/admin/prodotti', aggiuntaProdotto.prodotto).then(
                             function(res) {
+                                console.log(res);
                                 $location.path('');
                             }
                         )
