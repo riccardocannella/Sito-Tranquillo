@@ -181,7 +181,7 @@ header {
 
 .sidebar {
     position: relative;
-    z-index: auto;
+    z-index: 1;
     float: left;
     height: 100vh;
     width: 250px;
@@ -229,7 +229,7 @@ header {
 
     .main {
         position: relative;
-        z-index: -1;
+        z-index: 0;
         padding: 1.5%;
     }
 
