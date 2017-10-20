@@ -789,3 +789,55 @@ exports.acquistaProdottiNelCarrello = function(req,res){
     });
 }
 
+/*--------------------------------------------------------------
+|    Funzione: getCarrello()                                    |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        carrello: carrello dell'utente                         |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+ exports.getCarrello = function(req,res){
+        // Verifico e spacchetto il token dell'utente
+        
+        jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+            if (err) {
+                return utilities.handleError(res, err, 'Token non valido o scaduto.');
+            } else { // Token valido
+                
+                // Carrello dell'utente che verrà riempito con i vari dettagli dei prodotti.
+                var carrelloUtente = [];
+
+                function inviaCarrello(notAborted, arr) {
+                    //console.log("done", notAborted, arr);
+                    console.log('Carrello utente: '  + carrelloUtente);
+                    res.status(201).json({'carrello':carrelloUtente});
+                }
+                
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato){
+                    if(err){
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        var forEach = require('async-foreach').forEach;
+                        forEach(utenteTrovato.carrello.prodotti, function(prodottoNelCarrello, index, arr) {
+                            //console.log("each", prodotto, index, arr);
+                            Prodotto.findById(prodottoNelCarrello._id, function(err, trovato){
+                                var prodottoDaInserire = JSON.parse(JSON.stringify(trovato)); // Clono
+                                prodottoDaInserire.quantita = prodottoNelCarrello.quantita;
+                                carrelloUtente.push(prodottoDaInserire);
+                            });
+                            var done = this.async();
+                            setTimeout(function() {
+                              done();
+                            }, 500);
+                          }, inviaCarrello);
+                    }
+                });
+            }
+        });
+ }
