@@ -27,22 +27,6 @@ var ProdottoSchema = new Schema({
         default: 0,
         min: 0
     },
-    impegnoInCarrelli: {
-        type: Number,
-        default: 0,
-        min: 0
-    },
-    impegnoInPagamento: {
-        type: Number,
-        default: 0,
-        validate: {
-            validator: function(value) {
-                return this.giacenza >= value;
-            },
-            message: 'Si sta cercando di comprare più della disponibilità di questo prodotto'
-        },
-        min: 0
-    },
     descrizioneBreve: {
         type: String,
         required: [true, 'Inserisci una descrizione breve per il prodotto']
