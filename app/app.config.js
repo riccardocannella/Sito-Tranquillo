@@ -1,6 +1,7 @@
 angular.module('sitotranquillo').config(function($locationProvider, $stateProvider, $urlRouterProvider) {
         $locationProvider.html5Mode(true);
         $urlRouterProvider.when('', '/');
+        $urlRouterProvider.when('/admin/', '/admin');
         //s$urlRouterProvider.when('/', '/home');
         $stateProvider
             .state('root', {
@@ -111,12 +112,12 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 url: '/admin',
                 data: { titolo: 'Admin Dashboard' },
                 views: {
-                    '': { templateUrl: 'backend/adminPanel.template.html' },
+                    '': { templateUrl: 'layout/backend/adminPanel.html' },
                     'navbar@admin': {
-                        templateUrl: 'backend/navbar/navbar.template.html',
+                        templateUrl: 'layout/backend/header/header.template.html',
                     },
                     'main@admin': {
-                        templateUrl: 'backend/dashboard/dashboard.template.html'
+                        templateUrl: 'layout/backend/dashboard/dashboard.template.html'
                     }
                 }
             })
