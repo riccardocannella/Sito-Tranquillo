@@ -5,11 +5,11 @@ var navbar = angular.module('navbar', [
 
 navbar.controller('navbarCtrl', ['$scope', '$location', '$window', function($scope, $location, $window) {
     $scope.nome_utente = "";
-    $scope.$on('$locationChangeSuccess', function() {
+    $scope.$on('$locationChangeSuccess', function() { // INVECE DI LOCATIONCHANGE?
         if ($window.localStorage.getItem("jwtToken") == "" || $window.localStorage.getItem("jwtToken") == undefined) {
-            $scope.navbarTemplate = 'layout/frontend/navbar/navbar.noautenticazione.template.html';
+            $scope.navbarTemplate = 'layout/frontend/header/navbar.noautenticazione.template.html';
         } else {
-            $scope.navbarTemplate = 'layout/frontend/navbar/navbar.siautenticazione.template.html';
+            $scope.navbarTemplate = 'layout/frontend/header/navbar.siautenticazione.template.html';
             $scope.nome_utente = $window.localStorage.getItem("username");
         }
     });

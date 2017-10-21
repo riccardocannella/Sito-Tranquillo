@@ -122,7 +122,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             })
             .state('aggiuntaProdotti', {
                 parent: 'admin',
-                url: 'aggiuntaProdotti',
+                url: '/aggiuntaProdotti',
                 data: { titolo: 'Aggiunta prodotti' },
                 views: {
                     main: {
@@ -132,7 +132,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             })
             .state('modificaProdotti', {
                 parent: 'admin',
-                url: 'modificaProdotti/:id',
+                url: '/modificaProdotti/:id',
                 data: { titolo: 'Modifica prodotti' },
                 views: {
                     main: {
