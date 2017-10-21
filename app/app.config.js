@@ -104,7 +104,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 url: 'carrello',
                 data: { titolo: 'Carrello' },
                 views: {
-                    main: {}
+                    main: { component: 'carrello' }
                 }
             })
             // ADMIN
