@@ -1,3 +1,9 @@
+// Definizione del modulo 'modificaProdotti'
+angular.module('modificaProdotti', [
+    'ngRoute',
+    'ngFileUpload'
+]);
+
 // Registra il componente 'modificaProdotti' sul modulo 'modificaProdotti'
 angular.module('modificaProdotti').component('modificaProdotti', {
     templateUrl: 'layout/backend/modificaProdotti/modificaProdotti.template.html',

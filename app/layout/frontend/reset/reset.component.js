@@ -1,3 +1,9 @@
+// Definizione del modulo 'reset'
+angular.module('reset', [
+    'ngRoute',
+    'ngMessages'
+]);
+
 angular.module('reset').component('reset', {
     templateUrl: 'layout/frontend/reset/reset.template.html',
     controller: function($http, $routeParams, $scope) {
