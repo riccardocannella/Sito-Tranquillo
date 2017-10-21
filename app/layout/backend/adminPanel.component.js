@@ -19,7 +19,7 @@ angular.module('adminPanel').component('adminPanel', {
                         // controllo giusto per scrupolo, non dovrebbe succedere niente qui
                         if (res.data.successo === false || !res.data.isAdmin) {
                             panel.stato = 403;
-                            $state.go('unauthorized');
+                            $state.go('forbidden');
                         } else panel.stato = 200
                     },
                     function(err) {
