@@ -1,4 +1,4 @@
-// Definizione del modulo 'dettaglio'
+// Definizione del modulo 'navbar'
 var navbar = angular.module('navbar', [
     'ui.router'
 ]);
