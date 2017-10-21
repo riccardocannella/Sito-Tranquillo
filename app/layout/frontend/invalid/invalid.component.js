@@ -1,6 +1,6 @@
 // Definizione del modulo 'invalid'
 angular.module('invalid', [
-    'ngRoute'
+    'ui.router'
 ]);
 
 angular.module('invalid').component('invalid', {

@@ -1,6 +1,6 @@
 // Definizione del modulo 'condizioni'
 angular.module('condizioni', [
-    'ngRoute'
+    'ui.router'
 ]);
 
 // Registra il componente 'dettaglio' sul modulo 'dettaglio'

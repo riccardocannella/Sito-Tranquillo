@@ -1,6 +1,6 @@
 // Definizione del modulo 'recupero'
 angular.module('recupero', [
-    'ngRoute'
+    'ui.router'
 ]);
 
 // Registra il componente 'recupero' sul modulo 'recupero'

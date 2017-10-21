@@ -1,10 +1,12 @@
-var sitotranquillo = angular.module('sitotranquillo');
+// Definizione del modulo 'dettaglio'
+var navbar = angular.module('navbar', [
+    'ui.router'
+]);
 
-sitotranquillo.controller('navbarCtrl', ['$scope','$location','$window','$route',function($scope, $location, $window,$route){
+navbar.controller('navbarCtrl', ['$scope', '$location', '$window', function($scope, $location, $window) {
     $scope.nome_utente = "";
-    
     $scope.$on('$locationChangeSuccess', function() {
-        if($window.localStorage.getItem("jwtToken") == "" || $window.localStorage.getItem("jwtToken") == undefined){
+        if ($window.localStorage.getItem("jwtToken") == "" || $window.localStorage.getItem("jwtToken") == undefined) {
             $scope.navbarTemplate = 'layout/frontend/navbar/navbar.noautenticazione.template.html';
         } else {
             $scope.navbarTemplate = 'layout/frontend/navbar/navbar.siautenticazione.template.html';
@@ -13,11 +15,11 @@ sitotranquillo.controller('navbarCtrl', ['$scope','$location','$window','$route'
     });
 
     //Logout function
-    $scope.logout = function(){
+    $scope.logout = function() {
         $window.localStorage.setItem("jwtToken", "");
         $window.localStorage.setItem("username", "");
-        
-        if(window.location.pathname == "/"){
+
+        if (window.location.pathname == "/") {
             $window.location.reload();
         } else {
             $location.path("/");

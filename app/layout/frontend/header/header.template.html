@@ -1,0 +1,50 @@
+<header id="header" class="clearfix">
+    <section class="w3-container w3-padding w3-light-grey">
+        <div ng-controller="navbarCtrl" class="main-header">
+            <div ng-include="navbarTemplate"></div>
+        </div>
+    </section>
+
+    <!-- Background header image -->
+    <div class="banner"></div>
+
+    <!-- LOGO -->
+    <section class="loghi">
+        <a ui-sref="home">
+            <picture><img id="logo1" src="images/sito-tranq.png"></img>
+        </a>
+        </picture>
+        <picture><img id="logo2" src="icons/sito-tranq-favicon.png"></img>
+        </picture>
+    </section>
+</header>
+
+
+
+<!-- Navigation-->
+<nav>
+    <div class="w3-bar w3-teal">
+        <div>
+            <a ui-sref="root" class="w3-bar-item w3-button">Home</a>
+            <div class="w3-dropdown-hover">
+                <button class="w3-button">Estrattori <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a ui-sref="invalid" class="w3-bar-item w3-button">Link 1</a>
+                    <a href="/pippo" class="w3-bar-item w3-button">Link 2</a>
+                    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+                </div>
+            </div>
+            <div class="w3-dropdown-hover">
+
+                <button class="w3-button">Frullatori <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a href="#" class="w3-bar-item w3-button">Link 1</a>
+                    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+                    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+                </div>
+            </div>
+            <a ui-sref="aggiuntaProdotti" class="w3-bar-item w3-button">Link all'aggiunta prodotti</a>
+            <a href="#" class="w3-bar-item w3-button">Link 2</a>
+        </div>
+    </div>
+</nav>

@@ -1,6 +1,6 @@
 // Definizione del modulo 'autenticazione'
 angular.module('autenticazione', [
-    'ngRoute',
+    'ui.router',
     'ngMessages'
 ]);
 
