@@ -1,17 +1,30 @@
 <article class="" ng-if="$ctrl.prodotto">
 
     <p class="wrapper w3-container pa-15">
-        <span class="w3-tag w3-blue w3-padding"><i class="fa fa-arrow-left" aria-hidden="true"></i><a href="/"> Torna alla lista prodotti</a></span>
+        <span class="w3-tag w3-blue w3-padding">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            <a href="/"> Torna alla lista prodotti</a>
+        </span>
     </p>
     <hr style="padding: 0; margin: 0;">
 
     <div class="w3-panel w3-light-gray">
         <div class="wrapper">
             <div class="w3-show-inline-block w3-left">
-                <h1><b>{{ $ctrl.prodotto.nome }}</b></h1>
+                <h1 class="retroshadow">
+                    <span class="w3-xxxlarge">
+                        <b>{{ $ctrl.prodotto.nome }}</b>
+                    </span>
+                </h1>
             </div>
             <div class="w3-show-inline-block w3-right">
-                <h3>€ {{$ctrl.prodotto.prezzo}}</h3><span><small>(prezzi iva esclusa)</small></span></div>
+                <h2>
+                    <span class="w3-xxlarge">€ {{$ctrl.prodotto.prezzo}}</span>
+                </h2>
+                <span>
+                    <small>(prezzi iva esclusa)</small>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -22,11 +35,15 @@
             </picture>
             <div class="w3-mobile w3-cell m6">
                 <p class="w3-container">
-                    <h4><b>Codice:&nbsp;&nbsp;&nbsp;</b>{{$ctrl.id}}</h4>
+                    <h4>
+                        <b>Codice:&nbsp;&nbsp;&nbsp;</b>{{$ctrl.id}}</h4>
                 </p>
 
                 <p class="disponibilita">
-                    Disponibilità: <span class="dispo-segnale" id="disponibilita-prodotti"><span class="icona-stato disponibile"></span></span>
+                    Disponibilità:
+                    <span class="dispo-segnale" id="disponibilita-prodotti">
+                        <span class="icona-stato disponibile"></span>
+                    </span>
                 </p>
 
                 <section class="margin-top-2 w3-row">
@@ -36,7 +53,9 @@
                     <div class="w3-twothird w3-center">
                         <div class="w3-container w3-block quantita-nav">
                             <div class="quantita-button">
-                                <button class="w3-button w3-black"><span class="">-</span></button>
+                                <button class="w3-button w3-black">
+                                    <span class="">-</span>
+                                </button>
                             </div>
                             <div class="quantita">
                                 <input name="prod_quantita" value="1" maxlength="5" step="1" value="1" id="prod_quantita" type="number">
@@ -47,7 +66,9 @@
                         </div>
 
                         <div class="w3-container w3-block w3-margin-top">
-                            <button class="w3-btn w3-teal">Aggiungi al carrello <i class="fa fa-shopping-cart fa-2x"></i></button>
+                            <button class="w3-btn w3-teal">Aggiungi al carrello
+                                <i class="fa fa-shopping-cart fa-2x"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -58,13 +79,11 @@
             <div class="w3-container w3-cell">
                 <h3 class="w3-tag w3-teal">Specifiche</h3>
                 <p class="w3-container w3-padding">
-                    <!-- BOZZA DI RICCARDO EVENTUALMENTE DA STILIZZARE -->
                     <ul>
                         <li>Peso: {{$ctrl.prodotto.specifiche.peso}} kg</li>
                         <li>Dimensioni: {{$ctrl.prodotto.specifiche.dimensioni.lunghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.larghezza}}x{{$ctrl.prodotto.specifiche.dimensioni.altezza}}</li>
                         <li>Colore: {{$ctrl.prodotto.specifiche.colore}}</li>
                     </ul>
-                    <!-- FINE BOZZA -->
                 </p>
             </div>
 
