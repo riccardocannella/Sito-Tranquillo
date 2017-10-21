@@ -407,7 +407,7 @@ exports.aggiungiAlCarrello = function(req, res) {
 
                             var found_index = -1; // -1 indica non trovato, valore di default
                             for (var i = 0; i < utenteTrovato.carrello.prodotti.length; i++) {
-                                if (utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)) { 
+                                if (utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)) {
                                     found_index = i;
                                     break;
                                 };
@@ -428,7 +428,7 @@ exports.aggiungiAlCarrello = function(req, res) {
                                             }
                                         }, { upsert: true },
                                         function(err) {
-                                            if (!err) { 
+                                            if (!err) {
                                                 res.status(201).json({ 'successo': true });
                                             } else { // Errore nell'aggiungere il prodotto al carrello
                                                 return utilities.handleError(res, err, 'Impossibile aggiungere il prodotto richiesto al carrello');
@@ -437,11 +437,11 @@ exports.aggiungiAlCarrello = function(req, res) {
 
                                 }
                             } else { // Trovato un indice quindi modifico la quantità già presente nel carrello
-                                if (prodottoTrovato.giacenza < (quantitaRichiesta + utenteTrovato.carrello.prodotti[found_index].quantita) ) { // Giacenza minore della richiesta
+                                if (prodottoTrovato.giacenza < (quantitaRichiesta + utenteTrovato.carrello.prodotti[found_index].quantita)) { // Giacenza minore della richiesta
                                     return utilities.handleError(res, err, 'Hai richiesto più prodotti di quanto disponibile');
                                 } else { // Aggiorno carrello
 
-                            
+
                                     // Aggiorno la quantità nel carrello
                                     utenteTrovato.carrello.prodotti[found_index].quantita += quantitaRichiesta;
 
@@ -453,7 +453,7 @@ exports.aggiungiAlCarrello = function(req, res) {
                                             return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
                                         }
                                     });
-                                        
+
 
                                 }
 
@@ -540,7 +540,7 @@ exports.rimuoviDalCarrello = function(req, res) {
                                     if (utenteTrovato.carrello.prodotti[found_index].quantita > quantitaRichiesta) {
 
 
-                                        
+
                                         utenteTrovato.carrello.prodotti[found_index].quantita -= quantitaRichiesta;
 
                                         utenteTrovato.save(function(err) {
@@ -553,15 +553,15 @@ exports.rimuoviDalCarrello = function(req, res) {
 
                                     } else if (utenteTrovato.carrello.prodotti[found_index].quantita == quantitaRichiesta) { // Rimossi tutte le unità
 
-                                                Utente.findByIdAndUpdate(utenteID, {
-                                                    $pull: { "carrello.prodotti": { _id: prodottoTrovato._id } }
-                                                }, function(err) {
-                                                    if (!err) {
-                                                        res.status(201).json({ 'successo': true });
-                                                    } else {
-                                                        return utilities.handleError(res, err, 'Errore durante la rimozione dello oggetto nel carrello');
-                                                    }
-                                                });
+                                        Utente.findByIdAndUpdate(utenteID, {
+                                            $pull: { "carrello.prodotti": { _id: prodottoTrovato._id } }
+                                        }, function(err) {
+                                            if (!err) {
+                                                res.status(201).json({ 'successo': true });
+                                            } else {
+                                                return utilities.handleError(res, err, 'Errore durante la rimozione dello oggetto nel carrello');
+                                            }
+                                        });
 
                                     } else { // Si è cercato di rimuovere più di quanto ci fosse nel carrello
                                         return utilities.handleError(res, err, 'Quantità richiesta superiore al numero di oggetti nel carrello');
@@ -614,25 +614,25 @@ exports.rimuoviDalCarrello = function(req, res) {
 |        carrello_aggiornato: valore impostato a true           |                                
  ---------------------------------------------------------------*/
 
-exports.acquistaProdottiNelCarrello = function(req,res){
+exports.acquistaProdottiNelCarrello = function(req, res) {
     // Controllo la validità del token e procedo all'acquisto
-    jwt.verify(req.body.token, encryption.secret, function(err, decoded){
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
         if (err) {
             return utilities.handleError(res, err, 'Token non valido o scaduto.');
         } else {
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato){
-                if(err || utenteTrovato == null){
-                    return utilities.handleError(res, err, 'Utente non trovato')   
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                if (err || utenteTrovato == null) {
+                    return utilities.handleError(res, err, 'Utente non trovato')
                 } else { // Utente trovato controllo se il carrello è valido
-                    if(utenteTrovato.carrello.prodotti.length == 0 || utenteTrovato.carrello.prodotti == null){
+                    if (utenteTrovato.carrello.prodotti.length == 0 || utenteTrovato.carrello.prodotti == null) {
                         // Carrello vuoto, nothing to do here.
                         return utilities.handleError(res, 'EMP_CAR', 'Carrello vuoto')
                     } else {
-                        
+
                         // INIZIO Funzione ausiliaria con promessa per evitare che diventi bloccante per il server
-                        let acquistoOAggiornamento = new Promise(function(resolve,reject){
-                            Prodotto.find({}, function(err, elencoProdotti){
-                                if(err){
+                        let acquistoOAggiornamento = new Promise(function(resolve, reject) {
+                            Prodotto.find({}, function(err, elencoProdotti) {
+                                if (err) {
                                     return utilities.handleError(res, err, 'Server Error');
                                 } else {
                                     var i = 0;
@@ -644,12 +644,12 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                     var nomiProdotti = [];
 
                                     // Controllo i prodotti nel carrello
-                                    for(i = 0; i<utenteTrovato.carrello.prodotti.length; i++){
-                                        for(var j=0; j<elencoProdotti.length;j++){
-                                            if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){
-                                                
+                                    for (i = 0; i < utenteTrovato.carrello.prodotti.length; i++) {
+                                        for (var j = 0; j < elencoProdotti.length; j++) {
+                                            if (utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)) {
+
                                                 //Controllo se le quantità sono acquistabili
-                                                if(utenteTrovato.carrello.prodotti[i].quantita > elencoProdotti[j].giacenza){
+                                                if (utenteTrovato.carrello.prodotti[i].quantita > elencoProdotti[j].giacenza) {
                                                     obsoleto = true; // Non posso comunque procedere all'acquisto
                                                     utenteTrovato.carrello.prodotti[i].quantita = elencoProdotti[j].giacenza; //Imposto la quantità al massimo ottenibile
                                                 }
@@ -659,112 +659,115 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                                                 nomiProdotti.push(elencoProdotti[j].nome);
                                                 break; // Passa all'elemento successivo del carrello
                                             }
-                                            if(j == elencoProdotti.length - 1){
+                                            if (j == elencoProdotti.length - 1) {
                                                 obsoleto = true;
                                                 prodotti_obsoleti.push(utenteTrovato.carrello.prodotti[i]._id);
                                             }
                                         }
                                     }
 
-                                    if(obsoleto == true){ // Trovati prodotti non conformi all'acquisto
+                                    if (obsoleto == true) { // Trovati prodotti non conformi all'acquisto
                                         // Elimino i prodotti obsoleti (se ci sono) e salvo il nuovo carrello con le giuste quantità nel database
-                                        for(i = 0; i < prodotti_obsoleti.length;i++){
-                                            utenteTrovato.carrello.prodotti =  utenteTrovato.carrello.prodotti.filter(function(prod){
+                                        for (i = 0; i < prodotti_obsoleti.length; i++) {
+                                            utenteTrovato.carrello.prodotti = utenteTrovato.carrello.prodotti.filter(function(prod) {
                                                 return !(prod._id.equals(prodotti_obsoleti[i]));
                                             });
                                         }
-                                        utenteTrovato.save(function(err){
-                                            if(err){
-                                                return utilities.handleError(res,err,'Non è stato possibile aggiornare il carrello, contatta un admin');
+                                        utenteTrovato.save(function(err) {
+                                            if (err) {
+                                                return utilities.handleError(res, err, 'Non è stato possibile aggiornare il carrello, contatta un admin');
                                             }
                                             reject(true);
 
                                         })
-                                        
+
                                     } else { // Altrimenti procedo alla preparazione dell'acquisto
-                                        for(i=0; i < utenteTrovato.carrello.prodotti.length; i++){
-                                            for(var j = 0; j < elencoProdotti.length;j++){
-                                                if(utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)){ // Aggiorno la giacenza 
+                                        for (i = 0; i < utenteTrovato.carrello.prodotti.length; i++) {
+                                            for (var j = 0; j < elencoProdotti.length; j++) {
+                                                if (utenteTrovato.carrello.prodotti[i]._id.equals(elencoProdotti[j]._id)) { // Aggiorno la giacenza 
                                                     elencoProdotti[j].giacenza -= utenteTrovato.carrello.prodotti[i].quantita;
-                                                    
+
                                                 }
                                             }
                                             // Ho finito di aggiornare le giacenze in base al carrello
-                                            if(i == (utenteTrovato.carrello.prodotti.length - 1)){
+                                            if (i == (utenteTrovato.carrello.prodotti.length - 1)) {
                                                 var totaleProdottiDaProcessare = elencoProdotti.length;
-                                                
+
                                                 //Funzione che salva i nuovi prodotti modificati uno ad uno
-                                                function salvaTutto(){
+                                                function salvaTutto() {
                                                     var prodottoDaProcessare = elencoProdotti.pop();
                                                     //Ciclo tra gli elementi del carrello per controllare se è da salvare o meno
-                                                    for(var z = 0; z < utenteTrovato.carrello.prodotti.length; z++){ 
-                                                        if(utenteTrovato.carrello.prodotti[z]._id.equals(prodottoDaProcessare._id)){
-                                                            
-                                                            prodottoDaProcessare.save(function(err,salvato){
-                                                                if(err){
-                                                                    return utilities.handleError(res,err,'Errore durante il salvataggio di un prodtto, contatta un admin');
+                                                    for (var z = 0; z < utenteTrovato.carrello.prodotti.length; z++) {
+                                                        if (utenteTrovato.carrello.prodotti[z]._id.equals(prodottoDaProcessare._id)) {
+
+                                                            prodottoDaProcessare.save(function(err, salvato) {
+                                                                if (err) {
+                                                                    return utilities.handleError(res, err, 'Errore durante il salvataggio di un prodtto, contatta un admin');
                                                                 }
                                                                 // Faccio il check delle rimanenze e notifico gli admin per eventuali prodotti in esaurimento
-                                                                if (salvato.giacenza <= 3){
-                                                                    utilities.notificaAdminProdottoEsaurito(salvato.nome,salvato._id);
+                                                                if (salvato.giacenza <= 3) {
+                                                                    utilities.notificaAdminProdottoEsaurito(salvato.nome, salvato._id);
                                                                 }
-                                                                
+
                                                             });
 
                                                             break; // Ottimizzazione, non serve ciclare oltre
                                                         }
                                                     }
-                                                        
-                                                    
-                                                    if(--totaleProdottiDaProcessare){ //Finchè ci sono prodotti da controllare continuo 
+
+
+                                                    if (--totaleProdottiDaProcessare) { //Finchè ci sono prodotti da controllare continuo 
                                                         salvaTutto();
-                                                    }
-                                                    else{ // Altrimenti procedo alla fase finale
+                                                    } else { // Altrimenti procedo alla fase finale
                                                         faseFinale();
                                                     }
                                                 }
 
                                                 // Funzione per la fase finale di svuotamento del carrello
-                                                function faseFinale(){
-                                                    
-                                                                                                        
+                                                function faseFinale() {
+
+
 
                                                     var backup_carrello = JSON.parse(JSON.stringify(utenteTrovato.carrello.prodotti)); // Hack per clonare un oggetto
                                                     utenteTrovato.carrello.prodotti = []; // Rimuovo i prodotti dal carrello
-                                                    
+
                                                     // Aggiorno la copia del carrello con i relativi dettagli dell'acquisto
-                                                    for(var x = 0; x < backup_carrello.length; x++){
+                                                    for (var x = 0; x < backup_carrello.length; x++) {
                                                         backup_carrello[x].prezzo = prezziProdotti[x];
                                                         backup_carrello[x].urlImmagine = urlImmagini[x];
                                                         backup_carrello[x].nome = nomiProdotti[x];
                                                     }
-                                                
+
                                                     // Salvo i cambiamenti all'utente
-                                                    utenteTrovato.save(function(err){
-                                                        if(err){
-                                                            return utilities.handleError(res,err,'Server error');
+                                                    utenteTrovato.save(function(err) {
+                                                        if (err) {
+                                                            return utilities.handleError(res, err, 'Server error');
                                                         }
-                                                        
+
                                                         // Aggiungo la storia dell'acquisto all'utente
-                                                        Utente.findByIdAndUpdate(decoded.utenteID,{$push : {"storia_acquisti.acquisti": {
-                                                                data_acquisto: Date.now(),
-                                                                prodotti: backup_carrello // La copia del carrello diventano i prodotti della storia d'acquisto
-                                                            }}},{upsert:true})
-                                                            .then(function(){
+                                                        Utente.findByIdAndUpdate(decoded.utenteID, {
+                                                                $push: {
+                                                                    "storia_acquisti.acquisti": {
+                                                                        data_acquisto: Date.now(),
+                                                                        prodotti: backup_carrello // La copia del carrello diventano i prodotti della storia d'acquisto
+                                                                    }
+                                                                }
+                                                            }, { upsert: true })
+                                                            .then(function() {
                                                                 resolve(false); // carrello non obsoleto, quindi acquisto effettuato
                                                             })
-                                                            .catch(function(err){
-                                                                return utilities.handleError(res,err,'Server error');
+                                                            .catch(function(err) {
+                                                                return utilities.handleError(res, err, 'Server error');
                                                             });
-                                                            
-                                                        
+
+
                                                     });
-                                                
+
                                                 }
 
                                                 // Richiamo la funzione dichiarata sopra per salvare tutto (e indirettamente la fase finale)
                                                 salvaTutto();
-                                                  
+
                                             }
 
                                         }
@@ -776,12 +779,12 @@ exports.acquistaProdottiNelCarrello = function(req,res){
                         // FINE Funzione ausiliaria con promessa
 
                         // Chiamo la funzione ausiliaria con la promessa
-                        acquistoOAggiornamento.then(function(fromResolve){
-                            res.status(201).json({'successo':true,'carrello_aggiornato':fromResolve});
-                        }).catch(function(fromReject){
-                            res.status(500).json({'successo':false,'carrello_aggiornato':fromReject});
+                        acquistoOAggiornamento.then(function(fromResolve) {
+                            res.status(201).json({ 'successo': true, 'carrello_aggiornato': fromResolve });
+                        }).catch(function(fromReject) {
+                            res.status(500).json({ 'successo': false, 'carrello_aggiornato': fromReject });
                         });
-                        
+
                     }
                 }
             });
@@ -802,42 +805,78 @@ exports.acquistaProdottiNelCarrello = function(req,res){
 |        successo: valore impostato a true                      |
  ---------------------------------------------------------------*/
 
- exports.getCarrello = function(req,res){
-        // Verifico e spacchetto il token dell'utente
-        
-        jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
-            if (err) {
-                return utilities.handleError(res, err, 'Token non valido o scaduto.');
-            } else { // Token valido
-                
-                // Carrello dell'utente che verrà riempito con i vari dettagli dei prodotti.
-                var carrelloUtente = [];
+exports.getCarrello = function(req, res) {
+    // Verifico e spacchetto il token dell'utente
 
-                function inviaCarrello(notAborted, arr) {
-                    //console.log("done", notAborted, arr);
-                    console.log('Carrello utente: '  + carrelloUtente);
-                    res.status(201).json({'carrello':carrelloUtente});
-                }
-                
-                Utente.findById(decoded.utenteID, function(err, utenteTrovato){
-                    if(err){
-                        return utilities.handleError(res, err, 'Utente non trovato');
-                    } else {
-                        var forEach = require('async-foreach').forEach;
-                        forEach(utenteTrovato.carrello.prodotti, function(prodottoNelCarrello, index, arr) {
-                            //console.log("each", prodotto, index, arr);
-                            Prodotto.findById(prodottoNelCarrello._id, function(err, trovato){
-                                var prodottoDaInserire = JSON.parse(JSON.stringify(trovato)); // Clono
-                                prodottoDaInserire.quantita = prodottoNelCarrello.quantita;
-                                carrelloUtente.push(prodottoDaInserire);
-                            });
-                            var done = this.async();
-                            setTimeout(function() {
-                              done();
-                            }, 500);
-                          }, inviaCarrello);
-                    }
-                });
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else { // Token valido
+
+            // Carrello dell'utente che verrà riempito con i vari dettagli dei prodotti.
+            var carrelloUtente = [];
+
+            function inviaCarrello(notAborted, arr) {
+                //console.log("done", notAborted, arr);
+                console.log('Carrello utente: ' + carrelloUtente);
+                res.status(201).json({ 'carrello': carrelloUtente });
             }
-        });
- }
+
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    var forEach = require('async-foreach').forEach;
+                    forEach(utenteTrovato.carrello.prodotti, function(prodottoNelCarrello, index, arr) {
+                        //console.log("each", prodotto, index, arr);
+                        Prodotto.findById(prodottoNelCarrello._id, function(err, trovato) {
+                            var prodottoDaInserire = JSON.parse(JSON.stringify(trovato)); // Clono
+                            prodottoDaInserire.quantita = prodottoNelCarrello.quantita;
+                            carrelloUtente.push(prodottoDaInserire);
+                        });
+                        var done = this.async();
+                        setTimeout(function() {
+                            done();
+                        }, 500);
+                    }, inviaCarrello);
+                }
+            });
+        }
+    });
+}
+
+/*--------------------------------------------------------------
+|    Funzione: isAdmin()                                        |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+|        isAdmin: valore impostato a true                       |
+ ---------------------------------------------------------------*/
+
+exports.isAdmin = function(req, res) {
+    console.log("POST isAdmin");
+
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+
+            // Token valido
+            console.log('Token valido');
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    if (utenteTrovato.admin === true) return res.json({ successo: true, isAdmin: true });
+                    else return utilities.handleError(res, "ERR_NOT_ADMIN", "L'utente non è un amministratore.")
+                }
+            });
+        }
+    });
+}

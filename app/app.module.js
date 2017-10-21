@@ -4,7 +4,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'home',
     'navbar',
     'dettaglio',
-    'invalid',
     'autenticazione',
     'condizioni',
     'about',
@@ -13,5 +12,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'modificaProdotti',
     'recupero',
     'reset',
-    'carrello'
+    'carrello',
+    'adminPanel'
 ]);

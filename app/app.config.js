@@ -112,7 +112,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 url: '/admin',
                 data: { titolo: 'Admin Dashboard' },
                 views: {
-                    '': { templateUrl: 'layout/backend/adminPanel.html' },
+                    '': { component: 'adminPanel' },
                     'navbar@admin': {
                         templateUrl: 'layout/backend/header/header.template.html',
                     },
@@ -143,7 +143,17 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             })
             // NOT FOUND
             .state('invalid', {
-                component: 'invalid',
+                templateUrl: 'layout/stati/invalid.template.html',
+                data: { titolo: '404 Pagina non trovata' },
+            })
+            // UNAUTHORIZED
+            .state('unauthorized', {
+                templateUrl: 'layout/stati/unauthorized.template.html',
+                data: { titolo: '401 Utente non loggato' },
+            })
+            // FORBIDDEN
+            .state('forbidden', {
+                templateUrl: 'layout/stati/forbidden.template.html',
                 data: { titolo: '404 Pagina non trovata' },
             });
 
