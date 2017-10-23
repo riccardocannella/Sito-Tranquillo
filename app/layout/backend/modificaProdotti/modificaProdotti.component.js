@@ -7,7 +7,7 @@ angular.module('modificaProdotti', [
 // Registra il componente 'modificaProdotti' sul modulo 'modificaProdotti'
 angular.module('modificaProdotti').component('modificaProdotti', {
     templateUrl: 'layout/backend/modificaProdotti/modificaProdotti.template.html',
-    controller: function(Upload, $http, $location, $routeParams, $window) {
+    controller: function(Upload, $http, $location, $stateParams, $window) {
         var modificaProdotti = this;
         var id = $stateParams.id;
         var prodottoOrig;
