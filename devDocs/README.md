@@ -4,16 +4,13 @@ Specifica PROVVISORIA Database per ecommerce
 Admin
 -----
 
-Gli amministratori sono identificati con nome utente e password, in una tabella
-separata dagli utenti normali. Questa tabella viene chiamata solo dalla route 
-amministrativa (link specifico in index.html).
+Gli amministratori sono dei normali utenti che hanno un flag "admin" impostato a true. Ogni volta che si accede a una pagina amministrativa si controlla che l'utente sia loggato e che sia effettivamente un admin, altrimenti si viene reindirizzati a una pagina "401 unauthorized" nel primo caso o a una pagina "403 forbidden" nel secondo caso.
 
 Utenti
 ------
 
 Gli utenti sono identificati tramite la loro email. Deve essere presente
-un campo password (se possibile con certi criteri di sicurezza). Oltre a
-questo, sono necessari nome e cognome, indirizzo, numero di telefono.
+un campo password (se possibile con certi criteri di sicurezza). Oltre a questo, sono necessari nome e cognome, indirizzo, numero di telefono.
 Opzionalmente può contenere più indirizzi di spedizione.
 
 Carrelli
@@ -29,8 +26,7 @@ Prodotti
 
 I prodotti sono identificati tramite un codice alfanumerico. Devono essere
 presenti anche il campo prezzo, nome, descrizione lunga, descrizione
-corta, disponibilità in magazzino, scorta minima, peso, url delle immagini (thumbnail
-e fullsize). Bisogna istruire il motore di Mongo per usare indici 
+corta, disponibilità in magazzino, scorta minima, peso, nome dei file delle immagini. Bisogna istruire il motore di Mongo per usare indici 
 addizionali basati sulle categorie.
 Contiene anche altri due campi per l'impegno nei carrelli e gli impegni in pagamento.
 

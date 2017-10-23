@@ -30,4 +30,9 @@ module.exports = function(app, db) {
         .get(apiUtenti.getUtente);
     app.route('/api/v1.0/utenti/acquistaProdottiNelCarrello')
         .post(apiUtenti.acquistaProdottiNelCarrello);
+    app.route('/api/v1.0/utenti/getCarrello')
+        .post(apiUtenti.getCarrello);
+
+    app.route('/api/v1.0/utenti/isAdmin')
+        .post(apiUtenti.isAdmin);
 };

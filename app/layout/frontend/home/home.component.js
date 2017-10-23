@@ -1,7 +1,12 @@
+// Definizione del modulo 'home'
+angular.module('home', [
+    'ui.router'
+]);
+
 // Registra il componente 'home' sul modulo 'home
 angular.module('home').component('home', {
     templateUrl: 'layout/frontend/home/home.template.html',
-    controller: function($scope,$http) {
+    controller: function($scope, $http) {
         var listaProva = this;
         listaProva.ordinamento = 'nome';
 
@@ -11,12 +16,11 @@ angular.module('home').component('home', {
 
         //Funzione per chiudere e riaprire la sidebar nella home page
         $scope.IsVisible = true;
-        $scope.ShowHide = function () {
+        $scope.ShowHide = function() {
             //Se la sidebar è visibile allora verrà chiusa e viceversa
-            if($scope.IsVisible == true){
+            if ($scope.IsVisible == true) {
                 $scope.IsVisible = false;
-            }
-            else{
+            } else {
                 $scope.IsVisible = true;
             }
         }

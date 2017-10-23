@@ -1,6 +1,12 @@
+// Definizione del modulo 'reset'
+angular.module('reset', [
+    'ui.router',
+    'ngMessages'
+]);
+
 angular.module('reset').component('reset', {
     templateUrl: 'layout/frontend/reset/reset.template.html',
-    controller: function($http, $routeParams, $scope) {
+    controller: function($http, $stateParams, $scope) {
         var resetCtrl = this;
         resetCtrl.validaRisposta = function() {
             $http.post('/api/v1.0/utenti/validaRisposta', { username: resetCtrl.utente.username, risposta_segreta: resetCtrl.risposta })
@@ -21,7 +27,7 @@ angular.module('reset').component('reset', {
                     console.log(err);
                 })
         };
-        $http.post('/api/v1.0/utenti/validaToken', { token: $routeParams.token }).then(function(res) {
+        $http.post('/api/v1.0/utenti/validaToken', { token: $stateParams.token }).then(function(res) {
             if (res.data.successo === true) {
                 console.log(res.data);
                 resetCtrl.utente = res.data.user;
