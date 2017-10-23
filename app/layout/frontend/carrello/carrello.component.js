@@ -9,7 +9,7 @@ angular.module('carrello').component('carrello', {
     controller: function($http, $stateParams, $window, $scope) {
         var carrelloCtrl = this;
 
-        console.log('ciao');
+        console.log('Lisciami le mele');
         $http({
             method: 'POST',
             url: '/api/v1.0/utenti/getCarrello',
@@ -30,5 +30,11 @@ angular.module('carrello').component('carrello', {
         }).catch(function errorCallback(response){
             console.log('Errore: ' + response);
         });
+        
+        // Funzione per la visualizzazione dell'alert dopo aver cliccato sul pulsante Acquista
+        $scope.acquisto = 'Il tuo ordine è stato inviato correttamente!!';
+        $scope.alertAcquistoEffettuato = function(acquisto) {
+            $window.alert(acquisto);
+          };
     }
 });
