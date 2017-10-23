@@ -569,6 +569,7 @@ a {
     position: relative;
     width: 100%;
    /* Modificato da "hidden" a "visible" per comportamento z-index */
+   z-index: 2;
     overflow: visible;
     
 }
