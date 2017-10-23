@@ -1,6 +1,6 @@
 // Definizione del modulo 'aggiuntaProdotti'
 angular.module('aggiuntaProdotti', [
-    'ngRoute',
+    'ui.router',
     'ngFileUpload'
 ]);
 

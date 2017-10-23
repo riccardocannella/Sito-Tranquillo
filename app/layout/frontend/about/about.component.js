@@ -1,6 +1,6 @@
 // Definizione del modulo 'about'
 angular.module('about', [
-    'ngRoute'
+    'ui.router'
 ]);
 
 // Registra il componente 'about' sul modulo 'about'

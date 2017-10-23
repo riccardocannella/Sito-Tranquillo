@@ -32,4 +32,7 @@ module.exports = function(app, db) {
         .post(apiUtenti.acquistaProdottiNelCarrello);
     app.route('/api/v1.0/utenti/getCarrello')
         .post(apiUtenti.getCarrello);
+
+    app.route('/api/v1.0/utenti/isAdmin')
+        .post(apiUtenti.isAdmin);
 };

@@ -2,7 +2,7 @@
 
     <button class="w3-button w3-large w3-hide-large" ng-click="ShowHide()">&#9776;</button>
 
-<!-- classi tolte per test = w3-collapse -->
+    <!-- classi tolte per test = w3-collapse -->
     <menu id="SidebaR" type="toolbar" ng-show="IsVisible" class="animate-show-hide sidebar w3-bar-block w3-card-2">
 
         <form>
@@ -44,7 +44,7 @@
             <div class="contenitore-text">
                 <div class="header">
                     <h5 class="w3-text-orange">
-                        <a href="/prodotti/{{elemento._id}}">{{elemento.nome}}</a>
+                        <a ui-sref="dettaglio({id: elemento._id})">{{elemento.nome}}</a>
                     </h5>
                 </div>
                 <p class="w3-text-red">
@@ -60,14 +60,14 @@
                     <div class="w3-container w3-cell">
                         <button class="w3-button w3-red w3-right"><i class="fa fa-shopping-cart"></i></button>
                     </div>
-                    
+
                     <div class="w3-container w3-cell">
                         <a href="/admin/modificaProdotti/{{elemento._id}}"><button class="w3-button w3-red"><i class="fa fa-pencil fa-fw"></i></button></a>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
         </div>
     </div>
 

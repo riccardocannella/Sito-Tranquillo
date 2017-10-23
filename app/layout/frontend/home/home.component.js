@@ -1,6 +1,6 @@
 // Definizione del modulo 'home'
 angular.module('home', [
-    'ngRoute'
+    'ui.router'
 ]);
 
 // Registra il componente 'home' sul modulo 'home

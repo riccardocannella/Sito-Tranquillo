@@ -1,6 +1,6 @@
 // Definizione del modulo 'informativa'
 angular.module('informativa', [
-    'ngRoute'
+    'ui.router'
 ]);
 
 angular.module('informativa').component('informativa', {
