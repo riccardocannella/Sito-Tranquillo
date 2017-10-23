@@ -832,6 +832,7 @@ exports.getCarrello = function(req, res) {
                         Prodotto.findById(prodottoNelCarrello._id, function(err, trovato) {
                             var prodottoDaInserire = JSON.parse(JSON.stringify(trovato)); // Clono
                             prodottoDaInserire.quantita = prodottoNelCarrello.quantita;
+                            prodottoDaInserire.totale = prodottoNelCarrello.quantita * prodottoDaInserire.prezzo;
                             carrelloUtente.push(prodottoDaInserire);
                         });
                         var done = this.async();
