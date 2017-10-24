@@ -10,17 +10,24 @@ angular.module('utente').component('utente', {
     controller: function($scope, $http, $window, $location) {
         var ctrl = this;
         var utenteOrig;
+
         $scope.richiestaEliminazione = 0;
         $scope.utenteEliminato = 0;
         if ($window.localStorage.getItem("jwtToken") == undefined || $window.localStorage.getItem("jwtToken") == '')
             $location.path('/autenticazione');
         else {
-            $http.post('api/v1.0/utenti/get', { token: $window.localStorage.getItem("jwtToken") }).then(function(response) {
-                console.log(response);
-                ctrl.utente = response.data;
-                delete ctrl.utente._id;
-                utenteOrig = angular.copy(ctrl.utente);
+            $http.get('api/v1.0/stati').then(function(stati) {
+                $http.get('api/v1.0/province').then(function(province) {
+                    $http.post('api/v1.0/utenti/get', { token: $window.localStorage.getItem("jwtToken") }).then(function(response) {
+                        $scope.province = province.data;
+                        $scope.stati = stati.data;
+                        ctrl.utente = response.data;
+                        delete ctrl.utente._id;
+                        utenteOrig = angular.copy(ctrl.utente);
+                    });
+                });
             });
+
         }
         ctrl.reset = function() {
             ctrl.utente = angular.copy(utenteOrig);

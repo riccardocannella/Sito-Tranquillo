@@ -28,25 +28,25 @@
 
                 <!-- GESTIONE STATO E PROVINCE -->
                 <p class="w3-margin-top">
-                    <label for="state">Stato:                     
-                        <select class="w3-input w3-border w3-round" class="minimal" ng-model="$ctrl.utente.stato">
+                    <label for="stato">Stato:                     
+                        <select class="w3-input w3-border w3-round" class="minimal" ng-model="$ctrl.utente.stato" name="stato" id="stato">
                             <!--<option default>Italy</option>-->
-                            <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
+                            <option value="{{stato}}" ng-repeat="stato in stati">{{stato}}</option>
                         </select>
                         </label>
                 </p>
 
-                <div ng-show="country == 'Italy'">
+                <div ng-show="$ctrl.utente.stato === 'Italy'">
                     <p class="w3-margin-top">
-                        <label for="province">Provincia:</label>
-                        <select class="w3-input w3-border w3-round" class="minimal" ng-model="$ctrl.utente.provincia">
-                                <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
+                        <label for="provincia">Provincia:</label>
+                        <select class="w3-input w3-border w3-round" class="minimal" ng-model="$ctrl.utente.provincia" name="provincia" id="provincia">
+                                <option value={{provincia}} ng-repeat="provincia in province">{{provincia}}</option>
                             </select>
 
                     </p>
 
                     <p class="w3-margin-top">
-                        <label for="Nome">Comune:</label>
+                        <label for="comune">Comune:</label>
                         <input class="w3-input w3-border" type="text" name="comune" id="comune" ng-model="$ctrl.utente.comune" placeholder="Apiro" pattern="[A-Z][a-z*\s]{2,20}">
                     </p>
                 </diV>
