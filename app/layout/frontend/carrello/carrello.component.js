@@ -79,6 +79,27 @@ angular.module('carrello').component('carrello', {
             });
         };
 
+        carrelloCtrl.rimuoviProdotto = function(idprodotto,quantitaPresente){
+            console.log(quantitaPresente);
+            
+            $http({
+                method: 'POST',
+                url: '/api/v1.0/utenti/rimuovidalcarrello',
+                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':quantitaPresente }
+            }).then(function successCallback(response){
+                if(response.data.successo == true){
+                    // Aggiorno il carrello
+                    carrelloCtrl.getCarrello();
+                } else {
+                    alert("non è stato possibile rimuovere i prodotti, ci scusiamo per il disagio");
+                    // Aggiorno il carrello
+                    carrelloCtrl.getCarrello();
+                }
+            }).catch(function errorCallback(response){
+                console.log('not ok');
+            });
+        }
+
         // Eseguo al caricamento della pagina
         carrelloCtrl.getCarrello();
 
