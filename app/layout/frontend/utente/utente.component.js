@@ -26,7 +26,7 @@ angular.module('utente').component('utente', {
             ctrl.utente.token = $window.localStorage.getItem("jwtToken");
             $http.put('api/v1.0/utenti/aggiorna', ctrl.utente).then(
                 function(res) {
-                    $location.path('');
+                    $window.location.reload();
                 },
                 function(err) {
                     console.log('errore!\n', err.data);

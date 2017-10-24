@@ -888,4 +888,46 @@ exports.isAdmin = function(req, res) {
             });
         }
     });
-}
+};
+exports.aggiornaUtente = function(req, res) {
+    console.log('PUT utente');
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+            // Token valido
+            console.log('Token valido');
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
+                    utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
+                    utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
+                    utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
+                    utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
+                    utenteTrovato.email = req.body.email || utenteTrovato.email;
+                    utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
+                    if (req.body.password) {
+                        bcrypt.hash(req.body.password, encryption.saltrounds)
+                            .then(function(pass_hash) {
+                                utenteTrovato.password_hash = pass_hash;
+                            });
+                    }
+                    if (req.body.risposta_segreta) {
+                        bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
+                            .then(function(risp_hash) {
+                                utenteTrovato.risposta_segreta_hash = risp_hash;
+                            });
+                    }
+                    utenteTrovato.save(function(error) {
+                        if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
+                        else res.status(201).json({ utenteTrovato });
+                    });
+
+                }
+            })
+        }
+    })
+};
