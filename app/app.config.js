@@ -96,7 +96,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 url: 'utente/:id',
                 data: { titolo: 'Utente' },
                 views: {
-                    main: {}
+                    main: { component: 'utente' }
                 }
             })
             .state('carrello', {
@@ -107,8 +107,9 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     main: { component: 'carrello' }
                 }
             })
-            // ADMIN
-            .state('admin', {
+
+        // ADMIN
+        .state('admin', {
                 url: '/admin',
                 data: { titolo: 'Admin Dashboard' },
                 views: {
