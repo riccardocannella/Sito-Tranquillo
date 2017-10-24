@@ -100,6 +100,29 @@ angular.module('carrello').component('carrello', {
             });
         }
 
+        carrelloCtrl.acquistaTutto = function(){
+            
+            $http({
+                method: 'POST',
+                url: '/api/v1.0/utenti/acquistaProdottiNelCarrello',
+                data: { 'token': $window.localStorage.getItem("jwtToken")}
+            }).then(function successCallback(response){
+                if(response.data.successo == true){
+                    if(response.data.carrello_aggiornato == false){
+                        alert('Grazie per aver acquistato da noi.');
+                        carrelloCtrl.getCarrello();
+                    } else {
+                        alert('Carrello sincronizzato col database, perfavore riesegui acquisto');
+                        carrelloCtrl.getCarrello();
+                    }
+                } else {
+                    alert('errore acquisto');
+                }
+            }).catch(function errorCallback(response){
+                alert('errore acquisto');
+            });
+        };
+
         // Eseguo al caricamento della pagina
         carrelloCtrl.getCarrello();
 
