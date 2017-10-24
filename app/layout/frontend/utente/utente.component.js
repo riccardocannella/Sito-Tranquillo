@@ -10,10 +10,13 @@ angular.module('utente').component('utente', {
     controller: function($scope, $http, $window, $location) {
         var ctrl = this;
         var utenteOrig;
+        $scope.richiestaEliminazione = 0;
+        $scope.utenteEliminato = 0;
         if ($window.localStorage.getItem("jwtToken") == undefined || $window.localStorage.getItem("jwtToken") == '')
             $location.path('/autenticazione');
         else {
             $http.post('api/v1.0/utenti/get', { token: $window.localStorage.getItem("jwtToken") }).then(function(response) {
+                console.log(response);
                 ctrl.utente = response.data;
                 delete ctrl.utente._id;
                 utenteOrig = angular.copy(ctrl.utente);
@@ -32,6 +35,21 @@ angular.module('utente').component('utente', {
                     console.log('errore!\n', err.data);
                 }
             )
+        };
+        ctrl.chiediConferma = function() {
+            $scope.richiestaEliminazione = 1;
+        };
+        ctrl.tornaIndietro = function() {
+            $scope.richiestaEliminazione = 0;
+        };
+        ctrl.eliminaUtente = function() {
+            $http.post('api/v1.0/utenti/elimina', { token: $window.localStorage.getItem("jwtToken") })
+                .then(function(res) {
+                    $window.localStorage.setItem("jwtToken", "");
+                    $window.localStorage.setItem("username", "");
+                    alert('Il tuo account utente è stato eliminato. Clicca su Ok per tornare alla home.')
+                    $location.path('/');
+                })
         }
     }
 });

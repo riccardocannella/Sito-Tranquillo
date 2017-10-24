@@ -212,8 +212,19 @@ exports.validaRispostaSegreta = function(req, res) {
                 })
         });
 };
+/*--------------------------------------------------------------
+|    Funzione: getUtente()                                      |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : username dell'utente                           |
+|                                                               |
+|     Oggetti restituiti in caso di successo:                   |
+|        l'utente corrispondente al token                       |
+ ---------------------------------------------------------------*/
 exports.getUtente = function(req, res) {
-    console.log('GET utente');
+    console.log('Richiesta dati utente');
     // Verifico e spacchetto il token dell'utente
     jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
         if (err) {
@@ -931,3 +942,26 @@ exports.aggiornaUtente = function(req, res) {
         }
     })
 };
+exports.eliminaUtente = function(req, res) {
+    console.log('ELIMINAZIONE utente');
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+            // Token valido
+            console.log('Token valido');
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    utenteTrovato.remove(function(error) {
+                        if (error)
+                            return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
+                        else res.status(200).json({ successo: true })
+                    })
+                }
+            })
+        }
+    })
+}

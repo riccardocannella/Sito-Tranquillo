@@ -30,6 +30,8 @@ module.exports = function(app, db) {
         .post(apiUtenti.getUtente);
     app.route('/api/v1.0/utenti/aggiorna')
         .put(apiUtenti.aggiornaUtente);
+    app.route('/api/v1.0/utenti/elimina')
+        .post(apiUtenti.eliminaUtente);
     app.route('/api/v1.0/utenti/acquistaProdottiNelCarrello')
         .post(apiUtenti.acquistaProdottiNelCarrello);
     app.route('/api/v1.0/utenti/getCarrello')

@@ -14,7 +14,7 @@
 
         <h3 class="w3-center" ng-if="$ctrl.utente">Profilo utente di {{$ctrl.utente.nome}} {{$ctrl.utente.cognome}}</h3>
 
-        <div class="w3-container pa-15 w3-light-grey" ng-if="$ctrl.utente">
+        <div class="w3-container pa-15 w3-light-grey" ng-if="$ctrl.utente && richiestaEliminazione === 0">
 
             <form name="formValidation">
 
@@ -107,11 +107,16 @@
                 </p>
 
                 <p><button ng-click="$ctrl.aggiornaUtente()" class="w3-button w3-red button-login">Aggiorna utente</button></p>
-
+                <p><button ng-click="$ctrl.chiediConferma()" class="w3-button w3-red button-login">Elimina utente</button></p>
             </form>
 
         </div>
 
         <h3 class="w3-tag w3-red w3-center w3-padding" ng-if="!$ctrl.utente">Devi essere loggato per poter modificare il profilo.</h3>
+        <div ng-if="richiestaEliminazione === 1">
+            <p>Sei davvero sicuro di voler eliminare il tuo account utente? Quest'azione non è reversibile.</p>
+            <p><button ng-click="$ctrl.tornaIndietro()" class="w3-button w3-red button-login">No, torna indietro</button></p>
+            <p><button ng-click="$ctrl.eliminaUtente()" class="w3-button w3-red button-login">Sì, elimina utente</button></p>
+        </div>
     </div>
 </section>
