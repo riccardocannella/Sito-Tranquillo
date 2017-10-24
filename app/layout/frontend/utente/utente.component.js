@@ -7,9 +7,8 @@ angular.module('utente', [
 // Registra il componente 'utente' sul modulo 'utente'
 angular.module('utente').component('utente', {
     templateUrl: 'layout/frontend/utente/utente.template.html',
-    controller: function($scope, $http, $window, $stateParams, $location) {
+    controller: function($scope, $http, $window, $location) {
         var ctrl = this;
-        var id = $stateParams.id;
         var utenteOrig;
         if ($window.localStorage.getItem("jwtToken") == undefined || $window.localStorage.getItem("jwtToken") == '')
             $location.path('/autenticazione');
