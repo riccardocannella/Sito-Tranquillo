@@ -450,20 +450,15 @@ input[type=number] {
      Carrello
 **************************************************/
 
-.input-carrello {
+.quantita-carrello {
     border: 1px solid #ddd;
     display: inline-block;
-    padding: .5em 2em;
+    font-size: 18px;
     text-align: center;
     transition: border-color .4s ease;
-    max-width: 2em;
-  }
-  .input-carrello:focus {
     border-color: lightseagreen;
     outline: none;
-  }
-  .input-carrello::-webkit-outer-spin-button, .input-carrello::-webkit-inner-spin-button {
-    display: none;
+    min-width: 3em;
   }
   
   .btn-carrello {
@@ -487,6 +482,22 @@ input[type=number] {
     background: url(../images/background_404.gif) no-repeat center center fixed;
     background-size: 1920px 1000px;
     background-color: #000;
+}
+
+.bg-img-401 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url(https://media.giphy.com/media/xT9IgH6tFP7dNVrQAw/giphy.gif) no-repeat center center fixed;
+    background-size: 1920px 1000px;
+}
+
+.bg-img-403 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url(https://j.gifs.com/yr8JGg.gif) no-repeat center center fixed;
+    background-size: 1920px 1000px;
 }
 
 .content {
