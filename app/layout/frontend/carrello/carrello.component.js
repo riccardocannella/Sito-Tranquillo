@@ -1,3 +1,4 @@
+'use strict';
 // Definizione del modulo 'carello'
 angular.module('carrello', [
     'ui.router'
@@ -24,9 +25,10 @@ angular.module('carrello').component('carrello', {
                     carrelloCtrl.totaleImporto += elemento.totale;
                 }, this);
     
-                carrelloCtrl.tasse = carrelloCtrl.totaleImporto * 0.22;
+                carrelloCtrl.tasse = Number((carrelloCtrl.totaleImporto * 0.22).toFixed(2));
                 carrelloCtrl.spedizione = 15;
-                carrelloCtrl.totaleFinale = carrelloCtrl.totaleImporto + carrelloCtrl.tasse + carrelloCtrl.spedizione;
+                carrelloCtrl.totaleFinale = (carrelloCtrl.totaleImporto + carrelloCtrl.spedizione + carrelloCtrl.tasse).toFixed(2);
+
                 console.log(JSON.stringify(carrelloCtrl.carrello));
             }).catch(function errorCallback(response){
                 console.log('Errore: ' + response);
@@ -42,13 +44,13 @@ angular.module('carrello').component('carrello', {
                     // Aggiorno il carrello
                     carrelloCtrl.getCarrello();
                 } else {
-                    alert('impossibile aggiungere altro prodotto');
+                    alert('impossibile aggiungere un altro prodotto');
                     // Aggiorno il carrello
                     carrelloCtrl.getCarrello();
                 }
                 
             }).catch(function errorCallback(response){
-                console.log('not ok');
+                alert('impossibile aggiungere un altro prodotto')
             });
         };
 

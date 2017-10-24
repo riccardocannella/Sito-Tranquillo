@@ -39,7 +39,9 @@
                         <button ng-click="$ctrl.rimuoviDalCarrello(elemento._id, elemento.quantita)"class="btn-carrello btn--round">
                             <span>-</span>
                         </button>
-                        <input class="input-carrello" type="number" value="{{elemento.quantita}}" min="1" />
+
+                        <span>{{elemento.quantita}}</span>
+                        
                         <button ng-click="$ctrl.aggiungiAlCarrello(elemento._id)" class="btn-carrello btn--round">
                             <span>+</span>
                     </div>
