@@ -7,16 +7,19 @@ angular.module('utente', [
 // Registra il componente 'utente' sul modulo 'utente'
 angular.module('utente').component('utente', {
     templateUrl: 'layout/frontend/utente/utente.template.html',
-    controller: function($scope, $http, $window, $stateParams) {
+    controller: function($scope, $http, $window, $stateParams, $location) {
         var ctrl = this;
         var id = $stateParams.id;
         var utenteOrig;
         $http.post('api/v1.0/utenti/get', { token: $window.localStorage.getItem("jwtToken") }).then(function(response) {
-            ctrl.utente = response.data;
-            console.log(ctrl.utente);
-            delete ctrl.utente._id;
-            utenteOrig = angular.copy(ctrl.utente);
-        });
+                ctrl.utente = response.data;
+                console.log(ctrl.utente);
+                delete ctrl.utente._id;
+                utenteOrig = angular.copy(ctrl.utente);
+            },
+            function(err) {
+                $location.path('/autenticazione');
+            });
         ctrl.reset = function() {
             ctrl.utente = angular.copy(utenteOrig);
         };
