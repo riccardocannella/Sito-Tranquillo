@@ -450,21 +450,15 @@ input[type=number] {
      Carrello
 **************************************************/
 
-.input-carrello {
+.quantita-carrello {
     border: 1px solid #ddd;
     display: inline-block;
     font-size: 18px;
     text-align: center;
     transition: border-color .4s ease;
-    max-width: 3em;
-    max-height: 2em;
-  }
-  .input-carrello:focus {
     border-color: lightseagreen;
     outline: none;
-  }
-  .input-carrello::-webkit-outer-spin-button, .input-carrello::-webkit-inner-spin-button {
-    display: none;
+    min-width: 3em;
   }
   
   .btn-carrello {
