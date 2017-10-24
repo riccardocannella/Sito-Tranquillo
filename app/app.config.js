@@ -93,7 +93,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             })
             .state('utente', {
                 parent: 'root',
-                url: 'utente/:id',
+                url: 'utente',
                 data: { titolo: 'Utente' },
                 views: {
                     main: { component: 'utente' }

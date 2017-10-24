@@ -214,13 +214,22 @@ exports.validaRispostaSegreta = function(req, res) {
 };
 exports.getUtente = function(req, res) {
     console.log('GET utente');
-    Utente.findOne({ username: req.params.utente })
-        .then(function(utente) {
-            res.json({ utente });
-        })
-        .catch(function(err) {
-            return utilities.handleError(res, err);
-        });
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+            // Token valido
+            console.log('Token valido');
+            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    res.json(utenteTrovato);
+                }
+            })
+        }
+    })
 };
 
 /*--------------------------------------------------------------
