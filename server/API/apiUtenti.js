@@ -965,4 +965,16 @@ exports.eliminaUtente = function(req, res) {
             })
         }
     })
+};
+
+// req.body.token
+exports.controllaToken = function(req, res) {
+    console.log('controllo token');
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err) {
+            res.status(401).json({'successo': false, 'invalido':true});
+        } else {
+            res.status(200).json({'successo': true,'invalido':false});
+        }
+    });
 }

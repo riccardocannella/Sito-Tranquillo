@@ -39,4 +39,7 @@ module.exports = function(app, db) {
 
     app.route('/api/v1.0/utenti/isAdmin')
         .post(apiUtenti.isAdmin);
+
+    app.route('/api/v1.0/utenti/controllaToken')
+        .post(apiUtenti.controllaToken);
 };
