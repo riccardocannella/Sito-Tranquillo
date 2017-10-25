@@ -1,5 +1,8 @@
 <div ng-repeat="acquisto in $ctrl.storiaAcquisti">
-        {{acquisto.data_acquisto}}
+        <div class="w3-panel w3-border-bottom">
+                <p>Data : {{acquisto.data_acquisto | date:'yyyy-MM-dd'}} - Ora: {{acquisto.data_acquisto | date:'HH:mm:ss'}} </p>
+        </div>
+        
         <div class="contenitoreSchedeBreve" >
             
 
@@ -19,12 +22,12 @@
                         </h5>
                     </div>
                     <p class="w3-text-red">
-                        {{elemento.prezzo}} €
+                         <span class="w3-text-black">Prezzo: </span>{{elemento.prezzo}} €
                     </p>
                     
                     <div class="w3-margin-top">
                         <div class="w3-container w3-cell">
-                            <p>QTY<span> {{elemento.quantita}}</span></p>
+                            <p>Quantità: <span> {{elemento.quantita}}</span></p>
                         </div>
     
                     </div>
