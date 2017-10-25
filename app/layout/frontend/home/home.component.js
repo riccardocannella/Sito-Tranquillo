@@ -14,6 +14,8 @@ angular.module('home').component('home', {
             listaProva.prodotti = response.data;
         });
 
+        
+
         //Funzione per chiudere e riaprire la sidebar nella home page
         $scope.IsVisible = true;
         $scope.ShowHide = function() {
@@ -24,6 +26,36 @@ angular.module('home').component('home', {
                 $scope.IsVisible = true;
             }
         }
+
+        //Logout function
+        $scope.logout = function() {
+            $window.localStorage.setItem("jwtToken", "");
+            $window.localStorage.setItem("username", "");
+
+            if (window.location.pathname == "/") {
+                $window.location.reload();
+            } else {
+                $location.path("/");
+            }
+        };
+
+        // CONTROLLO TOKEN
+        if($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null ){
+            // Continua
+            console.log('ok continua 1');
+        } else { // Controlla token
+            $http({
+                method: 'POST',
+                url: '/api/v1.0/utenti/controllaToken',
+                data: { 'token': $window.localStorage.getItem('jwtToken') }
+            }).then(function successCallback(response) { // Login con successo
+                // Continua
+                console.log('ok continua 2');
+            }, function errorCallback(response) { // Login non avvenuto
+                console.log('logged out');
+                $scope.logout();
+            });
+        };
 
         listaProva.mettiNelCarrello = function(idprodotto){
             $http({
