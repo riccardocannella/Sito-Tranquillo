@@ -54,7 +54,7 @@
             </div>
 
             <div class="w3-container pa-15 w3-light-grey">
-                
+
                 <form name="formValidation">
 
                     <p class="w3-margin-top">
@@ -100,7 +100,7 @@
                         <label for="state">Stato:                     
                             <select class="w3-input w3-border w3-round" class="minimal" ng-model="country" required>
                                 <!--<option default>Italy</option>-->
-                                <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
+                                <option value="{{country}}" ng-repeat="country in $ctrl.listaStati">{{country}}</option>
                             </select>
                             </label>
                     </p>
@@ -109,7 +109,7 @@
                         <p class="w3-margin-top">
                             <label for="province">Provincia:</label>
                             <select class="w3-input w3-border w3-round" class="minimal" ng-model="province">
-                                    <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
+                                    <option value={{province}} ng-repeat="province in $ctrl.listaProvince">{{province}}</option>
                                 </select>
 
                         </p>
@@ -180,7 +180,8 @@
                     </p>
 
                     <p class="w3-container w3-border w3-margin-top">
-                        <input class="w3-check" ng-model="inputAccettoTermini" type="checkbox" name="accettoTermini" required> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
+                        <input class="w3-check" ng-model="inputAccettoTermini" type="checkbox" name="accettoTermini" required> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa"
+                            style="color:blue">informativa</a>
                     </p>
 
                     <p><button ng-click="logon()" class="w3-button w3-red button-login">Registrati</button></p>
