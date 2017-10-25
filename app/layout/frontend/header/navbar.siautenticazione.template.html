@@ -14,7 +14,9 @@
     <div class="w3-show-inline-block">
         <button ng-click="logout()" class="w3-btn w3-red"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> Esci</button>
     </div>
-    <div class="w3-show-inline-block w3-padding w3-animate-left w3-tag w3-indigo w3-allerta">
-        {{nome_utente}}
-    </div>
+    <a ui-sref="utente">
+        <div class="w3-show-inline-block w3-padding w3-animate-left w3-tag w3-indigo w3-allerta">
+            {{nome_utente}}
+        </div>
+    </a>
 </div>
