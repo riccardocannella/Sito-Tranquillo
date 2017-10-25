@@ -566,8 +566,12 @@ a {
 }
 
 .w3-bar {
+    position: relative;
     width: 100%;
-    overflow: hidden
+   /* Modificato da "hidden" a "visible" per comportamento z-index */
+   z-index: 2;
+    overflow: visible;
+    
 }
 
 .w3-center .w3-bar {

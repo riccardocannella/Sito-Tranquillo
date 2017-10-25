@@ -1,9 +1,15 @@
+// Definizione del modulo 'modificaProdotti'
+angular.module('modificaProdotti', [
+    'ui.router',
+    'ngFileUpload'
+]);
+
 // Registra il componente 'modificaProdotti' sul modulo 'modificaProdotti'
 angular.module('modificaProdotti').component('modificaProdotti', {
     templateUrl: 'layout/backend/modificaProdotti/modificaProdotti.template.html',
-    controller: function(Upload, $http, $location, $routeParams) {
+    controller: function(Upload, $http, $location, $stateParams, $window) {
         var modificaProdotti = this;
-        var id = $routeParams.id;
+        var id = $stateParams.id;
         var prodottoOrig;
         $http.get('api/v1.0/prodotti/' + id).then(function(response) {
             modificaProdotti.prodotto = response.data;
@@ -14,7 +20,8 @@ angular.module('modificaProdotti').component('modificaProdotti', {
             modificaProdotti.prodotto = angular.copy(prodottoOrig);
         };
         modificaProdotti.eseguiPut = function() {
-            $http.put('api/v1.0/prodotti/' + id, modificaProdotti.prodotto).then(
+            modificaProdotti.prodotto.token = $window.localStorage.getItem("jwtToken");
+            $http.put('api/v1.0/admin/prodotti/' + id, modificaProdotti.prodotto).then(
                 function(res) {
                     $location.path('');
                 },

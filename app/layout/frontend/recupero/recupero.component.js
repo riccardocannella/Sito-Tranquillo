@@ -1,3 +1,8 @@
+// Definizione del modulo 'recupero'
+angular.module('recupero', [
+    'ui.router'
+]);
+
 // Registra il componente 'recupero' sul modulo 'recupero'
 angular.module('recupero').component('recupero', {
     templateUrl: 'layout/frontend/recupero/recupero.template.html',
