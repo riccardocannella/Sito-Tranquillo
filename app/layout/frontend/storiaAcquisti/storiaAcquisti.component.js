@@ -54,6 +54,8 @@ angular.module('storiaAcquisti').component('storiaAcquisti', {
 
         }
 
+
+        // RICEVO LA STORIA
         storiaAcquisti.getStoriaAcquisti();
 
         
