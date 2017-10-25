@@ -23,7 +23,7 @@ angular.module('modificaProdotti').component('modificaProdotti', {
             modificaProdotti.prodotto.token = $window.localStorage.getItem("jwtToken");
             $http.put('api/v1.0/admin/prodotti/' + id, modificaProdotti.prodotto).then(
                 function(res) {
-                    $location.path('');
+                    $location.path('/admin/listaProdotti');
                 },
                 function(err) {
                     console.log('errore!\n', err.data);
