@@ -6,7 +6,7 @@ angular.module('home', [
 // Registra il componente 'home' sul modulo 'home
 angular.module('home').component('home', {
     templateUrl: 'layout/frontend/home/home.template.html',
-    controller: function($scope, $http) {
+    controller: function($scope, $http, $location, $window) {
         var listaProva = this;
         listaProva.ordinamento = 'nome';
 
@@ -24,5 +24,23 @@ angular.module('home').component('home', {
                 $scope.IsVisible = true;
             }
         }
+
+        listaProva.mettiNelCarrello = function(idprodotto){
+            $http({
+                method: 'POST',
+                url: '/api/v1.0/utenti/aggiungialcarrello',
+                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':1 }
+            }).then(function successCallback(response){
+                if(response.data.successo == true){
+                    $location.path('/carrello');
+                } else {
+                    alert('Impossibile aggiungere al carrello');
+                    
+                }
+                
+            }).catch(function errorCallback(response){
+                alert('Impossibile aggiungere al carrello.Effettua il login se non lo hai fatto, altrimenti controlla di non avere superato il numero di oggetti massimi');
+            });
+        };
     }
 });
