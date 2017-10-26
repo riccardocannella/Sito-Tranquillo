@@ -42,4 +42,7 @@ module.exports = function(app, db) {
 
     app.route('/api/v1.0/utenti/controllaToken')
         .post(apiUtenti.controllaToken);
+
+    app.route('/api/v1.0/utenti/getStoriaAcquisti')
+        .post(apiUtenti.getStoriaAcquisti);
 };

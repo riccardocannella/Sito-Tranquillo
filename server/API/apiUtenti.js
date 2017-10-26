@@ -1009,8 +1009,7 @@ exports.controllaToken = function(req, res) {
             res.status(200).json({'successo': true,'invalido':false});
         }
     });
-}
-
+};
 /*
         Restituisce il dettaglio di un utente dal DB
         se c'è un errore richiama la funzione utilities.handleError(...)
@@ -1023,6 +1022,22 @@ exports.dettaglioUtente = function(req, res) {
             utilities.handleError(res, err.message, "Operazione di recupero dell\'utente fallita, id utente " + req.params.id);
         } else {
             res.status(200).json(doc);
+        }
+    });
+};
+exports.getStoriaAcquisti = function(req, res){
+    console.log('storia acquisti');
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+            Utente.findById(decoded.utenteID,function(err, utenteTrovato){
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    res.status(200).json({'successo': true, 'storiaAcquisti':utenteTrovato.storia_acquisti.acquisti});
+                }
+            });
         }
     });
 }
