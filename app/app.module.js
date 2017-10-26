@@ -1,15 +1,20 @@
 // Definizione del modulo 'sitotranquillo'
 var sitotranquillo = angular.module('sitotranquillo', [
-    'ngRoute',
+    'ui.router',
     'home',
+    'navbar',
     'dettaglio',
-    'invalid',
     'autenticazione',
     'condizioni',
     'about',
     'informativa',
     'aggiuntaProdotti',
     'modificaProdotti',
+    'listaProdotti',
     'recupero',
-    'reset'
+    'reset',
+    'carrello',
+    'utente',
+    'adminPanel',
+    'storiaAcquisti'
 ]);

@@ -54,6 +54,7 @@
             </div>
 
             <div class="w3-container pa-15 w3-light-grey">
+
                 <form name="formValidation">
 
                     <p class="w3-margin-top">
@@ -87,7 +88,7 @@
 
                     <p class="w3-margin-top">
                         <label for="email">Email:</label>
-                        <input class="w3-input w3-border" name="email" type="email" id="email" ng-model="inputEmail" placeholder="richard@stallman.org" ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required>
+                        <input class="w3-input w3-border" name="email" type="email" id="email" ng-model="inputEmail" placeholder="richard@stallman.org" ng-pattern="/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,13}$/" required>
                         <div ng-messages="formValidation.email.$error" ng-show="formValidation.email.$dirty" style="color: red">
                             <p ng-message="required">Il tuo indizzo email è richiesto</p>
                             <p ng-message="pattern">Il tuo indirizzo email non è valido</p>
@@ -99,7 +100,7 @@
                         <label for="state">Stato:                     
                             <select class="w3-input w3-border w3-round" class="minimal" ng-model="country" required>
                                 <!--<option default>Italy</option>-->
-                                <option value="{{country}}" ng-repeat="country in $ctrl.countries.name">{{country}}</option>
+                                <option value="{{country}}" ng-repeat="country in $ctrl.listaStati">{{country}}</option>
                             </select>
                             </label>
                     </p>
@@ -108,14 +109,14 @@
                         <p class="w3-margin-top">
                             <label for="province">Provincia:</label>
                             <select class="w3-input w3-border w3-round" class="minimal" ng-model="province">
-                                    <option value={{province}} ng-repeat="province in $ctrl.provinces.name">{{province}}</option>
+                                    <option value={{province}} ng-repeat="province in $ctrl.listaProvince">{{province}}</option>
                                 </select>
 
                         </p>
 
                         <p class="w3-margin-top">
                             <label for="Nome">Comune:</label>
-                            <input class="w3-input w3-border" type="text" name="comune" id="comune" ng-model="comune" placeholder="Apiro" pattern="[A-Z][a-z]{2,20}">
+                            <input class="w3-input w3-border" type="text" name="comune" id="comune" ng-model="comune" placeholder="Apiro" pattern="[A-Z][a-z*\s]{2,20}">
                         </p>
                     </diV>
 
@@ -179,7 +180,8 @@
                     </p>
 
                     <p class="w3-container w3-border w3-margin-top">
-                        <input class="w3-check" ng-model="inputAccettoTermini" type="checkbox" name="accettoTermini" required> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa" style="color:blue">informativa</a>
+                        <input class="w3-check" ng-model="inputAccettoTermini" type="checkbox" name="accettoTermini" required> Accetto i termini e le condizioni autorizzando il trattamento <br/> dei miei dati personali ai sensi dell'<a href="/informativa"
+                            style="color:blue">informativa</a>
                     </p>
 
                     <p><button ng-click="logon()" class="w3-button w3-red button-login">Registrati</button></p>

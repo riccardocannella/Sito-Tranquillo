@@ -66,11 +66,18 @@ var UtenteSchema = new Schema({
     },
     carrello: {
         prodotti: [{ // Array
-            nome: String,
-            prezzo: Number,
-            descrizioneBreve: String,
-            quantita: Number,
-            urlImmagine: String
+            quantita: Number
+        }]
+    },
+    storia_acquisti: {
+        acquisti: [{ // Array
+            data_acquisto: Date,
+            prodotti: [{
+                nome: String,
+                prezzo: Number,
+                quantita: Number,
+                urlImmagine: String
+            }]
         }]
     },
     scadenzaRecupero: {
@@ -78,6 +85,10 @@ var UtenteSchema = new Schema({
     },
     tokenRecupero: {
         type: String
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');

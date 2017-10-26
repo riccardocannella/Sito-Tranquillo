@@ -26,6 +26,9 @@ transporter sia settabile a piacimento dall'applicazione stessa
 */
 'use strict';
 const nodemailer = require('nodemailer');
+
+var passwords = require('../config/passwords');
+
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com', // USO L'ACCOUNT ACCADEMICO
@@ -34,7 +37,7 @@ let transporter = nodemailer.createTransport({
     secure: true, // secure:true for port 465, secure:false for port 587
     auth: {
         user: 'mail.sitotranquillo@gmail.com',
-        pass: 'sitotranquillo2017andreacorradomichelericcardo'
+        pass: passwords.email_password
     }
 });
 exports.inviaEmail = function(opzioniEmail) {

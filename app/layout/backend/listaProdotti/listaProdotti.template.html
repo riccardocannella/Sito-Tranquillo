@@ -1,0 +1,42 @@
+
+<main class="main">
+    
+        <div class="contenitoreSchedeBreve">
+            <!--<div class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento"> -->
+            <div class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in $ctrl.prodotti">
+                    
+                <!-- contenitore sinistro dove risiede l'immagine -->
+                <div class="contenitore-immagine">
+                    <div class="photo">
+                        <a ui-sref="dettaglio({id: elemento._id})"><img src="../../../images/uploads/{{elemento.urlImmagine}}" /></a>
+                    </div>
+                </div>
+                <!-- contenitore destro bianco dove risiede il testo -->
+                <div class="contenitore-text">
+                    <div class="header">
+                        <h5 class="w3-text-orange">
+                            <a ui-sref="dettaglio({id: elemento._id})">{{elemento.nome}}</a>
+                        </h5>
+                    </div>
+                    <p class="w3-text-red">
+                        {{elemento.prezzo}} €
+                    </p>
+                    <p>
+                        {{elemento.descrizioneBreve}}.
+                    </p>
+                    <div class="w3-margin-top">
+                        <div class="w3-container w3-cell">
+                            <p>qty</p><p> {{elemento.giacenza}}</p>
+                        </div>
+    
+                        <div class="w3-container w3-cell">
+                            <a href="/admin/modificaProdotti/{{elemento._id}}"><button class="w3-button w3-red"><i class="fa fa-pencil fa-fw"></i></button></a>
+                        </div>
+    
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    
+    </main>
