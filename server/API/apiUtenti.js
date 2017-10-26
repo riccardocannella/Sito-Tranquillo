@@ -981,3 +981,18 @@ exports.listaUtenti = function(req, res) {
         }
     });
 };
+/*
+        Restituisce il dettaglio di un utente dal DB
+        se c'è un errore richiama la funzione utilities.handleError(...)
+        altrimenti invia il risultato tramite JSON
+    */
+exports.dettaglioUtente = function(req, res) {
+    console.log("GET utente con id", req.params.id);
+    db.collection(UTENTI).findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, doc) {
+        if (err) {
+            utilities.handleError(res, err.message, "Operazione di recupero dell\'utente fallita, id utente " + req.params.id);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+}

@@ -54,3 +54,4 @@ adminRoutes.post('/prodotti', apiProdotti.creaProdotto);
 adminRoutes.put('/prodotti/:id', apiProdotti.aggiornaProdotto);
 adminRoutes.delete('/prodotti/:id', apiProdotti.eliminaProdotto);
 adminRoutes.post('/utenti', apiUtenti.listaUtenti);
+adminRoutes.post('/dettaglioUtente/:id', apiUtenti.dettaglioUtente);

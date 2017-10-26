@@ -1,0 +1,12 @@
+<h3>UTENTE: {{$ctrl.utente.nome}} {{$ctrl.utente.cognome}}</h3>
+<p ng-click="$ctrl.rendiAdmin()">Rendi Admin</p>
+<p ng-click="$ctrl.mandaResetPW()">Manda Reset PW</p>
+<form>
+    <input type="email" ng-model="$ctrl.utente.email">
+    <p><button ng-click="$ctrl.aggiornaEmail()" class="w3-button w3-red button-login">Aggiorna email dell'utente</button></p>
+</form>
+<div ng-show="utenteResoAdmin === 1">L'utente ora è un amministratore.</div>
+<div ng-show="emailUtenteCambiata === 1">L'email dell'utente è stata cambiata.</div>
+<div ng-show="emailNonCambiata === 1">Devi modificare il campo email per poter modificare l'utente.</div>
+<div ng-show="richiestaResetPWInviata === 1">E' stata inviata all'email dell'utente il link per il reset della password.</div>
+<div ng-show="$scope.utenteResoNonAdmin === 1">L'utente ora non è un amministratore.</div>

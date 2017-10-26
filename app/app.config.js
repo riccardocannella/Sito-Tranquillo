@@ -138,7 +138,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 data: { titolo: 'Dettaglio Utente' },
                 views: {
                     main: {
-                        template: '<h3>DA IMPLEMENTARE</h3>'
+                        component: 'dettaglioUtente'
                     }
                 }
             })
