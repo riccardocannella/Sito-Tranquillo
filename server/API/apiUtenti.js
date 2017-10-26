@@ -921,6 +921,7 @@ exports.aggiornaUtente = function(req, res) {
                     utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
                     utenteTrovato.email = req.body.email || utenteTrovato.email;
                     utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
+                    utenteTrovato.admin = req.body.admin || utenteTrovato.admin;
                     if (req.body.password) {
                         bcrypt.hash(req.body.password, encryption.saltrounds)
                             .then(function(pass_hash) {
