@@ -107,6 +107,14 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     main: { component: 'carrello' }
                 }
             })
+            .state('storiaAcquisti', {
+                parent: 'root',
+                url: 'storiaAcquisti',
+                data: { titolo: 'StoriaAcquisti'},
+                views: {
+                    main: {component: 'storiaAcquisti'}
+                }
+            })
 
         // ADMIN
         .state('admin', {
