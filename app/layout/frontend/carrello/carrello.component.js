@@ -64,6 +64,7 @@ angular.module('carrello').component('carrello', {
                 console.log('Errore: ' + response);
             });
         };
+
         carrelloCtrl.aggiungiAlCarrello = function(idprodotto){
             $http({
                 method: 'POST',
@@ -71,25 +72,22 @@ angular.module('carrello').component('carrello', {
                 data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':1 }
             }).then(function successCallback(response){
                 if(response.data.successo == true){
-                    // Aggiorno il carrello
                     carrelloCtrl.getCarrello();
+                    // Non faccio niente
                 } else {
+                    
                     alert('impossibile aggiungere un altro prodotto');
-                    // Aggiorno il carrello
+                    // Reimposto il carrello con le giuste quantità
                     carrelloCtrl.getCarrello();
                 }
                 
             }).catch(function errorCallback(response){
                 alert('impossibile aggiungere un altro prodotto')
+                carrelloCtrl.getCarrello();
             });
         };
 
         carrelloCtrl.rimuoviDalCarrello = function(idprodotto,quantitaPresente){
-            console.log(quantitaPresente);
-            if(quantitaPresente == 1){
-                alert('Impossibile scendere sotto ad 1 di quantità, per rimuovere il prodotto selezionare il tasto apposito');
-                return;
-            }
             
             $http({
                 method: 'POST',
@@ -97,15 +95,17 @@ angular.module('carrello').component('carrello', {
                 data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':1 }
             }).then(function successCallback(response){
                 if(response.data.successo == true){
-                    // Aggiorno il carrello
+
                     carrelloCtrl.getCarrello();
+                    return
                 } else {
                     alert("non è stato possibile rimuovere il prodotto, ci scusiamo per il disagio");
-                    // Aggiorno il carrello
                     carrelloCtrl.getCarrello();
+                    return;
                 }
             }).catch(function errorCallback(response){
-                console.log('not ok');
+                console.log('Error');
+                carrelloCtrl.getCarrello();
             });
         };
 
@@ -126,7 +126,8 @@ angular.module('carrello').component('carrello', {
                     carrelloCtrl.getCarrello();
                 }
             }).catch(function errorCallback(response){
-                console.log('not ok');
+                console.log('Error!');
+                carrelloCtrl.getCarrello();
             });
         }
 
