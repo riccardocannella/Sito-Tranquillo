@@ -15,5 +15,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'reset',
     'carrello',
     'utente',
-    'adminPanel'
+    'adminPanel',
+    'storiaAcquisti'
 ]);

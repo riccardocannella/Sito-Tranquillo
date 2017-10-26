@@ -978,3 +978,20 @@ exports.controllaToken = function(req, res) {
         }
     });
 }
+
+exports.getStoriaAcquisti = function(req, res){
+    console.log('storia acquisti');
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+            Utente.findById(decoded.utenteID,function(err, utenteTrovato){
+                if (err) {
+                    return utilities.handleError(res, err, 'Utente non trovato');
+                } else {
+                    res.status(200).json({'successo': true, 'storiaAcquisti':utenteTrovato.storia_acquisti.acquisti});
+                }
+            });
+        }
+    });
+}
