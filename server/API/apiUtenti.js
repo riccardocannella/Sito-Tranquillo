@@ -160,7 +160,7 @@ exports.loginUtente = function(req, res) {
                     .then(function(esito) {
                         if (esito) { // password corretta
                             // Creo il token
-                            var token = jwt.sign({ utenteID: utente._id, admin: utente.admin }, encryption.secret, { expiresIn: 1440 });
+                            var token = jwt.sign({ utenteID: utente._id, admin: utente.admin }, encryption.secret, { expiresIn: "2 days" });
 
                             // Restituisco il token
                             res.status(201).json({ 'token': token, 'successo': true, 'username': utente.username });
@@ -981,6 +981,18 @@ exports.listaUtenti = function(req, res) {
         }
     });
 };
+// req.body.token
+exports.controllaToken = function(req, res) {
+    console.log('controllo token');
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err) {
+            res.status(401).json({'successo': false, 'invalido':true});
+        } else {
+            res.status(200).json({'successo': true,'invalido':false});
+        }
+    });
+}
+
 /*
         Restituisce il dettaglio di un utente dal DB
         se c'è un errore richiama la funzione utilities.handleError(...)

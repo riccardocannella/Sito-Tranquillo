@@ -11,6 +11,36 @@ angular.module('utente').component('utente', {
         var ctrl = this;
         var utenteOrig;
 
+        //Logout function
+        $scope.logout = function() {
+            $window.localStorage.setItem("jwtToken", "");
+            $window.localStorage.setItem("username", "");
+
+            if (window.location.pathname == "/") {
+                $window.location.reload();
+            } else {
+                $location.path("/");
+            }
+        };
+
+        // CONTROLLO TOKEN
+        if($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null ){
+            // Continua
+            console.log('ok continua 1');
+        } else { // Controlla token
+            $http({
+                method: 'POST',
+                url: '/api/v1.0/utenti/controllaToken',
+                data: { 'token': $window.localStorage.getItem('jwtToken') }
+            }).then(function successCallback(response) { // Login con successo
+                // Continua
+                console.log('ok continua 2');
+            }, function errorCallback(response) { // Login non avvenuto
+                console.log('logged out');
+                $scope.logout();
+            });
+        };
+
         $scope.richiestaEliminazione = 0;
         $scope.utenteEliminato = 0;
         if ($window.localStorage.getItem("jwtToken") == undefined || $window.localStorage.getItem("jwtToken") == '')

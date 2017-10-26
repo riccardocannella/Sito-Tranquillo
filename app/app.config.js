@@ -162,6 +162,16 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     }
                 }
             })
+            .state('listaProdotti', {
+                parent: 'admin',
+                url: '/listaProdotti',
+                data: { titolo: 'Lista prodotti nel Database' },
+                views: {
+                    main: {
+                        component: 'listaProdotti'
+                    }
+                }
+            })
             // NOT FOUND
             .state('invalid', {
                 templateUrl: 'layout/stati/invalid.template.html',

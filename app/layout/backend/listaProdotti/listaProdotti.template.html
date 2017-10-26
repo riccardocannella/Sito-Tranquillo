@@ -1,12 +1,14 @@
+
 <main class="main">
     
         <div class="contenitoreSchedeBreve">
-            <div class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento">
-    
+            <!--<div class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in $ctrl.prodotti | filter:$ctrl.query | orderBy:$ctrl.ordinamento"> -->
+            <div class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in $ctrl.prodotti">
+                    
                 <!-- contenitore sinistro dove risiede l'immagine -->
                 <div class="contenitore-immagine">
                     <div class="photo">
-                        <img src="../../../images/uploads/{{elemento.urlImmagine}}" />
+                        <a ui-sref="dettaglio({id: elemento._id})"><img src="../../../images/uploads/{{elemento.urlImmagine}}" /></a>
                     </div>
                 </div>
                 <!-- contenitore destro bianco dove risiede il testo -->
@@ -17,17 +19,14 @@
                         </h5>
                     </div>
                     <p class="w3-text-red">
-                        <del>100€</del> {{elemento.prezzo}} €
+                        {{elemento.prezzo}} €
                     </p>
                     <p>
                         {{elemento.descrizioneBreve}}.
                     </p>
                     <div class="w3-margin-top">
                         <div class="w3-container w3-cell">
-                            <p>QTY<span> (1)</span></p>
-                        </div>
-                        <div class="w3-container w3-cell">
-                            <button class="w3-button w3-red w3-right" ng-click=""><i class="fa fa-shopping-cart"></i></button>
+                            <p>qty</p><p> {{elemento.giacenza}}</p>
                         </div>
     
                         <div class="w3-container w3-cell">
