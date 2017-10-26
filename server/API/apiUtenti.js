@@ -944,25 +944,40 @@ exports.aggiornaUtente = function(req, res) {
     })
 };
 exports.eliminaUtente = function(req, res) {
-    console.log('ELIMINAZIONE utente');
-    // Verifico e spacchetto il token dell'utente
-    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        console.log('ELIMINAZIONE utente');
+        // Verifico e spacchetto il token dell'utente
+        jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+            if (err) {
+                return utilities.handleError(res, err, 'Token non valido o scaduto.');
+            } else {
+                // Token valido
+                console.log('Token valido');
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                    if (err) {
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        utenteTrovato.remove(function(error) {
+                            if (error)
+                                return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
+                            else res.status(200).json({ successo: true })
+                        })
+                    }
+                })
+            }
+        })
+    }
+    /*
+        Restituisce tutta la lista degli utenti dal database
+        se c'è un errore richiama la funzione utilities.handleError(...)
+        altrimenti invia il risultato tramite JSON
+    */
+exports.listaUtenti = function(req, res) {
+    console.log("GET Lista Utenti");
+    db.collection(UTENTI).find({}).toArray(function(err, docs) {
         if (err) {
-            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+            utilities.handleError(res, err.message, "Operazione di recupero degli utenti fallita.");
         } else {
-            // Token valido
-            console.log('Token valido');
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
-                if (err) {
-                    return utilities.handleError(res, err, 'Utente non trovato');
-                } else {
-                    utenteTrovato.remove(function(error) {
-                        if (error)
-                            return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
-                        else res.status(200).json({ successo: true })
-                    })
-                }
-            })
+            res.status(200).json(docs);
         }
-    })
-}
+    });
+};
