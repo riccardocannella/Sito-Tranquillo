@@ -24,6 +24,7 @@ angular.module('dettaglioUtente').component('dettaglioUtente', {
         };
         dettaglioUtente.rendiAdmin = function() {
             dettaglioUtente.utente.admin = true;
+            dettaglioUtente.utente.modificaDaAdmin = true;
             dettaglioUtente.utente.token = $window.localStorage.getItem("jwtToken");
             $http.put('api/v1.0/utenti/aggiorna', dettaglioUtente.utente).then(function(res) {
                 $scope.utenteResoAdmin = 1;

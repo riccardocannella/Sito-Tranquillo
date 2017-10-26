@@ -910,37 +910,54 @@ exports.aggiornaUtente = function(req, res) {
         } else {
             // Token valido
             console.log('Token valido');
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
-                if (err) {
-                    return utilities.handleError(res, err, 'Utente non trovato');
-                } else {
-                    utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
-                    utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
-                    utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
-                    utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
-                    utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
-                    utenteTrovato.email = req.body.email || utenteTrovato.email;
-                    utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
-                    utenteTrovato.admin = req.body.admin || utenteTrovato.admin;
-                    if (req.body.password) {
-                        bcrypt.hash(req.body.password, encryption.saltrounds)
-                            .then(function(pass_hash) {
-                                utenteTrovato.password_hash = pass_hash;
-                            });
-                    }
-                    if (req.body.risposta_segreta) {
-                        bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
-                            .then(function(risp_hash) {
-                                utenteTrovato.risposta_segreta_hash = risp_hash;
-                            });
-                    }
-                    utenteTrovato.save(function(error) {
-                        if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
-                        else res.status(201).json({ utenteTrovato });
-                    });
+            if (req.body.modificaDaAdmin === true) {
+                // il token nella richiesta non è dell'utente da modificare ma è di un admin
+                Utente.findOne({ username: req.body.username })
+                    .then(function(utente) {
+                        if (!utente) return utilities.handleError(res, "ERR_NO_USER", "L'utente ricercato non esiste");
+                        utente.admin = req.body.admin || utente.admin;
+                        utente.email = req.body.email || utente.email;
+                        utente.save(function(err, updatedDoc) {
+                            if (err) return utilities.handleError(res, err);
+                            else res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
+                        })
+                    })
 
-                }
-            })
+            } else {
+                // la modifica è stata richiesta dall'utente stesso, quindi il token è suo
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                    if (err) {
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
+                        utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
+                        utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
+                        utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
+                        utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
+                        utenteTrovato.email = req.body.email || utenteTrovato.email;
+                        utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
+                        utenteTrovato.admin = req.body.admin || utenteTrovato.admin;
+                        if (req.body.password) {
+                            bcrypt.hash(req.body.password, encryption.saltrounds)
+                                .then(function(pass_hash) {
+                                    utenteTrovato.password_hash = pass_hash;
+                                });
+                        }
+                        if (req.body.risposta_segreta) {
+                            bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
+                                .then(function(risp_hash) {
+                                    utenteTrovato.risposta_segreta_hash = risp_hash;
+                                });
+                        }
+                        utenteTrovato.save(function(error) {
+                            if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
+                            else res.status(201).json({ utenteTrovato });
+                        });
+
+                    }
+                })
+            }
+
         }
     })
 };
