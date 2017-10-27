@@ -8,6 +8,7 @@ angular.module('home').component('home', {
     templateUrl: 'layout/frontend/home/home.template.html',
     controller: function($scope, $http, $location, $window) {
         var listaProva = this;
+
         listaProva.ordinamento = 'nome';
 
         $http.get('api/v1.0/prodotti').then(function(response) {
@@ -20,7 +21,21 @@ angular.module('home').component('home', {
                 return;
             } // Altrimenti continuo
             $http.put('api/v1.0/utenti/aggiorna', { token: $window.localStorage.getItem('jwtToken'), preferito: idprodotto })
-        }
+                .then(function(res) {
+                    $scope.preferitiUtente.push(idprodotto);
+                    alert('Se il prodotto è terminato, verrai notificato tramite email quando tornerà disponibile!');
+                })
+        };
+        listaProva.togliDaiPreferiti = function(idprodotto) {
+
+            // Sicuramente se sono qui l'utente è loggato
+            $http.put('api/v1.0/utenti/aggiorna', { token: $window.localStorage.getItem('jwtToken'), preferito: idprodotto, togli: true })
+                .then(function(res) {
+                    var indiceProdotto = $scope.preferitiUtente.indexOf(idprodotto);
+                    $scope.preferitiUtente.splice(indiceProdotto, 1);
+                    alert('Hai tolto il prodotto dai preferiti.');
+                })
+        };
 
         //Funzione per chiudere e riaprire la sidebar nella home page
         $scope.IsVisible = true;
@@ -51,11 +66,11 @@ angular.module('home').component('home', {
         } else { // Controlla token
             $http({
                 method: 'POST',
-                url: '/api/v1.0/utenti/controllaToken',
+                url: '/api/v1.0/utenti/get',
                 data: { 'token': $window.localStorage.getItem('jwtToken') }
             }).then(function successCallback(response) { // Login con successo
+                $scope.preferitiUtente = response.data.prodotti_preferiti;
                 // Continua
-
             }, function errorCallback(response) { // Login non avvenuto
                 console.log('logged out');
                 $scope.logout();

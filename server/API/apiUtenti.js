@@ -1054,7 +1054,8 @@ exports.aggiornaUtente = function(req, res) {
                             var prodottiPreferiti = [];
                             console.log(utenteTrovato.prodotti_preferiti);
                             prodottiPreferiti = utenteTrovato.prodotti_preferiti;
-                            prodottiPreferiti.push(req.body.preferito);
+                            if (req.body.togli) prodottiPreferiti.pull(req.body.preferito);
+                            else prodottiPreferiti.push(req.body.preferito);
                             utenteTrovato.prodotti_preferiti = prodottiPreferiti;
                             console.log(utenteTrovato.prodotti_preferiti);
                             utenteTrovato.save(function(error) {

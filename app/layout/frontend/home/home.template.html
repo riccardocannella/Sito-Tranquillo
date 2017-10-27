@@ -56,8 +56,11 @@
                         {{elemento.descrizioneBreve}}.
                     </p>
                     <p>
-                        <button class="w3-button" ng-click="$ctrl.aggiungiAPreferiti(elemento._id)">
+                        <button ng-show="preferitiUtente.indexOf(elemento._id) < 0 || preferitiUtente === undefined" class="w3-button" ng-click="$ctrl.aggiungiAPreferiti(elemento._id)">
                             <i class="fa fa-heart-o" aria-hidden="true"></i>                            
+                        </button>
+                        <button ng-show="preferitiUtente.indexOf(elemento._id) >= 0" class="w3-button" ng-click="$ctrl.togliDaiPreferiti(elemento._id)">
+                            <i class="fa fa-heart" style="color:red" aria-hidden="true"></i>                            
                         </button>
                     </p>
                 </div>
