@@ -1,6 +1,8 @@
 <section>
     <h3 class="w3-center">
-        <span class="w3-text-orange">UTENTE:</span><span class="w3-text-teal"> {{$ctrl.utente.nome}} {{$ctrl.utente.cognome}}</span></h3>
+        <span class="w3-text-orange">UTENTE:</span>
+        <span class="w3-text-teal"> {{$ctrl.utente.nome}} {{$ctrl.utente.cognome}}</span>
+    </h3>
     <div class="w3-center">
         <button type="button" class="w3-btn w3-red" ng-click="$ctrl.rendiAdmin()">Rendi Admin</button>
         <button type="button" class="w3-btn w3-blue" ng-click="$ctrl.mandaResetPW()">Manda Reset PW</button>
@@ -13,9 +15,12 @@
         </p>
     </form>
 
-    <div ng-show="utenteResoAdmin === 1">L'utente ora è un amministratore.</div>
-    <div ng-show="emailUtenteCambiata === 1">L'email dell'utente è stata cambiata.</div>
-    <div ng-show="emailNonCambiata === 1">Devi modificare il campo email per poter modificare l'utente.</div>
-    <div ng-show="richiestaResetPWInviata === 1">E' stata inviata all'email dell'utente il link per il reset della password.</div>
-    <div ng-show="$scope.utenteResoNonAdmin === 1">L'utente ora non è un amministratore.</div>
+    <div class="w3-center margin-top-1">
+        <hr>
+        <div class="w3-tag w3-red w3-padding w3-large" ng-show="utenteResoAdmin === 1">L'utente ora è un amministratore.</div>
+        <div class="w3-tag w3-orange w3-padding w3-large" ng-show="emailUtenteCambiata === 1">L'email dell'utente è stata cambiata.</div>
+        <div class="w3-tag w3-red w3-padding w3-large" ng-show="emailNonCambiata === 1">Devi modificare il campo email per poter modificare l'utente.</div>
+        <div class="w3-tag w3-blue w3-padding w3-large" ng-show="richiestaResetPWInviata === 1">E' stata inviata all'email dell'utente il link per il reset della password.</div>
+        <div class="w3-tag w3-green w3-padding w3-large" ng-show="$scope.utenteResoNonAdmin === 1">L'utente ora non è un amministratore.</div>
+    </div>
 </section>
