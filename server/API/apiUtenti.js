@@ -160,7 +160,7 @@ exports.loginUtente = function(req, res) {
                     .then(function(esito) {
                         if (esito) { // password corretta
                             // Creo il token
-                            var token = jwt.sign({ utenteID: utente._id, admin: utente.admin }, encryption.secret, { expiresIn: 1440 });
+                            var token = jwt.sign({ utenteID: utente._id, admin: utente.admin }, encryption.secret, { expiresIn: "2 days" });
 
                             // Restituisco il token
                             res.status(201).json({ 'token': token, 'successo': true, 'username': utente.username });
@@ -374,6 +374,124 @@ exports.richiestaRecuperoPassword = function(req, res) {
             });
         });
 }
+
+
+/*--------------------------------------------------------------
+|    Funzione: impostaNelCarrello()                             |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|        prodotto : _id del prodotto immesso                    |
+|        quantita : quantità di prodotti                        |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
+
+exports.impostaNelCarrello = function(req,res){
+    console.log("POST Imposta nel carrello");
+    // Verifico e spacchetto il token dell'utente
+    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        if (err) {
+            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+        } else {
+
+            // Token valido
+            console.log('Token valido');
+            var quantitaRichiesta;
+
+            console.log(req.body.quantita);
+            if (req.body.quantita == null) { // Controllo se la richiesta ha un campo quantita, altrimenti restituisco errore
+                return utilities.handleError(res, err, 'Devi inserire una quantità per il prodotto richiesto');
+                
+            } else {
+                quantitaRichiesta = parseInt(req.body.quantita); // CONVERTIRE SEMPRE IN INT LE RICHIESTE DESIDERATE IN FORMA NUMERICA
+            }
+
+            if (!req.body.prodotto) { // Controllo se la richiesta ha un prodotto
+                return utilities.handleError(res, err, 'Devi inserire un codice prodotto');
+            }
+
+
+            var utenteID = decoded.utenteID;
+
+            Utente.findById(utenteID, function(err, utenteTrovato) {
+                if (!err) { // Trovato
+                    Prodotto.findById(req.body.prodotto, function(err, prodottoTrovato) {
+
+                        if (!err) { // Codice plausibile 
+
+                            if (prodottoTrovato == null) { // Richiesta funzionante ma prodotto non trovato (il codice è conforme alle regole mongoDB)
+                                return utilities.handleError(res, err, 'Prodotto non trovato');
+                            }
+
+                            var found_index = -1; // -1 indica non trovato, valore di default
+                            for (var i = 0; i < utenteTrovato.carrello.prodotti.length; i++) {
+                                if (utenteTrovato.carrello.prodotti[i]._id.equals(prodottoTrovato._id)) {
+                                    found_index = i;
+                                    break;
+                                };
+                            }
+                            if (found_index == -1) {
+
+                                return utilities.handleError(res, 'PROD_NOT_IN_CARR', 'Il prodotto non è nel carrello');
+                                
+                            } else { // Trovato un indice quindi modifico la quantità già presente nel carrello
+                                if (prodottoTrovato.giacenza < quantitaRichiesta) { // Giacenza minore della richiesta quindi imposto il max possibile
+                                    quantitaRichiesta = prodottoTrovato.giacenza;
+                                }  
+                                // Aggiorno carrello
+                                if (quantitaRichiesta <= 0) { // Rimuovo l'oggetto dal carrello
+                                    
+                                    Utente.findByIdAndUpdate(utenteID, {
+                                        $pull: { "carrello.prodotti": { _id: prodottoTrovato._id } }
+                                    }, function(err) {
+                                        if (!err) {
+                                            res.status(201).json({ 'successo': true });
+                                        } else {
+                                            return utilities.handleError(res, err, 'Errore durante la rimozione dello oggetto nel carrello');
+                                        }
+                                    });
+                                    
+                                } else {
+                                    // Aggiorno la quantità nel carrello
+                                    utenteTrovato.carrello.prodotti[found_index].quantita = quantitaRichiesta;
+                                
+                                    // Salvo nel db
+                                    utenteTrovato.save(function(err) {
+                                        if (!err) {
+                                            res.status(201).json({ 'successo': true });
+                                        } else {
+                                            return utilities.handleError(res, err, 'Errore durante il salvataggio del database');
+                                        }
+                                    });
+
+                                }
+
+                                    
+
+
+                                
+
+                            }
+
+
+                        } else { // Prodotto non trovato
+                            return utilities.handleError(res, err, 'Errore durante il ritrovamento del prodotto');
+                        }
+                    });
+                } else { // Utente non trovato
+                    return utilities.handleError(res, err, 'Errore durante il ritrovamento dello utente');
+                }
+            });
+        }
+    });
+}
+
+
+
 
 /*--------------------------------------------------------------
 |    Funzione: aggiungiAlCarrello()                             |
@@ -901,6 +1019,8 @@ exports.isAdmin = function(req, res) {
         }
     });
 };
+
+
 exports.aggiornaUtente = function(req, res) {
     console.log('PUT utente');
     // Verifico e spacchetto il token dell'utente
@@ -910,59 +1030,142 @@ exports.aggiornaUtente = function(req, res) {
         } else {
             // Token valido
             console.log('Token valido');
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
-                if (err) {
-                    return utilities.handleError(res, err, 'Utente non trovato');
-                } else {
-                    utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
-                    utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
-                    utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
-                    utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
-                    utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
-                    utenteTrovato.email = req.body.email || utenteTrovato.email;
-                    utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
-                    if (req.body.password) {
-                        bcrypt.hash(req.body.password, encryption.saltrounds)
-                            .then(function(pass_hash) {
-                                utenteTrovato.password_hash = pass_hash;
-                            });
-                    }
-                    if (req.body.risposta_segreta) {
-                        bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
-                            .then(function(risp_hash) {
-                                utenteTrovato.risposta_segreta_hash = risp_hash;
-                            });
-                    }
-                    utenteTrovato.save(function(error) {
-                        if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
-                        else res.status(201).json({ utenteTrovato });
-                    });
+            if (req.body.modificaDaAdmin === true) {
+                // il token nella richiesta non è dell'utente da modificare ma è di un admin
+                Utente.findOne({ username: req.body.username })
+                    .then(function(utente) {
+                        if (!utente) return utilities.handleError(res, "ERR_NO_USER", "L'utente ricercato non esiste");
+                        utente.admin = req.body.admin || utente.admin;
+                        utente.email = req.body.email || utente.email;
+                        utente.save(function(err, updatedDoc) {
+                            if (err) return utilities.handleError(res, err);
+                            else res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
+                        })
+                    })
 
-                }
-            })
+            } else {
+                // la modifica è stata richiesta dall'utente stesso, quindi il token è suo
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                    if (err) {
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
+                        utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
+                        utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
+                        utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
+                        utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
+                        utenteTrovato.email = req.body.email || utenteTrovato.email;
+                        utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
+                        utenteTrovato.admin = req.body.admin || utenteTrovato.admin;
+                        if (req.body.password) {
+                            bcrypt.hash(req.body.password, encryption.saltrounds)
+                                .then(function(pass_hash) {
+                                    utenteTrovato.password_hash = pass_hash;
+                                });
+                        }
+                        if (req.body.risposta_segreta) {
+                            bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
+                                .then(function(risp_hash) {
+                                    utenteTrovato.risposta_segreta_hash = risp_hash;
+                                });
+                        }
+                        utenteTrovato.save(function(error) {
+                            if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
+                            else res.status(201).json({ utenteTrovato });
+                        });
+
+                    }
+                })
+            }
+
         }
     })
 };
+
+
 exports.eliminaUtente = function(req, res) {
-    console.log('ELIMINAZIONE utente');
-    // Verifico e spacchetto il token dell'utente
-    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        console.log('ELIMINAZIONE utente');
+        // Verifico e spacchetto il token dell'utente
+        jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+            if (err) {
+                return utilities.handleError(res, err, 'Token non valido o scaduto.');
+            } else {
+                // Token valido
+                console.log('Token valido');
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                    if (err) {
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        utenteTrovato.remove(function(error) {
+                            if (error)
+                                return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
+                            else res.status(200).json({ successo: true })
+                        })
+                    }
+                })
+            }
+        })
+    }
+    /*
+        Restituisce tutta la lista degli utenti dal database
+        se c'è un errore richiama la funzione utilities.handleError(...)
+        altrimenti invia il risultato tramite JSON
+    */
+exports.listaUtenti = function(req, res) {
+    console.log("GET Lista Utenti");
+    db.collection(UTENTI).find({}).toArray(function(err, docs) {
         if (err) {
+            utilities.handleError(res, err.message, "Operazione di recupero degli utenti fallita.");
+        } else {
+            res.status(200).json(docs);
+        }
+    });
+};
+/*
+    Controlla se il token è valido(non malformato o non scaduto)
+*/
+exports.controllaToken = function(req, res) {
+    console.log('controllo token');
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err) {
+            res.status(401).json({'successo': false, 'invalido':true});
+        } else {
+            res.status(200).json({'successo': true,'invalido':false});
+        }
+    });
+};
+/*
+        Restituisce il dettaglio di un utente dal DB
+        se c'è un errore richiama la funzione utilities.handleError(...)
+        altrimenti invia il risultato tramite JSON
+    */
+exports.dettaglioUtente = function(req, res) {
+    console.log("GET utente con id", req.params.id);
+    db.collection(UTENTI).findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, doc) {
+        if (err) {
+            utilities.handleError(res, err.message, "Operazione di recupero dell\'utente fallita, id utente " + req.params.id);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+};
+
+/*
+    Restituisce la storia degli acquisti dell'utente di cui viene passato il token(valido)
+*/
+exports.getStoriaAcquisti = function(req, res){
+    console.log('storia acquisti');
+    jwt.verify(req.body.token, encryption.secret,function(err,decoded){
+        if(err) {
             return utilities.handleError(res, err, 'Token non valido o scaduto.');
         } else {
-            // Token valido
-            console.log('Token valido');
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+            Utente.findById(decoded.utenteID,function(err, utenteTrovato){
                 if (err) {
                     return utilities.handleError(res, err, 'Utente non trovato');
                 } else {
-                    utenteTrovato.remove(function(error) {
-                        if (error)
-                            return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
-                        else res.status(200).json({ successo: true })
-                    })
+                    res.status(200).json({'successo': true, 'storiaAcquisti':utenteTrovato.storia_acquisti.acquisti});
                 }
-            })
+            });
         }
-    })
+    });
 }

@@ -1,0 +1,18 @@
+<section class="w3-container">
+    <h2 class="w3-center">Modifica permessi utenti</h2>
+
+    <table class="w3-table-all w3-centered" style="max-width: 400px; margin: auto;">
+        <thead>
+            <tr class="w3-red">
+                <th><b>Nome Utente</b></th>
+            </tr>
+        </thead>
+        <article>
+            <tr class="w3-hover-green" ng-repeat="utente in $ctrl.utenti">
+                <td>
+                    <a ui-sref="dettaglioUtente({id: utente._id})">{{utente.nome}}{{utente.cognome}}</a>
+                </td>
+            </tr>
+        </article>
+    </table>
+</section>

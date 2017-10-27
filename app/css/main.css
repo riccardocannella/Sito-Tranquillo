@@ -268,7 +268,7 @@ header {
     
 .container-prodotto-breve {
     display: flex;
-    width: 300px;
+    width: 330px;
 }
 
 .contenitore-immagine {
@@ -292,7 +292,8 @@ header {
 }
 
 .contenitore-text {
-    width: 150px;
+    position: relative;
+    width: 180px;
     order: 1;
     padding: 0.5em;
 }
@@ -324,32 +325,9 @@ header {
 }
 
 
-/*---------- DISPONIBILITA' ---------------*/
+/*------------------ SELETTORE QUANTITA -----------
+Attualmente non utilizzato. Codice commentato nel template dedttaglio.template.html*/
 
-.disponibilita {
-    display: block;
-}
-
-.icona-stato {
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-}
-
-.icona-stato.nodisponibile {
-    background-color: #FC0627;
-}
-
-.icona-stato.limitata {
-    background-color: #ffab19;
-}
-
-.icona-stato.disponibile {
-    background-color: #2BFF00;
-}
-
-
-/*------------------ SELETTORE QUANTITA -----------*/
 
 .quantita-nav {
     height: 42px;

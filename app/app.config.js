@@ -107,6 +107,14 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     main: { component: 'carrello' }
                 }
             })
+            .state('storiaAcquisti', {
+                parent: 'root',
+                url: 'storiaAcquisti',
+                data: { titolo: 'StoriaAcquisti'},
+                views: {
+                    main: {component: 'storiaAcquisti'}
+                }
+            })
 
         // ADMIN
         .state('admin', {
@@ -119,6 +127,26 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     },
                     'main@admin': {
                         templateUrl: 'layout/backend/dashboard/dashboard.template.html'
+                    }
+                }
+            })
+            .state('listaUtenti', {
+                parent: 'admin',
+                url: '/listaUtenti',
+                data: { titolo: 'Lista Utenti' },
+                views: {
+                    main: {
+                        component: 'listaUtenti'
+                    }
+                }
+            })
+            .state('dettaglioUtente', {
+                parent: 'admin',
+                url: '/dettaglioUtente/:id',
+                data: { titolo: 'Dettaglio Utente' },
+                views: {
+                    main: {
+                        component: 'dettaglioUtente'
                     }
                 }
             })
@@ -142,6 +170,16 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     }
                 }
             })
+            .state('listaProdotti', {
+                parent: 'admin',
+                url: '/listaProdotti',
+                data: { titolo: 'Lista prodotti nel Database' },
+                views: {
+                    main: {
+                        component: 'listaProdotti'
+                    }
+                }
+            })
             // NOT FOUND
             .state('invalid', {
                 templateUrl: 'layout/stati/invalid.template.html',
@@ -155,7 +193,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             // FORBIDDEN
             .state('forbidden', {
                 templateUrl: 'layout/stati/forbidden.template.html',
-                data: { titolo: '404 Pagina non trovata' },
+                data: { titolo: '403 Non autorizzato' },
             });
 
 

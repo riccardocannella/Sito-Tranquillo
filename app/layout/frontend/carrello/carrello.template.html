@@ -26,7 +26,7 @@
                
                     <div class="w3-col l3 m2 s12 w3-margin-top">
                         <div class="">
-                            <a href="">
+                            <a ui-sref="dettaglio({id: elemento._id})">
                                 <b>{{elemento.nome}}</b>
                             </a>
                         </div>
@@ -36,14 +36,15 @@
                         <span class="w3-large">{{elemento.prezzo}} €</span>
                     </div>
                     <div class="w3-col l2 m2 s8 w3-center w3-margin-top">
-                        <button ng-click="$ctrl.rimuoviDalCarrello(elemento._id, elemento.quantita)"class="btn-carrello btn--round">
-                            <span>-</span>
-                        </button>
-
-                        <div class="quantita-carrello">{{elemento.quantita}}</div>
                         
-                        <button ng-click="$ctrl.aggiungiAlCarrello(elemento._id)" class="btn-carrello btn--round">
-                            <span>+</span>
+                        <input class="w3-input" type="number" 
+                                ng-model="elemento.quantita" ng-change="$ctrl.impostaNelCarrello(elemento._id,elemento.quantita,false)" 
+                                ng-model-options="{ updateOn: 'blur' , getterSetter: true }"
+                                ng-focus="$ctrl.occupied = true"
+                                ng-blur="$ctrl.occupied = false"
+                        >
+                        
+                        
                     </div>
                     <div class="w3-col l2 m2 s6 w3-center w3-margin-top">
                         <button ng-click="$ctrl.rimuoviProdotto(elemento._id,elemento.quantita)" class="w3-button w3-red">Rimuovi</button>
@@ -81,7 +82,7 @@
             <label class="w3-left">Totale finale:</label>
             <div class="w3-right"><span class="">{{$ctrl.totaleFinale}}€</span></div>
         </div>
-        <button class="w3-btn w3-green w3-right margin-top-1" ng-click="$ctrl.acquistaTutto()">Acquista</button>
+        <button class="w3-btn w3-green w3-right margin-top-1" ng-disabled="$ctrl.occupied == true" ng-click="$ctrl.acquistaTutto()">Acquista</button>
     </div>
 
 </section>
