@@ -15,6 +15,7 @@ exports.listaProvince = function(req, res) {
     res.status(200).json(province.lista);
 
 };
+
 /*
     Restituisce tutta la lista degli stati dal json
 */

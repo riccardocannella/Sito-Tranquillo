@@ -61,7 +61,7 @@ exports.creaProdotto = function(req, res) {
     });
 
     nuovoProdotto.save(function(err) {
-        if (err) return utilities.handleError(res, err, '');
+        if (err) return utilities.handleError(res, err, 'Errore durante il salvataggio del nuovo prodotto');
         // saved!
         else {
             res.status(201).json(nuovoProdotto);

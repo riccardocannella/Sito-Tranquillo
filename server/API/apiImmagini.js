@@ -43,6 +43,10 @@ exports.caricaImmagine = function(req, res) {
         res.json({ error_code: 0, err_desc: null, nomeFile: req.file.filename });
     });
 };
+
+/*
+    Restituisce l'immagine di cui viene passato il nome
+*/
 exports.getImmagine = function(req, res) {
     console.log('GET immagine');
     fs.stat(PERCORSO_UPLOADS + req.params.nome, function(err, stat) {
@@ -56,6 +60,10 @@ exports.getImmagine = function(req, res) {
         }
     });
 };
+
+/*
+    Elimina l'immagine di cui viene passato il nome
+*/
 exports.eliminaImmagine = function(req, res) {
     console.log('ELIMINA IMMAGINE');
     // dò per scontato che esiste
