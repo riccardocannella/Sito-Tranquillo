@@ -52,11 +52,11 @@ exports.inviaEmail = function(nome, cognome, emailDestinatario, oggetto, corpoIn
     /*
     FORMA JSON DELLE OPZIONI:
     {
-    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
-    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world ?', // plain text body
-    html: '<b>Hello world ?</b>' // html body
+    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // indirizzo mittente
+    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // lista riceventi
+    subject: 'Hello ✔', // Intestazione
+    text: 'Hello world ?', // email con testo normale
+    html: '<b>Hello world ?</b>' // email con testo in html
     }
     */
     var opzioniEmail = {

@@ -1,3 +1,7 @@
+/*
+    Lista delle province italiane
+*/
+
 exports.lista = [
     "Agrigento",
     "Alessandria",
