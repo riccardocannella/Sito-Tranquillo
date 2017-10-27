@@ -33,15 +33,11 @@
             </picture>
             <div class="w3-mobile w3-cell m6">
                 <p class="w3-container">
-                    <h4>
-                        <b>Codice:&nbsp;&nbsp;&nbsp;</b>{{$ctrl.id}}</h4>
+                    <h4><b>Codice:&nbsp;&nbsp;&nbsp;</b>{{$ctrl.id}}</h4>
                 </p>
 
                 <p class="disponibilita">
-                    Disponibilità:
-                    <span class="dispo-segnale" id="disponibilita-prodotti">
-                        <span class="icona-stato disponibile"></span>
-                    </span>
+                    Disponibilità: <span class="w3-xlarge">{{$ctrl.prodotto.giacenza}}</span>
                 </p>
 
                 <section class="margin-top-2 w3-row">
@@ -49,20 +45,21 @@
                         &nbsp;
                     </div>
                     <div class="w3-twothird w3-center">
-                        <div class="w3-container w3-block quantita-nav">
-                            <div class="quantita-button">
-                                <button class="w3-button w3-black">
-                                    <span class="">-</span>
-                                </button>
+                        <!-- 
+                            <div class="w3-container w3-block quantita-nav">
+                                <div class="quantita-button">
+                                    <button class="w3-button w3-black">
+                                        <span class="">-</span>
+                                    </button>
+                                </div>
+                                <div class="quantita">
+                                    <input name="prod_quantita" value="1" maxlength="5" step="1" value="1" id="prod_quantita" type="number">
+                                </div>
+                                <div class="quantita-button">
+                                    <button class="w3-button w3-teal">+</button>
+                                </div>
                             </div>
-                            <div class="quantita">
-                                <input name="prod_quantita" value="1" maxlength="5" step="1" value="1" id="prod_quantita" type="number">
-                            </div>
-                            <div class="quantita-button">
-                                <button class="w3-button w3-teal">+</button>
-                            </div>
-                        </div>
-
+                        -->
                         <div class="w3-container w3-block w3-margin-top">
                             <button class="w3-btn w3-teal">Aggiungi al carrello
                                 <i class="fa fa-shopping-cart fa-2x"></i>
