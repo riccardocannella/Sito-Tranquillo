@@ -75,11 +75,11 @@ exports.creaProdotto = function(req, res) {
 */
 exports.dettagliProdotto = function(req, res) {
     console.log("GET prodotto con id", req.params.id);
-    db.collection(PRODOTTI).findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, doc) {
+    Prodotto.findById(req.params.id, function(err, prodottoTrovato) {
         if (err) {
             utilities.handleError(res, err.message, "Operazione di recupero del prodotto fallita, id prodotto " + req.params.id);
         } else {
-            res.status(200).json(doc);
+            res.status(200).json(prodottoTrovato);
         }
     });
 };
@@ -93,12 +93,23 @@ exports.aggiornaProdotto = function(req, res) {
     var updateDoc = req.body;
     delete updateDoc._id;
 
-    db.collection(PRODOTTI).updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, updateDoc, function(err, doc) {
+    Prodotto.findById(req.params.id, function(err, prodottoTrovato) {
         if (err) {
-            utilities.handleError(res, err.message, "Operazione di aggiornamento del prodotto fallita, id prodotto " + req.params.id);
+            utilities.handleError(res, err.message, "Operazione di recupero del prodotto fallita, id prodotto " + req.params.id);
         } else {
-            updateDoc._id = req.params.id;
-            res.status(200).json(updateDoc);
+            if (prodottoTrovato.giacenza === 0 && updateDoc.giacenza > 0) utilities.notificaUserProdottoTornato(updateDoc.nome, req.params.id);
+            // so che il prodotto che mi arriva è completo di tutti i campi richiesti
+            prodottoTrovato.nome = updateDoc.nome;
+            prodottoTrovato.prezzo = updateDoc.prezzo;
+            prodottoTrovato.giacenza = updateDoc.giacenza;
+            prodottoTrovato.descrizioneBreve = updateDoc.descrizioneBreve;
+            prodottoTrovato.descrizioneLunga = updateDoc.descrizioneLunga;
+            prodottoTrovato.urlImmagine = updateDoc.urlImmagine;
+            prodottoTrovato.specifiche = updateDoc.specifiche;
+            prodottoTrovato.save(function(error) {
+                if (error) utilities.handleError(res, error, 'Errore nell\'aggiornamento del prodotto');
+                else res.status(200).json(prodottoTrovato);
+            })
         }
     });
 };

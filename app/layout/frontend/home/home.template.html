@@ -56,21 +56,24 @@
                         {{elemento.descrizioneBreve}}.
                     </p>
                     <p>
-                        <button class="w3-button" ng-click="">
+                        <button ng-show="preferitiUtente.indexOf(elemento._id) < 0 || preferitiUtente === undefined" class="w3-button" ng-click="$ctrl.aggiungiAPreferiti(elemento._id)">
                             <i class="fa fa-heart-o" aria-hidden="true"></i>                            
+                        </button>
+                        <button ng-show="preferitiUtente.indexOf(elemento._id) >= 0" class="w3-button" ng-click="$ctrl.togliDaiPreferiti(elemento._id)">
+                            <i class="fa fa-heart" style="color:red" aria-hidden="true"></i>                            
                         </button>
                     </p>
                 </div>
                 <div class="w3-cell w3-cell-top w3-center" style="padding: 5px;">
-                        <p>
-                            <span class="w3-small">QTY:</span>
-                            <p> {{elemento.giacenza}}</p>
-                        </p>
-                        <p style="margin-top: 5px;">
+                    <p>
+                        <span class="w3-small">QTY:</span>
+                        <p> {{elemento.giacenza}}</p>
+                    </p>
+                    <p style="margin-top: 5px;">
                         <button class="w3-button w3-red" ng-click="$ctrl.mettiNelCarrello(elemento._id)">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         </button>
-                        </p>
+                    </p>
                 </div>
             </div>
 
