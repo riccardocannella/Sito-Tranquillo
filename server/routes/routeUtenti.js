@@ -22,6 +22,9 @@ module.exports = function(app, db) {
     app.route('/api/v1.0/utenti/rimuovidalcarrello')
         .post(apiUtenti.rimuoviDalCarrello);
 
+    app.route('/api/v1.0/utenti/impostaNelCarrello')
+        .post(apiUtenti.impostaNelCarrello);
+
     app.route('/api/v1.0/utenti/validaToken')
         .post(apiUtenti.validaToken);
     app.route('/api/v1.0/utenti/validaRisposta')
