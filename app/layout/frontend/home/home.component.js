@@ -14,7 +14,13 @@ angular.module('home').component('home', {
             listaProva.prodotti = response.data;
         });
 
-        
+        listaProva.aggiungiAPreferiti = function(idprodotto) {
+            if ($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null) {
+                alert('Effettua il login per ricevere la notifica del ritorno di questo prodotto.');
+                return;
+            } // Altrimenti continuo
+            $http.put('api/v1.0/utenti/aggiorna', { token: $window.localStorage.getItem('jwtToken'), preferito: idprodotto })
+        }
 
         //Funzione per chiudere e riaprire la sidebar nella home page
         $scope.IsVisible = true;
@@ -40,7 +46,7 @@ angular.module('home').component('home', {
         };
 
         // CONTROLLO TOKEN
-        if($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null ){
+        if ($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null) {
             // Non fai nulla
         } else { // Controlla token
             $http({
@@ -49,20 +55,20 @@ angular.module('home').component('home', {
                 data: { 'token': $window.localStorage.getItem('jwtToken') }
             }).then(function successCallback(response) { // Login con successo
                 // Continua
-                
+
             }, function errorCallback(response) { // Login non avvenuto
                 console.log('logged out');
                 $scope.logout();
             });
         };
 
-        listaProva.mettiNelCarrello = function(idprodotto,quantitaDisponibile){
-            if($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null ){
+        listaProva.mettiNelCarrello = function(idprodotto, quantitaDisponibile) {
+            if ($window.localStorage.getItem('jwtToken') == "" || $window.localStorage.getItem('jwtToken') == null) {
                 alert('Solo gli utenti registrati possono fare acquisti sul nostro sito.');
                 return;
             } // Altrimenti continuo
 
-            if(quantitaDisponibile == 0){
+            if (quantitaDisponibile == 0) {
                 alert('Prodotto esaurito. Ci scusiamo per il disagio.');
                 return;
             }
@@ -70,16 +76,16 @@ angular.module('home').component('home', {
             $http({
                 method: 'POST',
                 url: '/api/v1.0/utenti/aggiungialcarrello',
-                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':1 }
-            }).then(function successCallback(response){
-                if(response.data.successo == true){
+                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto': idprodotto, 'quantita': 1 }
+            }).then(function successCallback(response) {
+                if (response.data.successo == true) {
                     $location.path('/carrello');
                 } else {
                     alert('Impossibile aggiungere al carrello guaglione.');
-                    
+
                 }
-                
-            }).catch(function errorCallback(response){
+
+            }).catch(function errorCallback(response) {
                 alert('Impossibile aggiungere altre unità di prodotto al carrello.');
                 return;
             });
