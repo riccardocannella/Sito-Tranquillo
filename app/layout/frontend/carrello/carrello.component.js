@@ -177,10 +177,12 @@ angular.module('carrello').component('carrello', {
                         carrelloCtrl.getCarrello();
                     }
                 } else {
-                    alert('errore acquisto');
+                    alert('Impossibile acquistare il numero di prodotti inserito, i valori sono stati aggiornati');
+                    carrelloCtrl.getCarrello();
                 }
             }).catch(function errorCallback(response){
-                alert('errore acquisto');
+                alert('Impossibile acquistare il numero di prodotti inserito, i valori sono stati aggiornati');
+                carrelloCtrl.getCarrello();
             });
         };
 

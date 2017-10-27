@@ -376,7 +376,19 @@ exports.richiestaRecuperoPassword = function(req, res) {
 }
 
 
-// Imposta il valore richiesto (se possibile nel carrello)
+/*--------------------------------------------------------------
+|    Funzione: impostaNelCarrello()                             |
+|    Tipo richiesta: POST                                       |
+|                                                               |
+|    Parametri accettati:                                       |
+|        [x-www-form-urlencoded]                                |
+|        token : token dell'utente                              |
+|        prodotto : _id del prodotto immesso                    |
+|        quantita : quantità di prodotti                        |
+|                                                               |
+|     Parametri restituiti in caso di successo:                 |
+|        successo: valore impostato a true                      |
+ ---------------------------------------------------------------*/
 
 exports.impostaNelCarrello = function(req,res){
     console.log("POST Imposta nel carrello");
@@ -1007,6 +1019,8 @@ exports.isAdmin = function(req, res) {
         }
     });
 };
+
+
 exports.aggiornaUtente = function(req, res) {
     console.log('PUT utente');
     // Verifico e spacchetto il token dell'utente
@@ -1067,6 +1081,8 @@ exports.aggiornaUtente = function(req, res) {
         }
     })
 };
+
+
 exports.eliminaUtente = function(req, res) {
         console.log('ELIMINAZIONE utente');
         // Verifico e spacchetto il token dell'utente
@@ -1105,7 +1121,9 @@ exports.listaUtenti = function(req, res) {
         }
     });
 };
-// req.body.token
+/*
+    Controlla se il token è valido(non malformato o non scaduto)
+*/
 exports.controllaToken = function(req, res) {
     console.log('controllo token');
     jwt.verify(req.body.token, encryption.secret,function(err,decoded){
@@ -1131,6 +1149,10 @@ exports.dettaglioUtente = function(req, res) {
         }
     });
 };
+
+/*
+    Restituisce la storia degli acquisti dell'utente di cui viene passato il token(valido)
+*/
 exports.getStoriaAcquisti = function(req, res){
     console.log('storia acquisti');
     jwt.verify(req.body.token, encryption.secret,function(err,decoded){

