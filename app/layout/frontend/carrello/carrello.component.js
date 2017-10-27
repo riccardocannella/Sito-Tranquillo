@@ -10,6 +10,8 @@ angular.module('carrello').component('carrello', {
     controller: function($http, $stateParams, $window, $scope, $location) {
         var carrelloCtrl = this;
 
+        carrelloCtrl.occupied = false; // Sblocco il tasto compra
+
         //Logout function
         $scope.logout = function() {
             $window.localStorage.setItem("jwtToken", "");
@@ -42,6 +44,7 @@ angular.module('carrello').component('carrello', {
 
         carrelloCtrl.getCarrello = function(){
             console.log('Lisciami le mele');
+            carrelloCtrl.occupied = true; // Non posso comprare finchè non si aggiorna il carrello
             $http({
                 method: 'POST',
                 url: '/api/v1.0/utenti/getCarrello',
@@ -58,15 +61,18 @@ angular.module('carrello').component('carrello', {
                 carrelloCtrl.tasse = Number((carrelloCtrl.totaleImporto * 0.22).toFixed(2));
                 carrelloCtrl.spedizione = 15;
                 carrelloCtrl.totaleFinale = (carrelloCtrl.totaleImporto + carrelloCtrl.spedizione + carrelloCtrl.tasse).toFixed(2);
-
+                //Risblocco il tasto compra se non ci sono errori
+                carrelloCtrl.occupied = false;
                 console.log(JSON.stringify(carrelloCtrl.carrello));
             }).catch(function errorCallback(response){
                 console.log('Errore: ' + response);
             });
         };
         
-        carrelloCtrl.impostaNelCarrello = function(idprodotto,quantita){
-            
+        carrelloCtrl.impostaNelCarrello = function(idprodotto,quantita,blurredOut){
+            if(quantita == null && blurredOut == false){
+                return; // Aspetto che il valore venga cambiato, altrimenti con angular, dopo il blur do
+            }
             $http({
                 method: 'POST',
                 url: '/api/v1.0/utenti/impostaNelCarrello',
@@ -83,7 +89,7 @@ angular.module('carrello').component('carrello', {
                 }
                 
             }).catch(function errorCallback(response){
-                alert('Valore invalido impostato nel campo, reset automatico')
+                alert('Valore invalido impostato nel campo, reset automatico');
                 carrelloCtrl.getCarrello();
             });
             
