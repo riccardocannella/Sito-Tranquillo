@@ -1052,12 +1052,10 @@ exports.aggiornaUtente = function(req, res) {
                         if (req.body.preferito) {
                             // l'user ha solo premuto sul cuore, non serve fare tutto il resto
                             var prodottiPreferiti = [];
-                            console.log(utenteTrovato.prodotti_preferiti);
                             prodottiPreferiti = utenteTrovato.prodotti_preferiti;
                             if (req.body.togli) prodottiPreferiti.pull(req.body.preferito);
                             else prodottiPreferiti.push(req.body.preferito);
                             utenteTrovato.prodotti_preferiti = prodottiPreferiti;
-                            console.log(utenteTrovato.prodotti_preferiti);
                             utenteTrovato.save(function(error) {
                                 if (error) utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.');
                                 else return res.status(201).json({ utenteTrovato });
