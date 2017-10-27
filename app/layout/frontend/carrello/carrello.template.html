@@ -36,14 +36,10 @@
                         <span class="w3-large">{{elemento.prezzo}} €</span>
                     </div>
                     <div class="w3-col l2 m2 s8 w3-center w3-margin-top">
-                        <button ng-click="elemento.quantita = elemento.quantita - 1; $ctrl.rimuoviDalCarrello(elemento._id, elemento.quantita);"class="btn-carrello btn--round">
-                            <span>-</span>
-                        </button>
-
-                        <div class="quantita-carrello">{{elemento.quantita}}</div>
                         
-                        <button ng-click="elemento.quantita = elemento.quantita + 1; $ctrl.aggiungiAlCarrello(elemento._id);" class="btn-carrello btn--round">
-                            <span>+</span>
+                        <input class="w3-input" type="number" ng-model="elemento.quantita" ng-change="$ctrl.impostaNelCarrello(elemento._id,elemento.quantita)">
+                        
+                        
                     </div>
                     <div class="w3-col l2 m2 s6 w3-center w3-margin-top">
                         <button ng-click="$ctrl.rimuoviProdotto(elemento._id,elemento.quantita)" class="w3-button w3-red">Rimuovi</button>

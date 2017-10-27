@@ -64,12 +64,35 @@ angular.module('carrello').component('carrello', {
                 console.log('Errore: ' + response);
             });
         };
+        
+        carrelloCtrl.impostaNelCarrello = function(idprodotto,quantita){
+            
+            $http({
+                method: 'POST',
+                url: '/api/v1.0/utenti/impostaNelCarrello',
+                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':quantita }
+            }).then(function successCallback(response){
+                if(response.data.successo == true){
+                    carrelloCtrl.getCarrello();
+                    
+                } else {
+                    
+                    alert('Hai richiesto una quantità errata');
+                    // Reimposto il carrello con le giuste quantità
+                    carrelloCtrl.getCarrello();
+                }
+                
+            }).catch(function errorCallback(response){
+                alert('Errore , richiesta malformata')
+                carrelloCtrl.getCarrello();
+            });
+        };
 
-        carrelloCtrl.aggiungiAlCarrello = function(idprodotto){
+        carrelloCtrl.aggiungiAlCarrello = function(idprodotto,quantita){
             $http({
                 method: 'POST',
                 url: '/api/v1.0/utenti/aggiungialcarrello',
-                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':1 }
+                data: { 'token': $window.localStorage.getItem("jwtToken"), 'prodotto':idprodotto,'quantita':quantita }
             }).then(function successCallback(response){
                 if(response.data.successo == true){
                     carrelloCtrl.getCarrello();
