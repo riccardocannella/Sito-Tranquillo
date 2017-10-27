@@ -268,7 +268,7 @@ header {
     
 .container-prodotto-breve {
     display: flex;
-    width: 300px;
+    width: 330px;
 }
 
 .contenitore-immagine {
@@ -292,7 +292,8 @@ header {
 }
 
 .contenitore-text {
-    width: 150px;
+    position: relative;
+    width: 180px;
     order: 1;
     padding: 0.5em;
 }

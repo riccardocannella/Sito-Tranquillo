@@ -193,7 +193,7 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             // FORBIDDEN
             .state('forbidden', {
                 templateUrl: 'layout/stati/forbidden.template.html',
-                data: { titolo: '404 Pagina non trovata' },
+                data: { titolo: '403 Non autorizzato' },
             });
 
 
