@@ -1,9 +1,12 @@
 <section class="">
 
-    <div>
+    <div class="w3-row">
         <p class="wrapper w3-container pa-15">
-            <span class="w3-tag w3-blue w3-padding">
-                <a ui-sref="root"><i class="fa fa-arrow-left" aria-hidden="true"></i>Torna alla home</a>
+            <span class="w3-col l10 m8 s12 w3-padding">
+                <a ui-sref="root"><button type="button" class="w3-btn w3-blue"><i class="fa fa-arrow-left" aria-hidden="true"></i>Torna alla home</button></a>
+            </span>
+            <span class="w3-col l2 m4 s12 w3-padding">
+            <a href="/storiaAcquisti" id="cart_contents"><button type="button" class="w3-btn w3-teal"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> Storico Acquisti</button></a>
             </span>
         </p>
         <hr style="padding: 0; margin: 0;">
@@ -11,7 +14,7 @@
 
     <div class="wrapper">
 
-        <h3 class="w3-center pa-15 w3-text-teal" ng-if="$ctrl.utente">Profilo utente di {{$ctrl.utente.nome}} {{$ctrl.utente.cognome}}</h3>
+        <h3 class="w3-center pa-15 w3-text-teal" ng-if="$ctrl.utente"><span class="w3-text-black">Profilo utente di</span> {{$ctrl.utente.nome}} {{$ctrl.utente.cognome}}</h3>
 
         <div class="w3-col w3-container pa-15 w3-light-grey margin-bottom-1" ng-if="$ctrl.utente && richiestaEliminazione === 0">
 
