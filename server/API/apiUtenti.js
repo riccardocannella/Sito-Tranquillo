@@ -910,63 +910,95 @@ exports.aggiornaUtente = function(req, res) {
         } else {
             // Token valido
             console.log('Token valido');
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
-                if (err) {
-                    return utilities.handleError(res, err, 'Utente non trovato');
-                } else {
-                    utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
-                    utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
-                    utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
-                    utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
-                    utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
-                    utenteTrovato.email = req.body.email || utenteTrovato.email;
-                    utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
-                    if (req.body.password) {
-                        bcrypt.hash(req.body.password, encryption.saltrounds)
-                            .then(function(pass_hash) {
-                                utenteTrovato.password_hash = pass_hash;
-                            });
-                    }
-                    if (req.body.risposta_segreta) {
-                        bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
-                            .then(function(risp_hash) {
-                                utenteTrovato.risposta_segreta_hash = risp_hash;
-                            });
-                    }
-                    utenteTrovato.save(function(error) {
-                        if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
-                        else res.status(201).json({ utenteTrovato });
-                    });
+            if (req.body.modificaDaAdmin === true) {
+                // il token nella richiesta non è dell'utente da modificare ma è di un admin
+                Utente.findOne({ username: req.body.username })
+                    .then(function(utente) {
+                        if (!utente) return utilities.handleError(res, "ERR_NO_USER", "L'utente ricercato non esiste");
+                        utente.admin = req.body.admin || utente.admin;
+                        utente.email = req.body.email || utente.email;
+                        utente.save(function(err, updatedDoc) {
+                            if (err) return utilities.handleError(res, err);
+                            else res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
+                        })
+                    })
 
-                }
-            })
+            } else {
+                // la modifica è stata richiesta dall'utente stesso, quindi il token è suo
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                    if (err) {
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        utenteTrovato.stato = req.body.stato || utenteTrovato.stato;
+                        utenteTrovato.provincia = req.body.provincia || utenteTrovato.provincia;
+                        utenteTrovato.comune = req.body.comune || utenteTrovato.comune;
+                        utenteTrovato.indirizzo = req.body.indirizzo || utenteTrovato.indirizzo;
+                        utenteTrovato.telefono = req.body.telefono || utenteTrovato.telefono;
+                        utenteTrovato.email = req.body.email || utenteTrovato.email;
+                        utenteTrovato.domanda_segreta = req.body.domanda_segreta || utenteTrovato.domanda_segreta;
+                        utenteTrovato.admin = req.body.admin || utenteTrovato.admin;
+                        if (req.body.password) {
+                            bcrypt.hash(req.body.password, encryption.saltrounds)
+                                .then(function(pass_hash) {
+                                    utenteTrovato.password_hash = pass_hash;
+                                });
+                        }
+                        if (req.body.risposta_segreta) {
+                            bcrypt.hash(req.body.risposta_segreta, encryption.saltrounds)
+                                .then(function(risp_hash) {
+                                    utenteTrovato.risposta_segreta_hash = risp_hash;
+                                });
+                        }
+                        utenteTrovato.save(function(error) {
+                            if (error) return utilities.handleError(res, error, 'Errore nell\'aggiornamento utente.')
+                            else res.status(201).json({ utenteTrovato });
+                        });
+
+                    }
+                })
+            }
+
         }
     })
 };
 exports.eliminaUtente = function(req, res) {
-    console.log('ELIMINAZIONE utente');
-    // Verifico e spacchetto il token dell'utente
-    jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+        console.log('ELIMINAZIONE utente');
+        // Verifico e spacchetto il token dell'utente
+        jwt.verify(req.body.token, encryption.secret, function(err, decoded) {
+            if (err) {
+                return utilities.handleError(res, err, 'Token non valido o scaduto.');
+            } else {
+                // Token valido
+                console.log('Token valido');
+                Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
+                    if (err) {
+                        return utilities.handleError(res, err, 'Utente non trovato');
+                    } else {
+                        utenteTrovato.remove(function(error) {
+                            if (error)
+                                return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
+                            else res.status(200).json({ successo: true })
+                        })
+                    }
+                })
+            }
+        })
+    }
+    /*
+        Restituisce tutta la lista degli utenti dal database
+        se c'è un errore richiama la funzione utilities.handleError(...)
+        altrimenti invia il risultato tramite JSON
+    */
+exports.listaUtenti = function(req, res) {
+    console.log("GET Lista Utenti");
+    db.collection(UTENTI).find({}).toArray(function(err, docs) {
         if (err) {
-            return utilities.handleError(res, err, 'Token non valido o scaduto.');
+            utilities.handleError(res, err.message, "Operazione di recupero degli utenti fallita.");
         } else {
-            // Token valido
-            console.log('Token valido');
-            Utente.findById(decoded.utenteID, function(err, utenteTrovato) {
-                if (err) {
-                    return utilities.handleError(res, err, 'Utente non trovato');
-                } else {
-                    utenteTrovato.remove(function(error) {
-                        if (error)
-                            return utilities.handleError(res, error, 'Errore nell\'eliminazione di un utente');
-                        else res.status(200).json({ successo: true })
-                    })
-                }
-            })
+            res.status(200).json(docs);
         }
-    })
+    });
 };
-
 // req.body.token
 exports.controllaToken = function(req, res) {
     console.log('controllo token');
@@ -977,8 +1009,22 @@ exports.controllaToken = function(req, res) {
             res.status(200).json({'successo': true,'invalido':false});
         }
     });
-}
-
+};
+/*
+        Restituisce il dettaglio di un utente dal DB
+        se c'è un errore richiama la funzione utilities.handleError(...)
+        altrimenti invia il risultato tramite JSON
+    */
+exports.dettaglioUtente = function(req, res) {
+    console.log("GET utente con id", req.params.id);
+    db.collection(UTENTI).findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, function(err, doc) {
+        if (err) {
+            utilities.handleError(res, err.message, "Operazione di recupero dell\'utente fallita, id utente " + req.params.id);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+};
 exports.getStoriaAcquisti = function(req, res){
     console.log('storia acquisti');
     jwt.verify(req.body.token, encryption.secret,function(err,decoded){

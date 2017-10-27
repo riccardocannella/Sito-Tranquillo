@@ -130,6 +130,26 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     }
                 }
             })
+            .state('listaUtenti', {
+                parent: 'admin',
+                url: '/listaUtenti',
+                data: { titolo: 'Lista Utenti' },
+                views: {
+                    main: {
+                        component: 'listaUtenti'
+                    }
+                }
+            })
+            .state('dettaglioUtente', {
+                parent: 'admin',
+                url: '/dettaglioUtente/:id',
+                data: { titolo: 'Dettaglio Utente' },
+                views: {
+                    main: {
+                        component: 'dettaglioUtente'
+                    }
+                }
+            })
             .state('aggiuntaProdotti', {
                 parent: 'admin',
                 url: '/aggiuntaProdotti',
