@@ -37,7 +37,10 @@
                     </div>
                     <div class="w3-col l2 m2 s8 w3-center w3-margin-top">
                         
-                        <input class="w3-input" type="number" ng-model="elemento.quantita" ng-change="$ctrl.impostaNelCarrello(elemento._id,elemento.quantita)">
+                        <input class="w3-input" type="number" 
+                                ng-model="elemento.quantita" ng-change="$ctrl.impostaNelCarrello(elemento._id,elemento.quantita)" 
+                                ng-model-options="{ updateOn: 'blur' }"
+                        >
                         
                         
                     </div>

@@ -83,11 +83,12 @@ angular.module('carrello').component('carrello', {
                 }
                 
             }).catch(function errorCallback(response){
-                alert('Errore , richiesta malformata')
+                alert('Valore invalido impostato nel campo, reset automatico')
                 carrelloCtrl.getCarrello();
             });
+            
         };
-
+    
         carrelloCtrl.aggiungiAlCarrello = function(idprodotto,quantita){
             $http({
                 method: 'POST',
