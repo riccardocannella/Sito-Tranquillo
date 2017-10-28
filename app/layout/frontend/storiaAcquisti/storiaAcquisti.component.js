@@ -47,6 +47,11 @@ angular.module('storiaAcquisti').component('storiaAcquisti', {
             }).then(function successCallback(response) { 
                 storiaAcquisti.storiaAcquisti = response.data.storiaAcquisti;
                 console.log(storiaAcquisti.storiaAcquisti);
+                if(storiaAcquisti.storiaAcquisti.length == 0){
+                    storiaAcquisti.vuota = true;
+                } else {
+                    storiaAcquisti.vuota = false;
+                }
             }, function errorCallback(response) {
                 alert('errore durante la ricezione della storia acquisti');
                 console.log('errore storia acquisti');
@@ -57,7 +62,7 @@ angular.module('storiaAcquisti').component('storiaAcquisti', {
 
         // RICEVO LA STORIA
         storiaAcquisti.getStoriaAcquisti();
-
+        
         
         
 
