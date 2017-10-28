@@ -29,6 +29,7 @@ autenticazione.controller('autenticazioneCtrl', ['$scope', '$http', '$window', '
             console.log(JSON.stringify(response.data));
             $window.localStorage.setItem("jwtToken", response.data.token);
             $window.localStorage.setItem("username", response.data.username);
+            $window.localStorage.setItem("admin", response.data.admin);
             $location.path('/');
         }, function errorCallback(response) { // Login non avvenuto
 

@@ -12,6 +12,7 @@ navbar.controller('navbarCtrl', ['$scope', '$location', '$window', function($sco
     } else {
         $scope.navbarTemplate = 'layout/frontend/header/navbar.siautenticazione.template.html';
         $scope.nome_utente = $window.localStorage.getItem("username");
+        $scope.isAdmin = $window.localStorage.getItem("admin");
     }
     $scope.$on('$locationChangeSuccess', function() { // INVECE DI LOCATIONCHANGE?
         if ($window.localStorage.getItem("jwtToken") == "" || $window.localStorage.getItem("jwtToken") == undefined) {
@@ -19,6 +20,7 @@ navbar.controller('navbarCtrl', ['$scope', '$location', '$window', function($sco
         } else {
             $scope.navbarTemplate = 'layout/frontend/header/navbar.siautenticazione.template.html';
             $scope.nome_utente = $window.localStorage.getItem("username");
+            $scope.isAdmin = $window.localStorage.getItem("admin");
         }
     });
 
