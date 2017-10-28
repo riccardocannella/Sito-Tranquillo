@@ -1,7 +1,10 @@
 <div ng-hide="!$ctrl.vuota">
     <section>
-        <div class="w3-container w3-center margin-top-2 margin-bottom-1"> 
-            <p class="w3-tag w3-padding w3-indigo"><span class="w3-xxlarge"><i class="fa fa-frown-o" aria-hidden="true"></i> Nessun acquisto effettuato</span></p>
+        <div class="w3-container w3-center margin-top-2 margin-bottom-1">
+            <p class="w3-tag w3-padding w3-indigo">
+                <span class="w3-xxlarge">
+                    <i class="fa fa-frown-o" aria-hidden="true"></i> Nessun acquisto effettuato</span>
+            </p>
         </div>
     </section>
 </div>
@@ -11,7 +14,7 @@
         <p>Data : {{acquisto.data_acquisto | date:'yyyy-MM-dd'}} - Ora: {{acquisto.data_acquisto | date:'HH:mm:ss'}} </p>
     </div>
 
-    <div class="contenitoreSchedeBreve">
+    <div class="contenitoreSchedeBreve" style="height: 210px;">
 
 
         <div class="container-prodotto-breve w3-margin w3-card-4" ng-repeat="elemento in acquisto.prodotti">
