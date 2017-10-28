@@ -7,4 +7,8 @@ module.exports = function(app) {
     app.route('/api/v1.0/immagini/:nome')
         .get(apiImmagini.getImmagine)
         .delete(apiImmagini.eliminaImmagine);
+    app.route('/api/v1.0/copertina')
+        .post(apiImmagini.caricaImmagineCopertina)
+        .get(apiImmagini.getImmagineCopertina)
+        .delete(apiImmagini.eliminaImmagineCopertina);
 };

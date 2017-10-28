@@ -110,9 +110,9 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             .state('storiaAcquisti', {
                 parent: 'root',
                 url: 'storiaAcquisti',
-                data: { titolo: 'StoriaAcquisti'},
+                data: { titolo: 'StoriaAcquisti' },
                 views: {
-                    main: {component: 'storiaAcquisti'}
+                    main: { component: 'storiaAcquisti' }
                 }
             })
 
@@ -177,6 +177,16 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 views: {
                     main: {
                         component: 'listaProdotti'
+                    }
+                }
+            })
+            .state('settaggi', {
+                parent: 'admin',
+                url: '/settaggi',
+                data: { titolo: 'Settaggi' },
+                views: {
+                    main: {
+                        component: 'settaggi'
                     }
                 }
             })

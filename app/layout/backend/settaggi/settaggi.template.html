@@ -1,0 +1,37 @@
+<div class="wrapper">
+
+    <h3 class="w3-center">Settaggi sito</h3>
+
+    <form class="margin-top-1 margin-bottom-1" ng-submit="$ctrl.caricaCopertina()" name="$ctrl.form" style="margin: auto;">
+
+        <div class="w3-row">
+            <h4>Modifica Immagine Copertina Sito</h4>
+
+            <div class="w3-col l6 m6 s12" style="width: 60vh">
+
+                <div class="w3-margin">
+                    <label for="immagine">
+                        Immagine (peso minore di 1MB, lato lungo min 1280px max 3840px):
+                    </label>
+                    <div ng-show="copertinaCaricata === 0" style="background-color: yellow; color:red">
+                        L'immagine non rispetta i requisiti, caricane un'altra.
+                    </div>
+                    <div ng-show="copertinaCaricata === 1" style="background-color: green">
+                        L'immagine di copertina è stata aggiornata.
+                    </div>
+                    <div>
+                        <input type="file" class="w3-btn w3-border w3-round-large w3-center w3-red" name="immagine" ng-model="$ctrl.immagine" id="immagine" ngf-select ngf-pattern="'.jpg'" accept=".jpg" ngf-max-size="1MB">
+                    </div>
+                    <div class="w3-margin" ng-show="$ctrl.immagine">
+                        <h5>Anteprima immagine:</h5>
+                        <img style="width: 300px; " ngf-thumbnail="$ctrl.immagine" />
+                        <p ng-show="erroreCaricamento === 1 ">C'è stato un errore, riprova.</p>
+                    </div>
+                    <input type="button" class="w3-button w3-border w3-round w3-xlarge" ng-click="$ctrl.reset()" value="Annulla">
+                    <input type="submit" class="w3-button w3-border w3-round w3-xlarge" value="Carica">
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
