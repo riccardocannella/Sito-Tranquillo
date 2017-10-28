@@ -33,6 +33,7 @@ angular.module('dettaglioUtente').component('dettaglioUtente', {
         };
         dettaglioUtente.rendiNonAdmin = function() {
             dettaglioUtente.utente.admin = false;
+            dettaglioUtente.utente.modificaDaAdmin = true;
             dettaglioUtente.utente.token = $window.localStorage.getItem("jwtToken");
             $http.put('api/v1.0/utenti/aggiorna', dettaglioUtente.utente).then(function(res) {
                 $scope.utenteResoNonAdmin = 1;
@@ -43,9 +44,11 @@ angular.module('dettaglioUtente').component('dettaglioUtente', {
             if (dettaglioUtente.utente.email === utenteOrig.email) $scope.emailNonCambiata = 1;
             else {
                 dettaglioUtente.utente.token = $window.localStorage.getItem("jwtToken");
+                dettaglioUtente.utente.modificaDaAdmin = true;
                 $http.put('api/v1.0/utenti/aggiorna', dettaglioUtente.utente).then(function(res) {
                     $scope.emailUtenteCambiata = 1;
                     $scope.emailNonCambiata = 0;
+                    utenteOrig = angular.copy(dettaglioUtente.utente);
                 });
             }
         }

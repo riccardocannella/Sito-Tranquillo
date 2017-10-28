@@ -1035,11 +1035,14 @@ exports.aggiornaUtente = function(req, res) {
                 Utente.findOne({ username: req.body.username })
                     .then(function(utente) {
                         if (!utente) return utilities.handleError(res, "ERR_NO_USER", "L'utente ricercato non esiste");
-                        utente.admin = req.body.admin || utente.admin;
+                        if (req.body.admin === false) utente.admin = false;
+                        else if (req.body.admin === true) utente.admin = true;
                         utente.email = req.body.email || utente.email;
                         utente.save(function(err, updatedDoc) {
                             if (err) return utilities.handleError(res, err);
-                            else res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
+                            else {
+                                res.status(201).json({ 'messaggio': "Operazione riuscita", 'successo': true });
+                            };
                         })
                     })
 
