@@ -110,23 +110,23 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
             .state('storiaAcquisti', {
                 parent: 'root',
                 url: 'storiaAcquisti',
-                data: { titolo: 'StoriaAcquisti'},
+                data: { titolo: 'StoriaAcquisti' },
                 views: {
-                    main: {component: 'storiaAcquisti'}
+                    main: { component: 'storiaAcquisti' }
                 }
             })
 
         // ADMIN
         .state('admin', {
                 url: '/admin',
-                data: { titolo: 'Admin Dashboard' },
+                data: { titolo: 'Lista prodotti nel Database' },
                 views: {
                     '': { component: 'adminPanel' },
                     'navbar@admin': {
                         templateUrl: 'layout/backend/header/header.template.html',
                     },
                     'main@admin': {
-                        templateUrl: 'layout/backend/dashboard/dashboard.template.html'
+                        component: 'listaProdotti'
                     }
                 }
             })
@@ -167,16 +167,6 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 views: {
                     main: {
                         component: 'modificaProdotti'
-                    }
-                }
-            })
-            .state('listaProdotti', {
-                parent: 'admin',
-                url: '/listaProdotti',
-                data: { titolo: 'Lista prodotti nel Database' },
-                views: {
-                    main: {
-                        component: 'listaProdotti'
                     }
                 }
             })
