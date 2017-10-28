@@ -1,6 +1,20 @@
 # SITO TRANQUILLO
 Sito specializzato nella vendita di estrattori di succo di tutti i tipi, approvato dall'Associazione Mamme italiane.
 
+## User story implementate
+### Basilari
+* Come admin voglio poter accedere ad un’area privata tramite username e password
+* Come admin voglio gestire le rimanenze e i re-ordini dei prodotti
+* Il server deve inviare una email all’admin quando sta per terminare un prodotto
+* Come admin voglio poter creare e inserire un nuovo prodotto (con proprietà come nome, descrizione, peso, ecc.)
+* Come user voglio essere avvertito quando un prodotto terminato, risulta nuovamente disponibile.
+### Aggiuntive
+* Come user voglio avere la garanzia di avere le password cifrate
+* Come user voglio poter recuperare la mia password attraverso la mia email di registrazione
+* Come user voglio poter modificare i miei dati personali e poter cancellare il mio account
+* Come user voglio poter ordinare i prodotti per nome, prezzo ascendente o prezzo discendente
+* Come user voglio poter visualizzare la mia storia degli acquisti
+
 ## Per cominciare
 Per far partire il server, eseguire il comando
 ```
