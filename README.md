@@ -14,10 +14,7 @@ Sito specializzato nella vendita di estrattori di succo di tutti i tipi, approva
 * Come user voglio poter modificare i miei dati personali e poter cancellare il mio account
 * Come user voglio poter ordinare i prodotti per nome, prezzo ascendente o prezzo discendente
 * Come user voglio poter visualizzare la mia storia degli acquisti
-<<<<<<< HEAD
-=======
 * Come admin voglio poter gestire gli account utenti esistenti
->>>>>>> develop
 
 ## Per cominciare
 Per far partire il server, eseguire il comando
