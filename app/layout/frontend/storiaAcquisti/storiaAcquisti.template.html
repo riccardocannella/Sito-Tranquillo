@@ -1,3 +1,7 @@
+<div ng-hide="!$ctrl.vuota">
+        <p> Nessun acquisto effettuato</p>
+</div>
+
 <div ng-repeat="acquisto in $ctrl.storiaAcquisti">
         <div class="w3-panel w3-border-bottom">
                 <p>Data : {{acquisto.data_acquisto | date:'yyyy-MM-dd'}} - Ora: {{acquisto.data_acquisto | date:'HH:mm:ss'}} </p>
