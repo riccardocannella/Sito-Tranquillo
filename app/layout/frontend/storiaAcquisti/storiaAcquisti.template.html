@@ -9,7 +9,9 @@
     </section>
 </div>
 
-<div ng-repeat="acquisto in $ctrl.storiaAcquisti">
+
+<div ng-repeat="acquisto in $ctrl.storiaAcquisti" class="main">
+
     <div class="w3-panel w3-border-bottom">
         <p>Data : {{acquisto.data_acquisto | date:'yyyy-MM-dd'}} - Ora: {{acquisto.data_acquisto | date:'HH:mm:ss'}} </p>
     </div>
