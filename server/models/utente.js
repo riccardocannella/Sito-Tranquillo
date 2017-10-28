@@ -89,6 +89,8 @@ var UtenteSchema = new Schema({
     admin: {
         type: Boolean,
         default: false
-    }
+    },
+    prodotti_preferiti: [Schema.Types.ObjectId]
+
 });
 module.exports = mongoose.model('Utente', UtenteSchema, 'utenti');

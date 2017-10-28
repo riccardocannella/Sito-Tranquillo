@@ -116,7 +116,7 @@
 
                         <p class="w3-margin-top">
                             <label for="Nome">Comune:</label>
-                            <input class="w3-input w3-border" type="text" name="comune" id="comune" ng-model="comune" placeholder="Apiro" pattern="[A-Z][a-z*\s]{2,20}">
+                            <input class="w3-input w3-border" type="text" name="comune" id="comune" ng-model="comune" placeholder="Apiro" pattern="[A-Za-z*\s]{2,40}">
                         </p>
                     </diV>
 
@@ -157,7 +157,7 @@
                         <div ng-messages="formValidation.conferma-password.$error" ng-show="formValidation.conferma-password.$dirty" style="color: red">
                             <p ng-message="required">La tua conferma della password è richiesta</p>
                         </div>
-                        <div ng-hide="(formValidation.password.$error | json) != '{}' && inputPassword != ''">
+                        <div ng-hide="(formValidation.password.$error | json) != '{}' || !inputPassword">
                             <p ng-if="inputPassword != inputConfermaPassword" style="color:red">Le password non coincidono <i class="fa fa-frown-o" aria-hidden="true"></i></p>
                             <p ng-if="inputPassword == inputConfermaPassword" style="color:green">Le password coincidono <i class="fa fa-smile-o" aria-hidden="true"></i></p>
                         </div>
