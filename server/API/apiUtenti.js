@@ -163,7 +163,7 @@ exports.loginUtente = function(req, res) {
                             var token = jwt.sign({ utenteID: utente._id, admin: utente.admin }, encryption.secret, { expiresIn: "2 days" });
 
                             // Restituisco il token
-                            res.status(201).json({ 'token': token, 'successo': true, 'username': utente.username });
+                            res.status(201).json({ 'token': token, 'successo': true, 'username': utente.username, admin: utente.admin });
 
                         } else {
                             return utilities.handleError(res, 'ReferenceError', 'Tentativo di login fallito, credenziali non valide');
