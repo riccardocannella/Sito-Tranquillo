@@ -27,15 +27,26 @@ transporter sia settabile a piacimento dall'applicazione stessa
 'use strict';
 const nodemailer = require('nodemailer');
 var jsonfile = require('jsonfile')
-var file = './server/utilities/mailSettings.json';
-
-var username, password, hostname, emailPort, isSecure, transporter;
+var file = './server/config/mailSettings.json';
+var fs = require('fs');
+var transporter;
 
 //var passwords = require('../config/passwords');
+var scriviFileDummy = function() {
+    var settaggi = {
+        host: 'smtp.example.org',
+        port: 465,
+        secure: 'true',
+        user: 'user@example.org',
+        pass: 'passwordExample'
+    };
+    // scrivo il file dummy
+    jsonfile.writeFileSync(file, settaggi);
+    return settaggi;
 
-exports.leggiSettaggi = function() {
-    var settaggi = jsonfile.readFileSync(file);
-    if (settaggi === null) return null;
+};
+var impostaTransporter = function() {
+    var settaggi = leggiPrivate();
     // svuoto il vecchio transporter e lo ricreo
     transporter = null;
     transporter = nodemailer.createTransport({
@@ -47,15 +58,43 @@ exports.leggiSettaggi = function() {
             pass: settaggi.pass
         }
     });
-    return settaggi;
+    console.log('transporter impostato');
+}
+var leggiPrivate = function() {
+    if (fs.existsSync(file)) {
+        console.log('File exists');
+        return jsonfile.readFileSync(file)
+    } else {
+        // file does not exist
+        return scriviFileDummy();
+    }
+}
+
+exports.leggiSettaggi = function() {
+    console.log('chiamata dalla api al mailer')
+    if (fs.existsSync(file)) {
+        console.log('File exists');
+        return jsonfile.readFileSync(file)
+    } else {
+        // file does not exist
+        return scriviFileDummy();
+    }
 }
 exports.scriviSettaggi = function(obj) {
-    // do per scontato che obj sia correttamente formato
+    // se non ci sono settaggi li creo dummy
+    if (obj === null)
+        scriviFileDummy()
+    else jsonfile.writeFile(file, obj, function(err) {
+        if (err) return console.log('ERRORE NELLA SCRITTURA DEI SETTAGGI EMAIL');
+        impostaTransporter();
+    });
 
-    jsonfile.writeFileSync(file, obj);
 }
 exports.inviaEmail = function(opzioniEmail) {
-    if (transporter === null || transporter === undefined) return console.log('Devi prima impostare i parametri email');
+    if (transporter === null || transporter === undefined) {
+        // lo popolo al volo
+        impostaTransporter();
+    }
     transporter.sendMail(opzioniEmail, (error, info) => {
         if (error) {
             return console.log(error);
@@ -74,7 +113,10 @@ exports.inviaEmail = function(nome, cognome, emailDestinatario, oggetto, corpoIn
     html: '<b>Hello world ?</b>' // email con testo in html
     }
     */
-    if (transporter === null || transporter === undefined) return console.log('Devi prima impostare i parametri email');
+    if (transporter === null || transporter === undefined) {
+        // lo popolo al volo
+        impostaTransporter();
+    }
     var opzioniEmail = {
         from: '"Sito Tranquillo" <mail.sitotranquillo@gmail.com>',
         to: emailDestinatario,
