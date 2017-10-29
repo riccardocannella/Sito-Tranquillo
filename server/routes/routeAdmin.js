@@ -3,10 +3,12 @@
 var app = require('express');
 
 var adminRoutes = app.Router();
+
 module.exports = adminRoutes;
 
 var apiProdotti = require('../API/apiProdotti.js');
 var apiUtenti = require('../API/apiUtenti.js');
+var apiEmail = require('../API/apiEmail');
 
 var jwt = require('jsonwebtoken');
 var encryption = require('../config/encryption');
@@ -20,11 +22,11 @@ adminRoutes.use(function(req, res, next) {
     if (!token) { return res.status(403).send({ success: false, message: 'Mancato token di accesso' }); }
 
     if (token == "nd") {
-        console.log('token: '+ "Pw"+ token);
+        console.log('token: ' + "Pw" + token);
         next();
     } else {
 
-        
+
         jwt.verify(token, encryption.secret, function(err, decoded) {
             if (decoded) {
                 Utente.findById(decoded.utenteID, function(err, user) {
@@ -55,3 +57,5 @@ adminRoutes.put('/prodotti/:id', apiProdotti.aggiornaProdotto);
 adminRoutes.delete('/prodotti/:id', apiProdotti.eliminaProdotto);
 adminRoutes.post('/utenti', apiUtenti.listaUtenti);
 adminRoutes.post('/dettaglioUtente/:id', apiUtenti.dettaglioUtente);
+adminRoutes.post('/scriviSettaggiEmail', apiEmail.scriviSettaggi)
+adminRoutes.post('/leggiSettaggiEmail', apiEmail.leggiSettaggi)

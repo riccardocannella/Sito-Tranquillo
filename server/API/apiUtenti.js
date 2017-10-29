@@ -363,6 +363,7 @@ exports.richiestaRecuperoPassword = function(req, res) {
                             " <hr /> Cordiali Saluti, Il Team Sito Tranquillo";
 
                         // Utente trovato, invio il link per email alla richiesta 
+                        mailer.leggiSettaggi();
                         mailer.inviaEmail('dummy', 'dummy', utente.email, "Recupero password", corpoInHtml);
                         res.status(201).json({ 'successo': true });
                     }

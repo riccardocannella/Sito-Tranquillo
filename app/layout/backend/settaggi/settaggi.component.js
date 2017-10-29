@@ -11,6 +11,36 @@ angular.module('settaggi').component('settaggi', {
         var settaggi = this;
         $scope.copertinaCaricata = -1;
         $scope.erroreCaricamento = 0;
+        $http.post('api/v1.0/admin/leggiSettaggiEmail', { token: $window.localStorage.getItem("jwtToken") }).then(function(res) {
+            settaggi.host = res.data.host;
+            settaggi.port = res.data.port;
+            settaggi.secure = res.data.secure;
+            settaggi.user = res.data.user;
+            settaggi.pass = res.data.pass;
+        })
+        settaggi.modificaSettaggi = function() {
+            if (settaggi.host === '' || settaggi.host === undefined ||
+                settaggi.port === '' || settaggi.port === undefined ||
+                settaggi.secure === '' || settaggi.secure === undefined ||
+                settaggi.user === '' || settaggi.user === undefined ||
+                settaggi.pass === '' || settaggi.pass === undefined) $scope.parametriEmailMancanti = 1;
+            else {
+                $scope.parametriEmailMancanti = 0;
+                $http.post('api/v1.0/admin/scriviSettaggiEmail', {
+                    token: $window.localStorage.getItem("jwtToken"),
+                    host: settaggi.host,
+                    port: settaggi.port,
+                    secure: settaggi.secure,
+                    user: settaggi.user,
+                    pass: settaggi.pass
+                }).then(function(res) {
+                    $scope.settaggiModificati = 1;
+                }, function(err) {
+                    console.log(err);
+                    $scope.settaggiModificati = 0
+                })
+            }
+        }
         settaggi.caricaCopertina = function() {
             // validazione immagine da fare (come?)
             // intanto controllo se c'è

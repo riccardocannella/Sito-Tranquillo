@@ -26,21 +26,36 @@ transporter sia settabile a piacimento dall'applicazione stessa
 */
 'use strict';
 const nodemailer = require('nodemailer');
+var jsonfile = require('jsonfile')
+var file = './server/utilities/mailSettings.json';
 
-var passwords = require('../config/passwords');
+var username, password, hostname, emailPort, isSecure, transporter;
 
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', // USO L'ACCOUNT ACCADEMICO
-    //port: 587,
-    port:465,
-    secure: true, // secure:true for port 465, secure:false for port 587
-    auth: {
-        user: 'mail.sitotranquillo@gmail.com',
-        pass: passwords.email_password
-    }
-});
+//var passwords = require('../config/passwords');
+
+exports.leggiSettaggi = function() {
+    var settaggi = jsonfile.readFileSync(file);
+    if (settaggi === null) return null;
+    // svuoto il vecchio transporter e lo ricreo
+    transporter = null;
+    transporter = nodemailer.createTransport({
+        host: settaggi.host,
+        port: settaggi.port,
+        secure: settaggi.secure,
+        auth: {
+            user: settaggi.user,
+            pass: settaggi.pass
+        }
+    });
+    return settaggi;
+}
+exports.scriviSettaggi = function(obj) {
+    // do per scontato che obj sia correttamente formato
+
+    jsonfile.writeFileSync(file, obj);
+}
 exports.inviaEmail = function(opzioniEmail) {
+    if (transporter === null || transporter === undefined) return console.log('Devi prima impostare i parametri email');
     transporter.sendMail(opzioniEmail, (error, info) => {
         if (error) {
             return console.log(error);
@@ -59,6 +74,7 @@ exports.inviaEmail = function(nome, cognome, emailDestinatario, oggetto, corpoIn
     html: '<b>Hello world ?</b>' // email con testo in html
     }
     */
+    if (transporter === null || transporter === undefined) return console.log('Devi prima impostare i parametri email');
     var opzioniEmail = {
         from: '"Sito Tranquillo" <mail.sitotranquillo@gmail.com>',
         to: emailDestinatario,
