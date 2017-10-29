@@ -19,5 +19,6 @@ var sitotranquillo = angular.module('sitotranquillo', [
     'listaUtenti',
     'dettaglioUtente',
     'storiaAcquisti',
-    'settaggi'
+    'settaggi',
+    'bootstrap'
 ]);

@@ -6,7 +6,10 @@ angular.module('home', [
 // Registra il componente 'home' sul modulo 'home
 angular.module('home').component('home', {
     templateUrl: 'layout/frontend/home/home.template.html',
-    controller: function($scope, $http, $location, $window) {
+    controller: function($scope, $http, $location, $window, $state) {
+        $http.get('api/v1.0/bootstrap').then(function(res) {
+            if (res.data.primoAvvio === true) $state.go('bootstrap');
+        });
         var listaProva = this;
 
         listaProva.ordinamento = 'nome';

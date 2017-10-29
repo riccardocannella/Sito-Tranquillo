@@ -190,6 +190,15 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     }
                 }
             })
+            // PRIMO AVVIO?
+            .state('bootstrap', {
+                url: '/bootstrap',
+                data: { titolo: 'Primo Avvio' },
+                views: {
+                    '': { templateUrl: 'layout/bootstrap/container.template.html' },
+                    'main@bootstrap': { component: 'bootstrap' }
+                }
+            })
             // NOT FOUND
             .state('invalid', {
                 templateUrl: 'layout/stati/invalid.template.html',
