@@ -7,7 +7,7 @@ angular.module('modificaProdotti', [
 // Registra il componente 'modificaProdotti' sul modulo 'modificaProdotti'
 angular.module('modificaProdotti').component('modificaProdotti', {
     templateUrl: 'layout/backend/modificaProdotti/modificaProdotti.template.html',
-    controller: function(Upload, $http, $location, $stateParams, $window) {
+    controller: function(Upload, $http, $state, $stateParams, $window) {
         var modificaProdotti = this;
         var id = $stateParams.id;
         var prodottoOrig;
@@ -23,7 +23,7 @@ angular.module('modificaProdotti').component('modificaProdotti', {
             modificaProdotti.prodotto.token = $window.localStorage.getItem("jwtToken");
             $http.put('api/v1.0/admin/prodotti/' + id, modificaProdotti.prodotto).then(
                 function(res) {
-                    $location.path('/admin/listaProdotti');
+                    $state.go('admin');
                 },
                 function(err) {
                     console.log('errore!\n', err.data);
