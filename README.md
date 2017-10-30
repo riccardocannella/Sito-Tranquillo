@@ -3,6 +3,9 @@ Sito specializzato nella vendita di estrattori di succo di tutti i tipi, approva
 
 Un bel giorno la mamma di Corrado gli manda un messaggio vocale su Whatsapp, chiedendogli di cercare un sito tranquillo che venda estrattori economici. Eccolo.
 
+## Live demo
+[Link all'app deployata su Heroku](https://sito-tranquillo-develop.herokuapp.com)
+
 ## User story implementate
 ### Basilari
 * Come admin voglio poter accedere ad un’area privata tramite username e password
@@ -24,8 +27,6 @@ Per far partire il server, clonare questo repo ed eseguire il comando
 npm start
 ```
 che si occuperà di installare tutte le dipendenze dell'applicazione e di eseguire il file che creerà un server.
-
-
 
 ## Requisiti per il deploy su Heroku
 ### Accounts e utility
