@@ -7,7 +7,6 @@ exports.handleError = function(res, ragione, messaggio, codice) {
     console.log("ERRORE: " + ragione);
     res.status(codice || 500).json({ "errore": messaggio, 'successo': false });
 }
-
 exports.notificaAdminProdottoEsaurito = function(nomeprodotto, idprodotto) {
     var oggetto = "!!!Prodotto: " + nomeprodotto + " in esaurimento !!!";
     var messaggio = "<p> Il prodotto : " + nomeprodotto + " con id: " + idprodotto.toString() + " </p><p>è in esaurimento, riordinatelo al più presto </p>";

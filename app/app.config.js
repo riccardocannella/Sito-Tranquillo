@@ -170,6 +170,25 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                     }
                 }
             })
+            .state('settaggi', {
+                parent: 'admin',
+                url: '/settaggi',
+                data: { titolo: 'Settaggi' },
+                views: {
+                    main: {
+                        component: 'settaggi'
+                    }
+                }
+            })
+            // PRIMO AVVIO?
+            .state('bootstrap', {
+                url: '/bootstrap',
+                data: { titolo: 'Primo Avvio' },
+                views: {
+                    '': { templateUrl: 'layout/bootstrap/container.template.html' },
+                    'main@bootstrap': { component: 'bootstrap' }
+                }
+            })
             // NOT FOUND
             .state('invalid', {
                 templateUrl: 'layout/stati/invalid.template.html',

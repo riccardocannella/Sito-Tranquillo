@@ -58,4 +58,4 @@ typings/
 .env
 
 # password file only in local
-passwords.js
+mailSettings.json
