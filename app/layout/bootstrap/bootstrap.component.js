@@ -7,11 +7,11 @@ angular.module('bootstrap', [
 // Registra il componente 'dettaglio' sul modulo 'dettaglio'
 angular.module('bootstrap').component('bootstrap', {
     templateUrl: 'layout/bootstrap/bootstrap.template.html',
-    controller: function($http, $location, $scope) {
+    controller: function($http, $state, $scope, $window) {
         var bootstrap = this;
         $http.get('api/v1.0/bootstrap').then(function(response) {
             // se non puoi fare il primo avvio ti mando brutalmente alla home, ciao tanto
-            if (response.data.primoAvvio === false) $location.path('/');
+            if (response.data.primoAvvio === false) $state.go('root');
             else $http.get('api/v1.0/stati').then(function(stati) {
                 $http.get('api/v1.0/province').then(function(province) {
                     bootstrap.listaStati = stati.data;
@@ -19,6 +19,9 @@ angular.module('bootstrap').component('bootstrap', {
                 })
             });
         });
+        $window.localStorage.setItem("jwtToken", '');
+        $window.localStorage.setItem("username", '');
+        $window.localStorage.setItem("admin", '');
         bootstrap.creaPrimoAdmin = function() {
                 // Se non c'è qualche campo necessario non esegue la registrazione
                 if ($scope.inputNome == "" || $scope.inputNome == undefined ||
@@ -55,10 +58,18 @@ angular.module('bootstrap').component('bootstrap', {
                     }
                 }).then(function successCallback(response) {
                     // faccio forzosamente il login dell'admin appena creato
-                    $http.post('/api/v1.0/login', { 'username': $scope.inputUsername, 'password': $scope.inputPassword }).then(function(response) {
-                        // lo mando all'area admin
-                        $location.path('/admin/settaggi');
-                    })
+                    $http.post('/api/v1.0/utenti/login', { 'username': $scope.inputUsername, 'password': $scope.inputPassword })
+                        .then(function(response) {
+                            console.log(response.data);
+                            $window.localStorage.setItem("jwtToken", response.data.token);
+                            $window.localStorage.setItem("username", response.data.username);
+                            $window.localStorage.setItem("admin", response.data.admin);
+                            // lo mando all'area admin
+                            $state.go('settaggi');
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        })
 
                 }, function errorCallback(response) { // Login non avvenuto
 
