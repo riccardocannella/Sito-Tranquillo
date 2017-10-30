@@ -119,14 +119,14 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
         // ADMIN
         .state('admin', {
                 url: '/admin',
-                data: { titolo: 'Admin Dashboard' },
+                data: { titolo: 'Lista prodotti nel Database' },
                 views: {
                     '': { component: 'adminPanel' },
                     'navbar@admin': {
                         templateUrl: 'layout/backend/header/header.template.html',
                     },
                     'main@admin': {
-                        templateUrl: 'layout/backend/dashboard/dashboard.template.html'
+                        component: 'listaProdotti'
                     }
                 }
             })
@@ -167,16 +167,6 @@ angular.module('sitotranquillo').config(function($locationProvider, $stateProvid
                 views: {
                     main: {
                         component: 'modificaProdotti'
-                    }
-                }
-            })
-            .state('listaProdotti', {
-                parent: 'admin',
-                url: '/listaProdotti',
-                data: { titolo: 'Lista prodotti nel Database' },
-                views: {
-                    main: {
-                        component: 'listaProdotti'
                     }
                 }
             })
