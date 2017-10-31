@@ -20,6 +20,7 @@ Un bel giorno la mamma di Corrado gli manda un messaggio vocale su Whatsapp, chi
 * Come user voglio poter ordinare i prodotti per nome, prezzo ascendente o prezzo discendente
 * Come user voglio poter visualizzare la mia storia degli acquisti
 * Come admin voglio poter gestire gli account utenti esistenti
+* Al primo avvio dell'app voglio che venga registrato obbligatoriamente il primo admin
 
 ## Per cominciare
 Per far partire il server, clonare questo repo ed eseguire il comando
