@@ -7,7 +7,7 @@ angular.module('aggiuntaProdotti', [
 // Registra il componente 'aggiuntaProdotti' sul modulo 'aggiuntaProdotti'
 angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
     templateUrl: 'layout/backend/aggiuntaProdotti/aggiuntaProdotti.template.html',
-    controller: function(Upload, $http, $location, $window) {
+    controller: function(Upload, $http, $state, $window) {
         var aggiuntaProdotto = this;
         aggiuntaProdotto.aggiungiProdotto = function() {
             // validazione immagine da fare (come?)
@@ -24,7 +24,7 @@ angular.module('aggiuntaProdotti').component('aggiuntaProdotti', {
                         $http.post('api/v1.0/admin/prodotti', aggiuntaProdotto.prodotto).then(
                             function(res) {
                                 console.log(res);
-                                $location.path('');
+                                $state.go('admin');
                             }
                         )
                     } else {
