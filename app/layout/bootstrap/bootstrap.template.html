@@ -59,7 +59,7 @@
                     <!-- GESTIONE STATO E PROVINCE -->
                     <p class="w3-margin-top">
                         <label for="state">Stato:
-                            <select class="w3-input w3-border w3-round" class="minimal" ng-model="country" required>
+                            <select class="w3-input w3-border" class="minimal" ng-model="country" required>
                                 <!--<option default>Italy</option>-->
                                 <option value="{{country}}" ng-repeat="country in $ctrl.listaStati">{{country}}</option>
                             </select>
@@ -69,7 +69,7 @@
                     <div ng-show="country == 'Italy'">
                         <p class="w3-margin-top">
                             <label for="province">Provincia:</label>
-                            <select class="w3-input w3-border w3-round" class="minimal" ng-model="province">
+                            <select class="w3-input w3-border" class="minimal" ng-model="province">
                                 <option value={{province}} ng-repeat="province in $ctrl.listaProvince">{{province}}</option>
                             </select>
 
@@ -96,7 +96,7 @@
                     <p class="w3-margin-top">
                         <label for="telefono">Telefono:</label>
                         <!-- pattern pensato solo per numeri italiani di cellulare o fisso e cmq non troppo specifico nel prefisso -->
-                        <input class="w3-input w3-border w3-round" type="tel" id="telefono" ng-model="inputTelefono" name="telefono" placeholder="0238591444"
+                        <input class="w3-input w3-border" type="tel" id="telefono" ng-model="inputTelefono" name="telefono" placeholder="0238591444"
                             ng-pattern="/^[0-9]{5,10}$/" required>
                         <div ng-messages="formValidation.telefono.$error" ng-show="formValidation.telefono.$dirty" style="color: red">
                             <p ng-message="required">Il tuo numero di telefono è richiesto</p>
@@ -106,7 +106,7 @@
 
                     <p class="w3-margin-top">
                         <label for="password">Password:</label>
-                        <input class="w3-input w3-border w3-round" name="password" type="password" id="password" ng-model="inputPassword" placeholder="Questa2embra1passComple224!"
+                        <input class="w3-input w3-border" name="password" type="password" id="password" ng-model="inputPassword" placeholder="Questa2embra1passComple224!"
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,63}" required>
                         <div ng-messages="formValidation.password.$error" ng-show="formValidation.password.$dirty" style="color: red">
                             <p ng-message="required">La tua password è richiesta</p>
@@ -117,7 +117,7 @@
 
                     <p class="w3-margin-top">
                         <label for="password">Conferma Password:</label>
-                        <input class="w3-input w3-border w3-round" name="conferma-password" type="password" ng-model="inputConfermaPassword" id="conferma-password"
+                        <input class="w3-input w3-border" name="conferma-password" type="password" ng-model="inputConfermaPassword" id="conferma-password"
                             placeholder="Devo davvero dirti cosa ci va qui?" required>
                         <div ng-messages="formValidation.conferma-password.$error" ng-show="formValidation.conferma-password.$dirty" style="color: red">
                             <p ng-message="required">La tua conferma della password è richiesta</p>
@@ -135,7 +135,7 @@
                     <p class="w3-margin-top">
                         <label for="domanda_segreta">Domanda segreta:</label>
                         <input class="w3-input w3-border" type="text" name="domanda_segreta" id="domanda_segreta" ng-model="inputDomandaSegreta"
-                            placeholder="Qual'è il mio SO preferito" required>
+                            placeholder="Qual'è il mio OS preferito" required>
                         <div ng-messages="formValidation.domanda_segreta.$error" ng-show="formValidation.domanda_segreta.$dirty" style="color: red">
                             <p ng-message="required">La tua domanda segreta è richiesta</p>
                         </div>
